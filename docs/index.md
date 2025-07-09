@@ -9,7 +9,7 @@ This is the landing space for developers, ops teams, and stakeholders.
 Here you’ll find links to:
 
 - [Project Overview](#overview)
-- [Branching Strategy](docs/Workflows/branching-strategy.md)
+- [Branching Strategy](Workflows/branching-strategy.md)
 - [CI/CD Integration](docs/deployment/app-runner-guide.md)
 - [Contribution Guidelines](docs/contributing.md)
 
