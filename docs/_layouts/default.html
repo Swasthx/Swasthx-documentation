@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ page.title }}</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+    }
+    nav {
+      width: 220px;
+      background: #eee;
+      padding: 20px;
+      height: 100vh;
+      position: fixed;
+    }
+    main {
+      margin-left: 240px;
+      padding: 40px;
+      flex: 1;
+    }
+    a {
+      display: block;
+      margin: 10px 0;
+      text-decoration: none;
+      color: #333;
+    }
+    a:hover {
+      font-weight: bold;
+      color: #2e6acf;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h3>📘 Swasthx Docs</h3>
+    <a href="/docs/index.html">🏠 Home</a>
+    <a href="/docs/overview.html">📖 Overview</a>
+    <a href="/docs/Workflows/branching-strategy.html">🌿 Branching Strategy</a>
+    <a href="/docs/contributing.html">🛠️ Contributing</a>
+  </nav>
+  <main>
+    {{ content }}
+  </main>
+</body>
+</html>
