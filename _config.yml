@@ -6,10 +6,12 @@ description: Documentation for Swasthx platform
 baseurl: "/Swasthx-documentation" # the subpath of your site, e.g. /blog
 url: "https://swasthx.github.io" # the base hostname & protocol for your site
 
-# GitHub Pages settings
+# Build settings
+markdown: kramdown
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Exclude from processing.
 # The following items will not be processed, by default.
