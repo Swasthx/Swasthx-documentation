@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>{{ page.title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swasthx Documentation</title>
   <style>
     body {
       margin: 0;
       font-family: sans-serif;
       display: flex;
+      flex-direction: row;
     }
     nav {
       width: 220px;
@@ -14,6 +17,7 @@
       padding: 20px;
       height: 100vh;
       position: fixed;
+      overflow-y: auto;
     }
     main {
       margin-left: 240px;
@@ -25,21 +29,42 @@
       margin: 10px 0;
       text-decoration: none;
       color: #333;
+      transition: color 0.2s ease;
     }
     a:hover {
       font-weight: bold;
       color: #2e6acf;
     }
+    @media screen and (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      nav {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      main {
+        margin-left: 0;
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <nav>
+
+  <p align="center">
+    <img src="./images/Swasthx 2_Black.png" alt="SWASTHX Logo" width="150"/>
+  </p>
+
+  <nav aria-label="Main navigation">
     <h3>📘 Swasthx Docs</h3>
-    <a href="/docs/index.html">🏠 Home</a>
+    <a href="/index.html">🏠 Home</a>
     <a href="/docs/overview.html">📖 Overview</a>
-    <a href="/docs/Workflows/branching-strategy.html">🌿 Branching Strategy</a>
-    <a href="/docs/swathx_architecure.html">Architecture</a>
+    <a href="/Workflows/branching-strategy.html">🌿 Branching Strategy</a>
+    <a href="/architecture/swathx_architecture.html">📐 Architecture Overview</a>
   </nav>
+
   <main>
     {{ content }}
   </main>
