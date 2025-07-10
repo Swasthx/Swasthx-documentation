@@ -242,11 +242,13 @@
       <nav aria-label="Main navigation">
         <ul class="nav-menu">
           {% for item in site.navigation %}
+            {% assign item_url = item.url | relative_url %}
+            {% assign current_url = page.url | relative_url %}
             <li class="nav-item">
-              <a href="{{ item.url | relative_url }}" 
-                 class="nav-link {% if page.url == item.url or page.url contains item.title|downcase %}active{% endif %}">
-                <span class="nav-icon">{{ item.title | split: ' ' | first }}</span>
-                <span class="nav-text">{{ item.title | remove: item.title | split: ' ' | first | strip }}</span>
+              <a href="{{ item_url }}" 
+                 class="nav-link {% if current_url == item_url or current_url contains item.title|downcase %}active{% endif %}">
+                <i class="{{ item.icon }}" style="margin-right: 8px;"></i>
+                <span class="nav-text">{{ item.title | remove: '📖' | remove: '🌿' | remove: '📐' | strip }}</span>
               </a>
             </li>
           {% endfor %}
@@ -254,8 +256,10 @@
       </nav>
     </aside>
 
-    <main class="main-content">
-      {{ content }}
+    <main class="main-content" style="margin-left: 280px; padding: 2rem; width: calc(100% - 280px);">
+      <div class="content-container">
+        {{ content }}
+      </div>
     </main>
   </div>
 

@@ -45,14 +45,14 @@ collections:
     output: true
     permalink: /:path/
 
-# Navigation
+# Navigation - this will be available as site.navigation
 navigation:
-  - title: 📖 Overview
-    url: /overview/
+  - title: Overview
+    url: /Swasthx-documentation/overview/
     icon: fas fa-book
-  - title: 🌿 Branching Strategy
-    url: /Workflows/branching-strategy/
+  - title: Branching Strategy
+    url: /Swasthx-documentation/Workflows/branching-strategy/
     icon: fas fa-code-branch
-  - title: 📐 Architecture
-    url: /architecture/swathx_architecture/
+  - title: Architecture
+    url: /Swasthx-documentation/architecture/swathx_architecture/
     icon: fas fa-project-diagram
