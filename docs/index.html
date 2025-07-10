@@ -1,110 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Swasthx Docs</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
-    .sidebar {
-      width: 220px;
-      background-color: #efefef;
-      padding: 20px;
-      position: fixed;
-      height: 100%;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-    }
-    .sidebar h2 {
-      margin-top: 0;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-    .sidebar ul li {
-      margin: 10px 0;
-    }
-    .sidebar ul li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-    .sidebar ul li a.active {
-      font-weight: bold;
-      color: #2e6acf;
-    }
-    .content {
-      margin-left: 240px;
-      padding: 40px;
-      flex: 1;
-    }
-    .section {
-      display: none;
-    }
-    .section.active {
-      display: block;
-    }
-  </style>
-  <script>
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(s => s.classList.remove('active'));
-      document.getElementById(sectionId).classList.add('active');
+---
+layout: default
+title: Home
+---
 
-      const links = document.querySelectorAll('.sidebar a');
-      links.forEach(l => l.classList.remove('active'));
-      document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
-    }
+<main class="content">
+  <h1>Welcome to Swasthx Documentation</h1>
+  <p>This portal centralizes workflows, contribution guides, and deployment policies.</p>
 
-    window.onload = () => showSection('home');
-  </script>
-</head>
-<body>
-  <div class="container">
-    <nav class="sidebar">
-      <h2>Swasthx Docs</h2>
-      <ul>
-        <li><a href="javascript:void(0);" data-section="home" onclick="showSection('home')" class="active">🏠 Home</a></li>
-        <li><a href="javascript:void(0);" data-section="overview" onclick="showSection('overview')">📖 Overview</a></li>
-        <li><a href="javascript:void(0);" data-section="branching" onclick="showSection('branching')">🌿 Branching Strategy</a></li>
-      </ul>
-    </nav>
-
-    <main class="content">
-      <div id="home" class="section active">
-        <h1>Welcome to Swasthx Documentation</h1>
-        <p>This portal centralizes workflows, contribution guides, and deployment policies.</p>
-      </div>
-
-      <div id="overview" class="section">
-        <h1>Overview</h1>
-        <p>Swasthx supports modular deployment across backend, frontend, mobile, and infrastructure layers.</p>
-        <ul>
-          <li>🔹 Independent repo separation</li>
-          <li>🔹 CI/CD pipelines per environment</li>
-          <li>🔹 Contributor roles and workflows</li>
-        </ul>
-      </div>
-
-      <div id="branching" class="section">
-        <h1>Branching Strategy</h1>
-        <p>We follow a PR-based workflow with branch protections:</p>
-        <ul>
-          <li><strong>main</strong>: Production releases</li>
-          <li><strong>preprod</strong>: Last-mile staging (auto-deploys)</li>
-          <li><strong>development</strong>: Merged features for QA</li>
-          <li><strong>feature/*</strong>: Individual tasks</li>
-        </ul>
-        <p>See full guide: <a href="Workflows\branching-strategy.html">branching-strategy.md</a></p>
-      </div>
-    </main>
-  </div>
-</body>
-</html>
+  <h2>Getting Started</h2>
+  <p>Explore our documentation to learn about the Swasthx platform:</p>
+  <ul>
+    <li>📖 <a href="/docs/overview.html">Overview</a> - Learn about Swasthx architecture and components</li>
+    <li>🌿 <a href="/Workflows/branching-strategy.html">Branching Strategy</a> - Understand our Git workflow</li>
+    <li>📐 <a href="/architecture/swathx_architecture.html">Architecture</a> - Explore the system design</li>
+  </ul>
+</main>

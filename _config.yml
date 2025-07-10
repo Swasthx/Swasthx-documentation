@@ -1,2 +1,47 @@
+# Jekyll Configuration
+
+# Site settings
+title: Swasthx Documentation
+description: Documentation for Swasthx platform
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site
+
+# Build settings
 markdown: kramdown
-theme: null
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      show_in_nav: true
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:path/
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Overview
+    url: /docs/overview/
+  - title: Branching Strategy
+    url: /Workflows/branching-strategy/
+  - title: Architecture
+    url: /architecture/swathx_architecture/
