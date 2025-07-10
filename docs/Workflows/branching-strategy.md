@@ -1,4 +1,9 @@
-Swasthx Branching Strategy & Deployment Policy
+---
+layout: default
+title: Branching Strategy
+---
+
+# Swasthx Branching Strategy & Deployment Policy
 
 This document outlines our Git workflow structure, naming conventions, and CI/CD rules for contributing to the Swasthx API backend repository. All developers must adhere to this standard to maintain a clean, secure, and automated release process.
 

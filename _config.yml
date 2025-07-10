@@ -3,8 +3,16 @@
 # Site settings
 title: Swasthx Documentation
 description: Documentation for Swasthx platform
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site
+baseurl: "/Swasthx-documentation" # the subpath of your site, e.g. /blog
+url: "https://swasthx.github.io" # the base hostname & protocol for your site
+
+# GitHub Pages settings
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing.
+# The following items will not be processed, by default.
 
 # Build settings
 markdown: kramdown
@@ -37,11 +45,12 @@ collections:
 
 # Navigation
 navigation:
-  - title: Home
-    url: /
-  - title: Overview
-    url: /docs/overview/
-  - title: Branching Strategy
+  - title: 📖 Overview
+    url: /overview/
+    icon: fas fa-book
+  - title: 🌿 Branching Strategy
     url: /Workflows/branching-strategy/
-  - title: Architecture
+    icon: fas fa-code-branch
+  - title: 📐 Architecture
     url: /architecture/swathx_architecture/
+    icon: fas fa-project-diagram
