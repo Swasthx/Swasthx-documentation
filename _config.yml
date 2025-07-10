@@ -3,8 +3,8 @@
 # Site settings
 title: Swasthx Documentation
 description: Documentation for Swasthx platform
-baseurl: "/Swasthx-documentation" # the subpath of your site, e.g. /blog
-url: "https://swasthx.github.io" # the base hostname & protocol for your site
+baseurl: "" # This should be empty for root URL
+url: "https://swasthx.github.io" # Your GitHub Pages URL
 
 # Build settings
 markdown: kramdown
@@ -48,11 +48,11 @@ collections:
 # Navigation - this will be available as site.navigation
 navigation:
   - title: Overview
-    url: /Swasthx-documentation/overview/
+    url: /overview/
     icon: fas fa-book
   - title: Branching Strategy
-    url: /Swasthx-documentation/Workflows/branching-strategy/
+    url: /Workflows/branching-strategy/
     icon: fas fa-code-branch
   - title: Architecture
-    url: /Swasthx-documentation/architecture/swathx_architecture/
+    url: /architecture/swathx_architecture/
     icon: fas fa-project-diagram

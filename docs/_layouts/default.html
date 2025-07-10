@@ -246,9 +246,9 @@
             {% assign current_url = page.url | relative_url %}
             <li class="nav-item">
               <a href="{{ item_url }}" 
-                 class="nav-link {% if current_url == item_url or current_url contains item.title|downcase %}active{% endif %}">
+                 class="nav-link {% if current_url == item_url or current_url contains item.url %}active{% endif %}">
                 <i class="{{ item.icon }}" style="margin-right: 8px;"></i>
-                <span class="nav-text">{{ item.title | remove: '📖' | remove: '🌿' | remove: '📐' | strip }}</span>
+                <span class="nav-text">{{ item.title }}</span>
               </a>
             </li>
           {% endfor %}
