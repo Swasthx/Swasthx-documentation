@@ -37,7 +37,7 @@ jobs:
         
       - name: Build with Jekyll
         run: |
-          bundle exec jekyll build --baseurl "${{ github.repository == 'Swasthx/Swasthx-documentation' && '/Swasthx-documentation' || '' }}" --trace
+          bundle exec jekyll build --baseurl "/Swasthx-documentation" --trace
         env:
           JEKYLL_ENV: production
           

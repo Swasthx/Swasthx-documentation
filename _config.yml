@@ -6,6 +6,37 @@ description: Documentation for Swasthx platform
 baseurl: "/Swasthx-documentation" # Repository name for GitHub Pages
 url: "https://swasthx.github.io" # Your GitHub Pages URL
 
+# GitHub Pages settings
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Ensure consistent URL handling
+permalink: pretty
+trailing_slash: true
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:path/
+
 # Build settings
 markdown: kramdown
 plugins:
