@@ -82,11 +82,11 @@ navigation:
     url: /
     icon: fas fa-home
   - title: Branching Strategy
-    url: /branching-strategy/
+    url: /branching-strategy
     icon: fas fa-code-branch
   - title: Architecture
-    url: /architecture/swathx_architecture/
+    url: /architecture/swathx_architecture
     icon: fas fa-project-diagram
   - title: Workflows
-    url: /workflows/
+    url: /workflows
     icon: fas fa-tasks
