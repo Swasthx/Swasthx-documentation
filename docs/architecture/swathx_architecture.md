@@ -16,22 +16,23 @@ This document outlines the high-level architecture of the Swasthx platform, incl
 ```mermaid
 graph TD
     subgraph Client Layer
-        A[Web Browser] <-->|HTTPS| B[CDN]
-        C[iOS App] <-->|HTTPS| B
-        D[Android App] <-->|HTTPS| B
+        A[iOS App] -->|HTTPS| B[Route 53]
+        C[Android App] -->|HTTPS| B
     end
     
-    subgraph Edge Layer
-        B <-->|Cached Content| E[CloudFront]
-        E <-->|API Requests| F[API Gateway]
-    end
-    
-    subgraph Application Layer
-        F --> G[Authentication Service]
-        F --> H[User Service]
-        F --> I[Appointment Service]
-        F --> J[Payment Service]
-        F --> K[Notification Service]
+    subgraph AWS Infrastructure
+        B --> D[App Runner]
+        D --> E[Authentication Middleware]
+        E --> F[Authorized?]
+        F -->|Yes| G[Backend Services]
+        F -->|No| H[Return 401 Unauthorized]
+        
+        subgraph Backend Services
+            G --> I[User Service]
+            G --> J[Appointment Service]
+            G --> K[Payment Service]
+            G --> L[Notification Service]
+        end
     end
     
     subgraph Data Layer
@@ -54,14 +55,26 @@ graph TD
 ## Component Details
 
 ### 1. Client Layer
-- **Web Application**: React-based responsive web app
-- **Mobile Applications**: Native iOS and Android apps
-- **CDN**: Amazon CloudFront for global content delivery
+- **Mobile Applications**:
+  - Native iOS and Android apps
+  - Direct HTTPS communication with backend
+  - Token-based authentication
+  - Offline capability with local data sync
 
-### 2. Edge Layer
-- **API Gateway**: Centralized request routing and management
-- **Load Balancer**: Distributes traffic across backend services
-- **WAF**: Web Application Firewall for security
+### 2. Request Flow
+1. **DNS Resolution**:
+   - Requests first hit Route 53 for DNS resolution
+   - Route 53 routes traffic to the appropriate App Runner service
+
+2. **App Runner**:
+   - Hosts the backend API services
+   - Handles request routing and load balancing
+   - Manages automatic scaling based on traffic
+
+3. **Authentication Middleware**:
+   - Validates JWT tokens in the request headers
+   - Enforces role-based access control
+   - Handles token refresh flow
 
 ### 3. Application Layer
 - **Authentication Service**: JWT-based auth, OAuth 2.0, and role-based access
@@ -160,8 +173,3 @@ graph TD
 - Caching at multiple layers (CDN, API, Database)
 - Connection pooling and query optimization
 
-## Future Considerations
-- Migration to serverless architecture
-- Implementation of GraphQL API
-- Edge computing for reduced latency
-- Multi-region deployment for global reach
