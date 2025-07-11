@@ -51,10 +51,10 @@ navigation:
     url: /
     icon: fas fa-home
   - title: Branching Strategy
-    url: /branching-strategy/
+    url: /Workflows/branching-strategy/
     icon: fas fa-code-branch
   - title: Architecture
-    url: /architecture/
+    url: /architecture/swathx_architecture/
     icon: fas fa-project-diagram
   - title: Workflows
     url: /workflows/

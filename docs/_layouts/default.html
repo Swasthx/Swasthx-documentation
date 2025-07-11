@@ -48,6 +48,20 @@
       overflow-y: auto;
       border-right: 1px solid var(--border-color);
     }
+    
+    .sidebar-section {
+      margin-top: 1.5rem;
+    }
+    
+    .sidebar-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6b7280;
+      margin: 1.5rem 0 0.75rem 0;
+      padding: 0 1.2rem;
+      font-weight: 600;
+    }
 
     .logo-container {
       text-align: center;
@@ -239,21 +253,24 @@
         </a>
       </div>
 
-      <nav aria-label="Main navigation">
-        <ul class="nav-menu">
-          {% for item in site.navigation %}
-            {% assign item_url = item.url | relative_url %}
-            {% assign current_url = page.url | relative_url %}
-            <li class="nav-item">
-              <a href="{{ item_url }}" 
-                 class="nav-link {% if current_url == item_url or current_url contains item.url %}active{% endif %}">
-                <i class="{{ item.icon }}" style="margin-right: 8px;"></i>
-                <span class="nav-text">{{ item.title }}</span>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Documentation</h3>
+        <nav aria-label="Main navigation">
+          <ul class="nav-menu">
+            {% for item in site.navigation %}
+              {% assign item_url = item.url | relative_url %}
+              {% assign current_url = page.url | relative_url %}
+              <li class="nav-item">
+                <a href="{{ item_url }}" 
+                  class="nav-link {% if current_url == item_url or current_url contains item.url %}active{% endif %}">
+                  <i class="{{ item.icon }}" style="margin-right: 8px;"></i>
+                  <span class="nav-text">{{ item.title }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
     </aside>
 
     <main class="main-content" style="margin-left: 280px; padding: 2rem; width: calc(100% - 280px);">
