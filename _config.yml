@@ -48,11 +48,14 @@ collections:
 # Navigation - this will be available as site.navigation
 navigation:
   - title: Overview
-    url: /overview/
-    icon: fas fa-book
+    url: /
+    icon: fas fa-home
   - title: Branching Strategy
-    url: /Workflows/branching-strategy/
+    url: /branching-strategy/
     icon: fas fa-code-branch
   - title: Architecture
-    url: /architecture/swathx_architecture/
+    url: /architecture/
     icon: fas fa-project-diagram
+  - title: Workflows
+    url: /workflows/
+    icon: fas fa-tasks
