@@ -1,6 +1,9 @@
 ---
 layout: default
 title: AWS Resources
+collection: docs
+order: 4
+show_in_nav: true
 ---
 
 # AWS Resources in Use
