@@ -1,53 +1,96 @@
 # Jekyll Configuration
 
 # Site settings
-title: Swasthx Documentation
-description: Documentation for Swasthx platform
-baseurl: "/Swasthx-documentation" # Repository name for GitHub Pages
-url: "https://swasthx.github.io" # Your GitHub Pages URL
-
-# GitHub Pages settings
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-# Exclude from processing.
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor
-  - README.md
+title: SwasthX Documentation
+description: Comprehensive documentation for the SwasthX healthcare platform
+baseurl: "/Swasthx-documentation"
+url: "https://swasthx.github.io"
+repository: "Swasthx/Swasthx-documentation"
 
 # Build settings
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
-
-# Ensure consistent URL handling
-permalink: pretty
-trailing_slash: true
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
 
 # Collections
 collections:
   docs:
     output: true
-    permalink: /:path/
+    permalink: /docs/:path/
 
-# Build settings
-markdown: kramdown
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-redirect-from
 
-# Exclude from processing.
-# The following items will not be processed, by default.
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+  - .gitignore
+  - .nojekyll
+  - .github
 
-# Build settings
+# Navigation
+navigation:
+  - title: "Getting Started"
+    children:
+      - title: "Overview"
+        url: /docs/overview
+      - title: "Onboarding Guide"
+        url: /docs/onboarding-guide
+      - title: "Branching Strategy"
+        url: /docs/branching-strategy
+
+  - title: "Development"
+    children:
+      - title: "Coding Standards"
+        url: /docs/coding-standards
+      - title: "API Guidelines"
+        url: /docs/api-guidelines
+      - title: "Backend Documentation"
+        url: /docs/backend-documentation
+      - title: "MongoDB Guide"
+        url: /docs/mongodb-guide
+
+  - title: "Infrastructure"
+    children:
+      - title: "AWS Resources"
+        url: /docs/aws-resources
+      - title: "Workflows"
+        url: /docs/workflows
+
+# Sitemap settings
+sitemap:
+  sitemap_extension: xml
+  priority: 1.0
+  changefreq: weekly
+
 markdown: kramdown
 plugins:
   - jekyll-seo-tag
@@ -79,14 +122,59 @@ collections:
 # Navigation - this will be available as site.navigation
 navigation:
   - title: "Overview"
-    url: /
+    url: "/"
     icon: fas fa-home
-  - title: "Branching Strategy"
-    url: "/branching-strategy"
-    icon: fas fa-code-branch
-  - title: "Architecture"
-    url: "/architecture"
-    icon: fas fa-project-diagram
-  - title: "AWS Resources"
-    url: "/aws-resources/"
-    icon: fab fa-aws
+    
+  # Getting Started
+  - title: "Getting Started"
+    url: "#"
+    icon: fas fa-rocket
+    children:
+      - title: "Onboarding Guide"
+        url: "/onboarding-guide"
+        icon: fas fa-user-plus
+      - title: "System Overview"
+        url: "/overview"
+        icon: fas fa-info-circle
+
+  # Development
+  - title: "Development"
+    url: "#"
+    icon: fas fa-code
+    children:
+      - title: "Coding Standards"
+        url: "/coding-standards"
+        icon: fas fa-file-code
+      - title: "API Guidelines"
+        url: "/api-guidelines"
+        icon: fas fa-exchange-alt
+      - title: "Backend Documentation"
+        url: "/backend-documentation"
+        icon: fas fa-server
+      - title: "MongoDB Guide"
+        url: "/mongodb-guide"
+        icon: fas fa-database
+
+  # Infrastructure
+  - title: "Infrastructure"
+    url: "#"
+    icon: fas fa-server
+    children:
+      - title: "AWS Resources"
+        url: "/aws-resources"
+        icon: fab fa-aws
+      - title: "Workflows"
+        url: "/workflows"
+        icon: fas fa-project-diagram
+
+  # Project Management
+  - title: "Project Management"
+    url: "#"
+    icon: fas fa-tasks
+    children:
+      - title: "Branching Strategy"
+        url: "/branching-strategy"
+        icon: fas fa-code-branch
+      - title: "Architecture"
+        url: "/architecture"
+        icon: fas fa-sitemap

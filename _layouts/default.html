@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  {% seo %}
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>{{ site.title }}</h1>
+      <p>{{ site.description }}</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><a href="{{ '/docs/overview' | relative_url }}">Overview</a></li>
+          
+          <li class="section">Getting Started</li>
+          <li><a href="{{ '/docs/onboarding-guide' | relative_url }}">Onboarding Guide</a></li>
+          
+          <li class="section">Development</li>
+          <li><a href="{{ '/docs/coding-standards' | relative_url }}">Coding Standards</a></li>
+          <li><a href="{{ '/docs/api-guidelines' | relative_url }}">API Guidelines</a></li>
+          <li><a href="{{ '/docs/backend-documentation' | relative_url }}">Backend Documentation</a></li>
+          <li><a href="{{ '/docs/mongodb-guide' | relative_url }}">MongoDB Guide</a></li>
+          
+          <li class="section">Architecture</li>
+          <li><a href="{{ '/docs/architecture' | relative_url }}">System Architecture</a></li>
+          <li><a href="{{ '/docs/aws-resources' | relative_url }}">AWS Resources</a></li>
+          
+          <li class="section">Workflow</li>
+          <li><a href="{{ '/docs/branching-strategy' | relative_url }}">Branching Strategy</a></li>
+          <li><a href="{{ '/docs/workflows' | relative_url }}">Workflows</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <main>
+      {{ content }}
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>
