@@ -173,3 +173,4 @@ graph TD
 - Caching at multiple layers (CDN, API, Database)
 - Connection pooling and query optimization
 
+For detailed information about AWS resources, please refer to the [AWS Resources](/Swasthx-documentation/aws-resources/) documentation.

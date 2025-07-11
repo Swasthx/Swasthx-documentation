@@ -78,15 +78,16 @@ collections:
 
 # Navigation - this will be available as site.navigation
 navigation:
-  - title: Overview
+  - title: "Overview"
     url: /
     icon: fas fa-home
-  - title: Branching Strategy
-    url: /branching-strategy
+  - title: "Branching Strategy"
+    url: "/branching-strategy"
     icon: fas fa-code-branch
-  - title: Architecture
-    url: /architecture/swathx_architecture
+  - title: "Architecture"
+    url: "/architecture"
     icon: fas fa-project-diagram
-  - title: Workflows
-    url: /workflows
-    icon: fas fa-tasks
+  - title: "AWS Resources"
+    url: "/aws-resources"
+    icon: fab fa-aws
+ 
