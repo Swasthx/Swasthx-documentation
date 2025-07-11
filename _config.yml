@@ -3,7 +3,7 @@
 # Site settings
 title: Swasthx Documentation
 description: Documentation for Swasthx platform
-baseurl: "" # This should be empty for root URL
+baseurl: "/Swasthx-documentation" # Repository name for GitHub Pages
 url: "https://swasthx.github.io" # Your GitHub Pages URL
 
 # Build settings
@@ -51,11 +51,11 @@ navigation:
     url: /
     icon: fas fa-home
   - title: Branching Strategy
-    url: /Workflows/branching-strategy/
+    url: /Swasthx-documentation/Workflows/branching-strategy/
     icon: fas fa-code-branch
   - title: Architecture
-    url: /architecture/swathx_architecture/
+    url: /Swasthx-documentation/architecture/swathx_architecture/
     icon: fas fa-project-diagram
   - title: Workflows
-    url: /workflows/
+    url: /Swasthx-documentation/workflows/
     icon: fas fa-tasks
