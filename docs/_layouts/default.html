@@ -257,17 +257,30 @@
         <h3 class="sidebar-title">Documentation</h3>
         <nav aria-label="Main navigation">
           <ul class="nav-menu">
-            {% for item in site.navigation %}
-              {% assign item_url = item.url | relative_url %}
-              {% assign current_url = page.url | relative_url %}
-              <li class="nav-item">
-                <a href="{{ item_url }}" 
-                  class="nav-link {% if current_url == item_url or current_url contains item.url %}active{% endif %}">
-                  <i class="{{ item.icon }}" style="margin-right: 8px;"></i>
-                  <span class="nav-text">{{ item.title }}</span>
-                </a>
-              </li>
-            {% endfor %}
+            <li class="nav-item">
+              <a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">Overview</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ site.baseurl }}/branching-strategy" class="nav-link {% if page.url contains 'branching-strategy' %}active{% endif %}">
+                <i class="fas fa-code-branch"></i>
+                <span class="nav-text">Branching Strategy</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ site.baseurl }}/architecture/swathx_architecture" class="nav-link {% if page.url contains 'architecture' %}active{% endif %}">
+                <i class="fas fa-project-diagram"></i>
+                <span class="nav-text">Architecture</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ site.baseurl }}/workflows" class="nav-link {% if page.url contains 'workflows' %}active{% endif %}">
+                <i class="fas fa-tasks"></i>
+                <span class="nav-text">Workflows</span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
