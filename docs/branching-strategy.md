@@ -27,9 +27,6 @@ graph TD
     L -->|Yes| M[Create PR to main]
     M --> N[Manual Release]
     L -->|No| O[Continue Development]
-    
-    style A fill:#e1f5fe,stroke:#01579b
-    style L fill:#fff9c4,stroke:#f57f17
 ```
 
 ### Branching Strategy Table

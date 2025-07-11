@@ -3,27 +3,165 @@ layout: default
 title: Architecture Overview
 ---
 
-# Swasthx Architecture
+# Swasthx System Architecture
 
-## System Architecture
+## Overview
 
-### Backend Services
-- **API Gateway**: Central entry point for all client requests
-- **Authentication Service**: Handles user authentication and authorization
-- **Data Processing**: Core business logic and data processing
+This document outlines the high-level architecture of the Swasthx platform, including its components, their interactions, and deployment strategies.
 
-### Frontend
-- **Web Application**: Main user interface built with modern frameworks
-- **Admin Dashboard**: Administrative interface for system management
+## Architecture Diagram
 
-### Mobile
-- **iOS App**: Native iOS application
-- **Android App**: Native Android application
+![Swasthx Architecture]({{ '/images/swatsthxarchitecture.png' | relative_url }})
 
-### Infrastructure
-- **Cloud Services**: Hosting and cloud infrastructure
-- **Database**: Data storage solutions
-- **Caching**: Performance optimization layer
-- **Storage**: File and media storage
+```mermaid
+graph TD
+    subgraph Client Layer
+        A[Web Browser] <-->|HTTPS| B[CDN]
+        C[iOS App] <-->|HTTPS| B
+        D[Android App] <-->|HTTPS| B
+    end
+    
+    subgraph Edge Layer
+        B <-->|Cached Content| E[CloudFront]
+        E <-->|API Requests| F[API Gateway]
+    end
+    
+    subgraph Application Layer
+        F --> G[Authentication Service]
+        F --> H[User Service]
+        F --> I[Appointment Service]
+        F --> J[Payment Service]
+        F --> K[Notification Service]
+    end
+    
+    subgraph Data Layer
+        G <--> L[(Auth Database)]
+        H <--> M[(User Data)]
+        I <--> N[(Appointments)]
+        J <--> O[(Transactions)]
+        K <--> P[(Notifications)]
+        
+        Q[(S3 Storage)] <-->|Static Assets| B
+        R[ElastiCache] <-->|Session Cache| G
+    end
+    
+    subgraph Monitoring
+        S[CloudWatch] -->|Logs & Metrics| T[Dashboard]
+        U[X-Ray] -->|Tracing| T
+    end
+```
 
-[Back to Home]({{ '/' | relative_url }})
+## Component Details
+
+### 1. Client Layer
+- **Web Application**: React-based responsive web app
+- **Mobile Applications**: Native iOS and Android apps
+- **CDN**: Amazon CloudFront for global content delivery
+
+### 2. Edge Layer
+- **API Gateway**: Centralized request routing and management
+- **Load Balancer**: Distributes traffic across backend services
+- **WAF**: Web Application Firewall for security
+
+### 3. Application Layer
+- **Authentication Service**: JWT-based auth, OAuth 2.0, and role-based access
+- **User Service**: Manages user profiles and preferences
+- **Appointment Service**: Handles scheduling and management
+- **Payment Service**: Processes transactions and billing
+- **Notification Service**: Real-time alerts and communications
+- **Encryption/Decryption API**:
+  - Hosted on MongoDB EC2 instance
+  - Handles data encryption at rest and in transit
+  - Used by backend services for secure data handling
+
+### 4. Data Layer
+- **MongoDB Database**:
+  - Self-hosted on EC2 instance
+  - Replica set configuration for high availability
+  - Regular automated backups
+  - Data encryption at rest using LUKS
+  - Network isolation in private subnet
+- **Cache & Session Management**:
+  - Redis for caching and session storage
+  - In-memory caching for improved performance
+- **Storage**:
+  - Amazon S3 for static assets and file uploads
+  - EBS volumes for MongoDB data persistence
+  - Regular snapshots for disaster recovery
+
+### 5. Infrastructure
+- **Backend Hosting**: 
+  - Containerized applications deployed on AWS App Runner
+  - Automatic scaling based on traffic
+  - Managed load balancing and SSL termination
+- **CI/CD Pipeline**:
+  - GitHub Actions for automated builds and deployments
+  - Automated testing before deployment
+  - Blue/Green deployment strategy
+- **Monitoring & Observability**:
+  - AWS CloudWatch for centralized logging and metrics
+  - AWS X-Ray for distributed tracing
+  - Custom dashboards with CloudWatch Dashboards
+  - Alerting and notifications via SNS
+
+## Deployment Architecture
+
+### Development Environment
+- Local development with Docker Compose
+- Feature branch deployments for testing
+
+### Staging Environment
+- Mirrors production configuration
+- Used for QA and UAT
+
+### Production Environment
+- Multi-AZ deployment for high availability
+- Auto-scaling groups for dynamic load management
+- Blue/Green deployments for zero-downtime updates
+
+## Logging Strategy
+
+### Current State
+- Basic application logging to local files
+- Limited log retention and analysis capabilities
+- Manual log inspection required for debugging
+
+### Future Implementation (AWS CloudWatch)
+- **Centralized Logging**:
+  - Application logs streamed to CloudWatch Logs
+  - Structured logging with JSON format
+  - Custom log groups for different services
+  
+- **Log Processing**:
+  - CloudWatch Logs Insights for querying logs
+  - Metric filters for monitoring error rates
+  - Custom dashboards for log visualization
+  
+- **Retention & Archiving**:
+  - 90-day retention for active logs
+  - Automated archival to S3 for long-term storage
+  - Lifecycle policies for cost optimization
+
+- **Alerts & Notifications**:
+  - Real-time alerts on critical errors
+  - Scheduled reports on application health
+  - Integration with SNS for notifications
+
+## Security Considerations
+- End-to-end encryption (TLS 1.3+)
+- VPC with private subnets for backend services
+- Secrets management using AWS Secrets Manager
+- Regular security audits and penetration testing
+- All logs encrypted at rest and in transit
+
+## Performance
+- Global CDN for static assets
+- Database read replicas for read-heavy operations
+- Caching at multiple layers (CDN, API, Database)
+- Connection pooling and query optimization
+
+## Future Considerations
+- Migration to serverless architecture
+- Implementation of GraphQL API
+- Edge computing for reduced latency
+- Multi-region deployment for global reach
