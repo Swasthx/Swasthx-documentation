@@ -490,6 +490,11 @@
 
     <main class="main-content" style="margin-left: 280px; padding: 2rem; width: calc(100% - 280px);">
       <div class="content-container">
+        <!-- If there is a hero/banner section above the main content, wrap it like this: -->
+        {% unless page.url == "/" or page.url == "/Swasthx-documentation/" %}
+          <!-- HERO/BANNER SECTION HTML GOES HERE -->
+        {% endunless %}
+        <!-- No explicit hero/banner section found in this layout. If you add one, use the above conditional. -->
         {{ content }}
       </div>
     </main>
