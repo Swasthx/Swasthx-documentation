@@ -1,8 +1,8 @@
 # MongoDB Best Practices & Guidelines
 
 > **📚 Related Documentation**: 
-> - [Complete MongoDB Documentation]({{ site.baseurl }}/mongodb-documentation/) - Comprehensive database schema and collections
-> - [MongoDB Query Examples]({{ site.baseurl }}/mongodb-queries/) - Practical query examples for all operations
+> - [Complete MongoDB Documentation]({{ site.baseurl }}/mongodb-documentation) - Comprehensive database schema and collections
+> - [MongoDB Query Examples]({{ site.baseurl }}/mongodb-queries) - Practical query examples for all operations
 > - [MongoDB Schema JSON]({{ site.baseurl }}/mongodb-schema.json) - Machine-readable schema definition
 
 ## Table of Contents

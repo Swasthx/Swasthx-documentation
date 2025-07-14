@@ -1,131 +1,382 @@
 ---
 layout: default
-title: Home
+title: Documentation Hub
 ---
 
-<div class="home">
-  <h1>Welcome to Swasthx Documentation</h1>
+# 📚 Swasthx Documentation Hub
+
+Welcome to the comprehensive documentation portal for the Swasthx platform. This hub provides organized access to all technical documentation, guides, and resources.
+
+## 🚀 Quick Start
+
+<div class="quick-start-grid">
+  <div class="quick-start-card">
+    <i class="fas fa-user-plus"></i>
+    <h3>New to Swasthx?</h3>
+    <p>Start with our onboarding guide to get up and running quickly.</p>
+    <a href="{{ '/docs/onboarding-guide' | relative_url }}" class="btn-primary">Get Started</a>
+  </div>
   
-  <section class="overview">
-    <h2>Overview</h2>
-    <p>Welcome to the Swasthx documentation portal. Here you'll find comprehensive guides and documentation to help you work with the Swasthx platform.</p>
-    
-    <div class="quick-links">
-      <!-- Getting Started -->
-      <div class="card">
-        <h3><i class="fas fa-rocket"></i> Getting Started</h3>
-        <p>New to SwasthX? Start here with our onboarding guide and system overview.</p>
-        <a href="{{ site.baseurl }}/onboarding-guide/" class="button">Get Started</a>
-      </div>
-      
-      <!-- Development -->
-      <div class="card">
-        <h3><i class="fas fa-code"></i> Development</h3>
-        <p>Explore coding standards, API guidelines, and backend documentation.</p>
-        <a href="{{ site.baseurl }}/coding-standards/" class="button">View Guidelines</a>
-      </div>
-      
-      <!-- Backend -->
-      <div class="card">
-        <h3><i class="fas fa-server"></i> Backend</h3>
-        <p>Comprehensive backend documentation and database guides.</p>
-        <a href="{{ site.baseurl }}/backend-documentation/" class="button">View Docs</a>
-      </div>
-      
-      <!-- API Documentation -->
-      <div class="card">
-        <h3><i class="fas fa-code"></i> API Documentation</h3>
-        <p>Complete API reference with endpoints, authentication, and examples.</p>
-        <a href="{{ site.baseurl }}/api-documentation/" class="button">View APIs</a>
-      </div>
-      
-      <!-- Postman Collection -->
-      <div class="card">
-        <h3><i class="fas fa-download"></i> Postman Collection</h3>
-        <p>Ready-to-use Postman collection for testing all SwasthX APIs.</p>
-        <a href="{{ site.baseurl }}/postman-collection.json" class="button">Download Collection</a>
-      </div>
-      
-      <!-- MongoDB -->
-      <div class="card">
-        <h3><i class="fas fa-database"></i> MongoDB</h3>
-        <p>Database design, indexing strategies, and best practices.</p>
-        <a href="{{ site.baseurl }}/mongodb-guide/" class="button">View Guide</a>
-      </div>
-      
-      <!-- MongoDB Documentation -->
-      <div class="card">
-        <h3><i class="fas fa-database"></i> MongoDB Documentation</h3>
-        <p>Comprehensive database schema, collections, and query examples.</p>
-        <a href="{{ site.baseurl }}/mongodb-documentation/" class="button">View Docs</a>
-      </div>
-      
-      <!-- MongoDB Queries -->
-      <div class="card">
-        <h3><i class="fas fa-search"></i> MongoDB Queries</h3>
-        <p>Practical query examples for all major operations.</p>
-        <a href="{{ site.baseurl }}/mongodb-queries/" class="button">View Queries</a>
-      </div>
-      
-      <!-- Infrastructure -->
-      <div class="card">
-        <h3><i class="fas fa-server"></i> Infrastructure</h3>
-        <p>AWS resources, deployment, and workflow automation.</p>
-        <a href="{{ site.baseurl }}/aws-resources/" class="button">View Resources</a>
-      </div>
-      
-      <!-- Project Management -->
-      <div class="card">
-        <h3><i class="fas fa-tasks"></i> Project Management</h3>
-        <p>Branching strategy, architecture, and development workflows.</p>
-        <a href="{{ site.baseurl }}/branching-strategy/" class="button">View Details</a>
-      </div>
-    </div>
-  </section>
+  <div class="quick-start-card">
+    <i class="fas fa-sitemap"></i>
+    <h3>System Overview</h3>
+    <p>Understand the overall architecture and system design.</p>
+    <a href="{{ '/docs/overview' | relative_url }}" class="btn-primary">Learn More</a>
+  </div>
   
-  <style>
-    .quick-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .card {
-      background: #fff;
-      border: 1px solid #e1e4e8;
-      border-radius: 6px;
-      padding: 1.5rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .card h3 {
-      margin-top: 0;
-      color: #2e6acf;
-    }
-    
-    .card p {
-      color: #555;
-      margin-bottom: 1.5rem;
-    }
-    
-    .button {
-      display: inline-block;
-      background: #2e6acf;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .button:hover {
-      background: #2558b3;
-    }
-  </style>
+  <div class="quick-start-card">
+    <i class="fas fa-code"></i>
+    <h3>Development Setup</h3>
+    <p>Set up your development environment and coding standards.</p>
+    <a href="{{ '/docs/coding-standards' | relative_url }}" class="btn-primary">Setup Guide</a>
+  </div>
 </div>
+
+## 📖 Documentation Categories
+
+### 🏗️ Architecture & Design
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-sitemap"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/architecture' | relative_url }}">System Architecture</a></h4>
+      <p>High-level overview of the Swasthx system architecture and components.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-project-diagram"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/architecture/swathx_architecture' | relative_url }}">Swasthx Architecture</a></h4>
+      <p>Detailed architecture documentation for the Swasthx platform.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-cogs"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/architecture/swathx_architecure' | relative_url }}">Architecture Details</a></h4>
+      <p>In-depth technical architecture specifications and design patterns.</p>
+    </div>
+  </div>
+</div>
+
+### 💻 Development
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-book"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/coding-standards' | relative_url }}">Coding Standards</a></h4>
+      <p>Best practices, coding conventions, and style guidelines for the project.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-ruler"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/api-guidelines' | relative_url }}">API Guidelines</a></h4>
+      <p>Standards and best practices for API design and development.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-server"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/backend-documentation' | relative_url }}">Backend Documentation</a></h4>
+      <p>Comprehensive backend system documentation and implementation details.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-file-code"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/api-documentation' | relative_url }}">API Documentation</a></h4>
+      <p>Complete API reference with endpoints, parameters, and examples.</p>
+    </div>
+  </div>
+</div>
+
+### 🗄️ Database
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-book-open"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/mongodb-guide' | relative_url }}">MongoDB Guide</a></h4>
+      <p>Comprehensive guide to MongoDB usage and best practices.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-file-alt"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/mongodb-documentation' | relative_url }}">MongoDB Documentation</a></h4>
+      <p>Detailed MongoDB documentation with setup, configuration, and usage.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-search"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/mongodb-queries' | relative_url }}">MongoDB Queries</a></h4>
+      <p>Common queries, optimization techniques, and query patterns.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-schema"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/mongodb-schema.json' | relative_url }}">Database Schema</a></h4>
+      <p>Complete database schema definition and data models.</p>
+    </div>
+  </div>
+</div>
+
+### ☁️ Infrastructure
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fab fa-aws"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/aws-resources' | relative_url }}">AWS Resources</a></h4>
+      <p>Amazon Web Services resources, configuration, and deployment guides.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-tools"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/_docs/aws/resources' | relative_url }}">AWS Tools</a></h4>
+      <p>Tools and utilities for AWS management and automation.</p>
+    </div>
+  </div>
+</div>
+
+### 🔄 Workflows & Processes
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-code-branch"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/branching-strategy' | relative_url }}">Branching Strategy</a></h4>
+      <p>Git branching strategy and version control best practices.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-git-alt"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/Workflows/branching-strategy' | relative_url }}">Git Workflow</a></h4>
+      <p>Detailed Git workflow procedures and collaboration guidelines.</p>
+    </div>
+  </div>
+  
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-tasks"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/workflows' | relative_url }}">Development Workflows</a></h4>
+      <p>Development processes, CI/CD pipelines, and deployment workflows.</p>
+    </div>
+  </div>
+</div>
+
+### 🛠️ Tools & Resources
+<div class="docs-grid">
+  <div class="doc-card">
+    <div class="doc-icon"><i class="fas fa-file-export"></i></div>
+    <div class="doc-content">
+      <h4><a href="{{ '/docs/postman-collection.json' | relative_url }}">Postman Collection</a></h4>
+      <p>API testing collection with pre-configured requests and environments.</p>
+    </div>
+  </div>
+</div>
+
+## 🎯 Getting Help
+
+<div class="help-section">
+  <div class="help-card">
+    <i class="fas fa-question-circle"></i>
+    <h3>Need Help?</h3>
+    <p>If you can't find what you're looking for, check our onboarding guide or contact the development team.</p>
+    <a href="{{ '/docs/onboarding-guide' | relative_url }}" class="btn-secondary">Onboarding Guide</a>
+  </div>
+  
+  <div class="help-card">
+    <i class="fas fa-lightbulb"></i>
+    <h3>Best Practices</h3>
+    <p>Follow our coding standards and API guidelines to ensure code quality and consistency.</p>
+    <a href="{{ '/docs/coding-standards' | relative_url }}" class="btn-secondary">Coding Standards</a>
+  </div>
+</div>
+
+<style>
+.quick-start-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.quick-start-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quick-start-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.quick-start-card i {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.quick-start-card h3 {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.quick-start-card p {
+  margin-bottom: 1.5rem;
+  color: var(--light-text);
+}
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0 3rem 0;
+}
+
+.doc-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.doc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.doc-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.doc-content h4 {
+  margin-bottom: 0.5rem;
+}
+
+.doc-content h4 a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.doc-content h4 a:hover {
+  color: var(--primary-color);
+}
+
+.doc-content p {
+  color: var(--light-text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.help-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+
+.help-card {
+  background: linear-gradient(135deg, #e7f5ff 0%, #d1ecf1 100%);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  border: 1px solid #bee5eb;
+}
+
+.help-card i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.help-card h3 {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.help-card p {
+  margin-bottom: 1.5rem;
+  color: var(--light-text);
+}
+
+.btn-primary, .btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .quick-start-grid,
+  .docs-grid,
+  .help-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .doc-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .doc-icon {
+    align-self: center;
+  }
+}
+</style>
