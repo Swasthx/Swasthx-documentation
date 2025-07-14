@@ -1,0 +1,1078 @@
+{
+  "info": {
+    "name": "SwasthX Backend API Collection",
+    "description": "Complete API collection for SwasthX healthcare platform including authentication, cart management, orders, health documents, and more.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://swasthxapp.api.swasthx.com",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "abhaAddress",
+      "value": "user@abdm",
+      "type": "string"
+    },
+    {
+      "key": "mobileNum",
+      "value": "7351077069",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Get OTP for Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hashString\": \"abc123\",\n  \"mobileNum\": \"{{mobileNum}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login/otp",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login", "otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP for Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobileNum\": \"{{mobileNum}}\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify/login/otp",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "verify", "login", "otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Token for App",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobNum\": \"{{mobileNum}}\",\n  \"tag\": \"mobile_app\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/token/app",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "token", "app"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart Management",
+      "item": [
+        {
+          "name": "Add Item to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"type\": \"MEDICINE\",\n  \"medicines\": {\n    \"items\": [\n      {\n        \"medicineId\": \"medicine_id_here\",\n        \"quantity\": 2\n      }\n    ],\n    \"prescriptionDocs\": [\"doc_url_1\", \"doc_url_2\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Item to New Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"type\": \"MEDICINE\",\n  \"medicines\": {\n    \"items\": [\n      {\n        \"medicineId\": \"medicine_id_here\",\n        \"quantity\": 2\n      }\n    ]\n  },\n  \"forceClear\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart/new",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart", "new"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart/{{abhaAddress}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart", "{{abhaAddress}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get New Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart/new/{{abhaAddress}}?type=MEDICINE",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart", "new", "{{abhaAddress}}"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "MEDICINE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Cart Item",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"medicineId\": \"medicine_id_here\",\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"medicineId\": \"medicine_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Prescription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"cartId\": \"cart_id_here\",\n  \"prescriptionDocs\": [\"doc_url_1\", \"doc_url_2\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/cart/upload-prescription",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "cart", "upload-prescription"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order Management",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"cartId\": \"cart_id_here\",\n  \"deliveryAddress\": {\n    \"address\": \"123 Main St\",\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"pincode\": \"400001\"\n  },\n  \"paymentMethod\": \"ONLINE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/order",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "order"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"type\": \"MEDICINE\",\n  \"items\": [],\n  \"deliveryAddress\": {\n    \"address\": \"123 Main St\",\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"pincode\": \"400001\"\n  },\n  \"paymentMethod\": \"ONLINE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/order/new",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "order", "new"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/order/{{abhaAddress}}?dateFilter=last30days&deliveryStatus=PENDING",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "order", "{{abhaAddress}}"],
+              "query": [
+                {
+                  "key": "dateFilter",
+                  "value": "last30days"
+                },
+                {
+                  "key": "deliveryStatus",
+                  "value": "PENDING"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/order/id/order_id_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "order", "id", "order_id_here"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"order_id_here\",\n  \"deliveryStatus\": \"CONFIRMED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/order/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "order", "update"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health Documents",
+      "item": [
+        {
+          "name": "Upload Health Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient\": \"{{mobileNum}}\",\n  \"data\": {\n    \"resourceType\": \"DocumentReference\",\n    \"content\": [],\n    \"context\": {}\n  },\n  \"careContext\": {}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/document/any",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "document", "any"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/upload/get-document?patient={{mobileNum}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "get-document"],
+              "query": [
+                {
+                  "key": "patient",
+                  "value": "{{mobileNum}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/upload/getFilterDocs?patient={{mobileNum}}&timeline=last30days&documenttype=prescription&doctorname=Dr. Smith",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "getFilterDocs"],
+              "query": [
+                {
+                  "key": "patient",
+                  "value": "{{mobileNum}}"
+                },
+                {
+                  "key": "timeline",
+                  "value": "last30days"
+                },
+                {
+                  "key": "documenttype",
+                  "value": "prescription"
+                },
+                {
+                  "key": "doctorname",
+                  "value": "Dr. Smith"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Health Points",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/upload/get-points?patient={{mobileNum}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "get-points"],
+              "query": [
+                {
+                  "key": "patient",
+                  "value": "{{mobileNum}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Health Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/upload/health-data?patient={{mobileNum}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "health-data"],
+              "query": [
+                {
+                  "key": "patient",
+                  "value": "{{mobileNum}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Health Data",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient\": \"{{mobileNum}}\",\n  \"healthData\": {\n    \"bloodPressure\": \"120/80\",\n    \"weight\": \"70kg\",\n    \"height\": \"170cm\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/health-data",
+              "host": ["{{baseUrl}}"],
+              "path": ["upload", "health-data"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/search?query=medicine_name",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "medicine_name"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaaddress\": \"{{abhaAddress}}\",\n  \"title\": \"Order Update\",\n  \"message\": \"Your order has been confirmed\",\n  \"type\": \"ORDER_UPDATE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/notifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/notifications/{{abhaAddress}}?seen=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "notifications", "{{abhaAddress}}"],
+              "query": [
+                {
+                  "key": "seen",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification as Seen",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/notifications/notification_id_here/seen",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "notifications", "notification_id_here", "seen"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark All Notifications as Seen",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/phr/notifications/{{abhaAddress}}/seen-all",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "notifications", "{{abhaAddress}}", "seen-all"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Delivery Address",
+      "item": [
+        {
+          "name": "Add Delivery Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"address\": \"123 Main St\",\n  \"city\": \"Mumbai\",\n  \"state\": \"Maharashtra\",\n  \"pincode\": \"400001\",\n  \"isDefault\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delivery-address",
+              "host": ["{{baseUrl}}"],
+              "path": ["delivery-address"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Delivery Addresses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/delivery-address/{{abhaAddress}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["delivery-address", "{{abhaAddress}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Get Medicines",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/medicine?category=antibiotics&search=paracetamol",
+              "host": ["{{baseUrl}}"],
+              "path": ["medicine"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "antibiotics"
+                },
+                {
+                  "key": "search",
+                  "value": "paracetamol"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Medicine Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/medicine/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["medicine", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Lab Test Slots",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lab-test/slots/lab_test_id_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["lab-test", "slots", "lab_test_id_here"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Lab Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"labTestId\": \"test_id_here\",\n  \"slot\": {\n    \"startTime\": \"09:00\",\n    \"endTime\": \"10:00\",\n    \"date\": \"2024-01-01\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/lab-test/book",
+              "host": ["{{baseUrl}}"],
+              "path": ["lab-test", "book"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Doctor Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/doctor-appointment/doctor/doctor_id_here",
+              "host": ["{{baseUrl}}"],
+              "path": ["doctor-appointment", "doctor", "doctor_id_here"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book Doctor Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"doctorId\": \"doctor_id_here\",\n  \"slot\": {\n    \"startTime\": \"09:00\",\n    \"endTime\": \"10:00\",\n    \"date\": \"2024-01-01\"\n  },\n  \"symptoms\": \"Fever and cough\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/doctor-appointment/book",
+              "host": ["{{baseUrl}}"],
+              "path": ["doctor-appointment", "book"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PHR APIs",
+      "item": [
+        {
+          "name": "Enroll using ABHA Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaNumber\": \"1234567890123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/m1/enrollment/abha-number",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "m1", "enrollment", "abha-number"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Enroll using Mobile Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobileNumber\": \"{{mobileNum}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/m1/enrollment/mobile",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "m1", "enrollment", "mobile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Discover and Link User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/m2/discovery/link",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "m2", "discovery", "link"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consent Management",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"hipId\": \"hip_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/m3/consent/init",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "m3", "consent", "init"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fetch Health Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abhaAddress\": \"{{abhaAddress}}\",\n  \"consentId\": \"consent_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/phr/m3/fetch/data",
+              "host": ["{{baseUrl}}"],
+              "path": ["phr", "m3", "fetch", "data"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Utility",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ping",
+              "host": ["{{baseUrl}}"],
+              "path": ["ping"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sitemap",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/sitemap.xml",
+              "host": ["{{baseUrl}}"],
+              "path": ["sitemap.xml"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+} 

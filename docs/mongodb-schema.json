@@ -1,0 +1,496 @@
+{
+  "name": "SwasthX MongoDB Schema",
+  "version": "1.0.0",
+  "description": "Database schema visualization for SwasthX healthcare platform",
+  "collections": [
+    {
+      "name": "users",
+      "description": "Basic user authentication data",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "phoneNumber", "type": "String", "required": true },
+        { "name": "EntityID", "type": "String" },
+        { "name": "email", "type": "String" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "appusers",
+      "description": "Mobile app user sessions",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "mobnum", "type": "String", "required": true },
+        { "name": "token", "type": "String" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "userprofiles",
+      "description": "PHR user profile information",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "aid", "type": "String", "description": "ABHA ID" },
+        { "name": "arid", "type": "String", "description": "ABHA Registration ID" },
+        { "name": "email", "type": "String" },
+        { "name": "demographicDetails", "type": "Object", "description": "User demographics" },
+        { "name": "xToken", "type": "String" },
+        { "name": "expiresAt", "type": "Date" },
+        { "name": "refreshToken", "type": "String" },
+        { "name": "mobileNumber", "type": "String", "required": true },
+        { "name": "abhaNumber", "type": "String" },
+        { "name": "abhaAddress", "type": "String", "unique": true },
+        { "name": "xAuthToken", "type": "String" },
+        { "name": "abhaLogin", "type": "Boolean" },
+        { "name": "abhaLogout", "type": "Boolean" },
+        { "name": "xAuthRefreshToken", "type": "String" },
+        { "name": "verified", "type": "Boolean" },
+        { "name": "userId", "type": "String" }
+      ]
+    },
+    {
+      "name": "carts",
+      "description": "Shopping cart for medicines",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "items", "type": "Array", "description": "Cart items" },
+        { "name": "prescriptionDocs", "type": "Array", "description": "Prescription documents" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "newcarts",
+      "description": "Enhanced shopping cart with multiple types",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "mobileNumber", "type": "String", "ref": "userprofiles.mobileNumber" },
+        { "name": "type", "type": "String", "required": true, "enum": ["MEDICINE_ORDER", "LAB_TEST", "DOC_APPOINTMENT"] },
+        { "name": "medicines", "type": "Object", "description": "Medicine items" },
+        { "name": "labTest", "type": "Object", "description": "Lab test items" },
+        { "name": "appointment", "type": "Object", "description": "Appointment details" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "orders",
+      "description": "Medicine orders",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "orderId", "type": "String", "required": true, "unique": true },
+        { "name": "razorpayOrderId", "type": "String" },
+        { "name": "deliveryAddressId", "type": "ObjectId", "required": true, "ref": "deliveryaddresses._id" },
+        { "name": "items", "type": "Array", "description": "Order items" },
+        { "name": "orderTotal", "type": "Number", "required": true },
+        { "name": "orderedAt", "type": "Date", "required": true },
+        { "name": "deliveryStatus", "type": "String", "enum": ["PENDING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"] },
+        { "name": "paymentDetails", "type": "Object", "description": "Payment information" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "neworders",
+      "description": "Enhanced orders with multiple types",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "ref": "userprofiles.abhaAddress" },
+        { "name": "type", "type": "String", "required": true, "enum": ["MEDICINE_ORDER", "LAB_TEST", "DOC_APPOINTMENT"] },
+        { "name": "mobileNumber", "type": "String", "ref": "userprofiles.mobileNumber" },
+        { "name": "orderId", "type": "String", "required": true, "unique": true },
+        { "name": "razorpayOrderId", "type": "String" },
+        { "name": "deliveryAddressId", "type": "ObjectId", "ref": "deliveryaddresses._id" },
+        { "name": "medicines", "type": "Object", "description": "Medicine order details" },
+        { "name": "labTest", "type": "Object", "description": "Lab test order details" },
+        { "name": "appointments", "type": "Object", "description": "Appointment order details" },
+        { "name": "orderTotal", "type": "Number", "required": true },
+        { "name": "orderedAt", "type": "Date", "required": true },
+        { "name": "deliveryStatus", "type": "String", "enum": ["PENDING", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED", "COMPLETED"] },
+        { "name": "paymentDetails", "type": "Object", "required": true },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "deliveryaddresses",
+      "description": "User delivery addresses",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "houseFlatBlock", "type": "String", "required": true },
+        { "name": "apartmentRoadArea", "type": "String", "required": true },
+        { "name": "street", "type": "String", "required": true },
+        { "name": "pincode", "type": "String", "required": true },
+        { "name": "addressType", "type": "String", "required": true, "enum": ["Home", "Work", "Other"] },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "medicines",
+      "description": "Medicine catalog",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "name", "type": "String", "required": true },
+        { "name": "description", "type": "String" },
+        { "name": "price", "type": "Number", "required": true },
+        { "name": "inStock", "type": "Boolean", "required": true, "default": true },
+        { "name": "composition", "type": "String" },
+        { "name": "variants", "type": "Array", "description": "Price variants" },
+        { "name": "similarProducts", "type": "Array", "description": "Similar medicine IDs" },
+        { "name": "productDetails", "type": "Object", "description": "Detailed product information" },
+        { "name": "category", "type": "ObjectId", "ref": "medicinecategories._id" },
+        { "name": "image", "type": "String" },
+        { "name": "imgGallery", "type": "Array", "description": "Image gallery" },
+        { "name": "noPrescription", "type": "Boolean" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "medicinecategories",
+      "description": "Medicine categories",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "name", "type": "String", "required": true },
+        { "name": "description", "type": "String" },
+        { "name": "image", "type": "String" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "labtestcreates",
+      "description": "Lab test catalog",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "labName", "type": "String" },
+        { "name": "labIcon", "type": "String" },
+        { "name": "category", "type": "String" },
+        { "name": "nameOfTest", "type": "String" },
+        { "name": "sample", "type": "Array", "description": "Sample types" },
+        { "name": "numberOfTests", "type": "String" },
+        { "name": "price", "type": "String" },
+        { "name": "packageIncludes", "type": "Array", "description": "Package inclusions" },
+        { "name": "requirements", "type": "Array", "description": "Test requirements" },
+        { "name": "aboutPackage", "type": "String" },
+        { "name": "idealFor", "type": "Array", "description": "Ideal for conditions" }
+      ]
+    },
+    {
+      "name": "labtestslots",
+      "description": "Lab test appointment slots",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "labTestId", "type": "ObjectId", "required": true, "ref": "labtestcreates._id" },
+        { "name": "date", "type": "String" },
+        { "name": "slots", "type": "Array", "description": "Available time slots" }
+      ]
+    },
+    {
+      "name": "userbooklabtests",
+      "description": "User booked lab tests",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "labTestId", "type": "ObjectId", "required": true, "ref": "labtestcreates._id" },
+        { "name": "slot", "type": "Object", "description": "Booked slot details" },
+        { "name": "status", "type": "String", "enum": ["BOOKED", "COMPLETED", "CANCELLED"] },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "doctorprofiles",
+      "description": "Doctor profile information",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "username", "type": "String" },
+        { "name": "doctorID", "type": "String" },
+        { "name": "mobileNumber", "type": "String" },
+        { "name": "planName", "type": "String" },
+        { "name": "expiryOfPlan", "type": "Date" },
+        { "name": "pinnedComment", "type": "Number" },
+        { "name": "basicdetails", "type": "Object", "description": "Basic doctor information" },
+        { "name": "experience", "type": "Array", "description": "Work experience" },
+        { "name": "education", "type": "Array", "description": "Educational background" },
+        { "name": "clinicdetails", "type": "Object", "description": "Clinic information" },
+        { "name": "clinicservices", "type": "Array", "description": "Services offered" },
+        { "name": "testimonial", "type": "Array", "description": "Patient testimonials" },
+        { "name": "partners", "type": "Array", "description": "Partnerships" },
+        { "name": "award", "type": "Array", "description": "Awards and recognition" },
+        { "name": "publication", "type": "Array", "description": "Publications" },
+        { "name": "socialnetwork", "type": "Array", "description": "Social media presence" }
+      ]
+    },
+    {
+      "name": "notifications",
+      "description": "User notifications",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "type", "type": "String", "required": true, "enum": ["INFO", "WARNING", "ERROR", "SUCCESS"] },
+        { "name": "module", "type": "String", "required": true, "enum": ["NEW_CARE_CONTEXT", "PROFILE_SHARE_TOKEN", "CONSENT_REQUEST", "SUBSCRIPTION_REQUEST"] },
+        { "name": "message", "type": "String", "required": true },
+        { "name": "seen", "type": "Boolean", "default": false },
+        { "name": "abhaAddress", "type": "String", "required": true, "ref": "userprofiles.abhaAddress" },
+        { "name": "metadata", "type": "Object", "description": "Additional data" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "fhir.documents",
+      "description": "FHIR health documents",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "resourceType", "type": "String" },
+        { "name": "id", "type": "String" },
+        { "name": "identifier", "type": "Object" },
+        { "name": "description", "type": "Object" },
+        { "name": "type", "type": "String" },
+        { "name": "timestamp", "type": "String" },
+        { "name": "composition", "type": "ObjectId", "ref": "compositionobjects._id" },
+        { "name": "medication", "type": "Array", "ref": "medicationobjects._id" },
+        { "name": "medicationRequest", "type": "Array", "ref": "medicationrequestobjects._id" },
+        { "name": "encounter", "type": "ObjectId", "ref": "encounterobjects._id" },
+        { "name": "patient", "type": "ObjectId", "ref": "patients._id" },
+        { "name": "practitioner", "type": "Array", "ref": "practitionerobjects._id" },
+        { "name": "allergyIntolerance", "type": "Array", "ref": "allergyintoleranceobjects._id" },
+        { "name": "appointment", "type": "ObjectId", "ref": "appointmentobjects._id" },
+        { "name": "carePlan", "type": "ObjectId", "ref": "careplanobjects._id" },
+        { "name": "condition", "type": "Array", "ref": "conditionobjects._id" },
+        { "name": "dignosticReport", "type": "Array", "ref": "dignosticreportobjects._id" },
+        { "name": "documentReference", "type": "Array", "ref": "documentrerferenceobjects._id" },
+        { "name": "immunization", "type": "Array", "ref": "immunizationreportobjects._id" },
+        { "name": "observation", "type": "Array", "ref": "observationobjects._id" },
+        { "name": "organization", "type": "Array", "ref": "organiztionobjects._id" },
+        { "name": "procedure", "type": "Array", "ref": "procedureobjects._id" }
+      ]
+    },
+    {
+      "name": "abdmtxnidstorages",
+      "description": "ABDM transaction tracking",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "doctorId", "type": "String" },
+        { "name": "userId", "type": "String" },
+        { "name": "entityId", "type": "String" },
+        { "name": "entityType", "type": "String" },
+        { "name": "txnId", "type": "String" },
+        { "name": "oldTxnId", "type": "String" },
+        { "name": "status", "type": "String" },
+        { "name": "communicationMobileNumber", "type": "String" },
+        { "name": "abhaNumber", "type": "String" },
+        { "name": "userToken", "type": "String" },
+        { "name": "linkRefNumber", "type": "String" },
+        { "name": "dateOfExpiry", "type": "String" },
+        { "name": "dateOfConsentInit", "type": "String" },
+        { "name": "fromDate", "type": "String" },
+        { "name": "toDate", "type": "String" },
+        { "name": "hiType", "type": "Array", "description": "Health information types" },
+        { "name": "patientUhid", "type": "String" },
+        { "name": "patientName", "type": "String" },
+        { "name": "patientIdVerified", "type": "Boolean" },
+        { "name": "requestIdForHipInitiated", "type": "String" },
+        { "name": "verificationForHipInitiatedStatus", "type": "String" },
+        { "name": "patientCareContextRefNum", "type": "Array", "description": "Care context references" },
+        { "name": "careContexts", "type": "Array", "description": "Care contexts" },
+        { "name": "hipId", "type": "String" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "hiuconsents",
+      "description": "HIU consent management",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "consentId", "type": "String" },
+        { "name": "abhaAddress", "type": "String", "ref": "userprofiles.abhaAddress" },
+        { "name": "hipId", "type": "String" },
+        { "name": "status", "type": "String" },
+        { "name": "consentRequest", "type": "Object" },
+        { "name": "consentResponse", "type": "Object" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "hiuhealthdatas",
+      "description": "HIU health data storage",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "ref": "userprofiles.abhaAddress" },
+        { "name": "consentId", "type": "String" },
+        { "name": "hipId", "type": "String" },
+        { "name": "healthData", "type": "Object", "description": "Complete health data" },
+        { "name": "createdAt", "type": "Date" },
+        { "name": "updatedAt", "type": "Date" }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "userprofiles",
+      "to": "carts",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "newcarts",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "orders",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "neworders",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "deliveryaddresses",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "notifications",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "userprofiles",
+      "to": "userbooklabtests",
+      "type": "one-to-many",
+      "field": "abhaAddress"
+    },
+    {
+      "from": "medicines",
+      "to": "carts",
+      "type": "one-to-many",
+      "field": "items.medicineId"
+    },
+    {
+      "from": "medicines",
+      "to": "newcarts",
+      "type": "one-to-many",
+      "field": "medicines.items.medicineId"
+    },
+    {
+      "from": "medicinecategories",
+      "to": "medicines",
+      "type": "one-to-many",
+      "field": "category"
+    },
+    {
+      "from": "labtestcreates",
+      "to": "userbooklabtests",
+      "type": "one-to-many",
+      "field": "labTestId"
+    },
+    {
+      "from": "labtestcreates",
+      "to": "labtestslots",
+      "type": "one-to-many",
+      "field": "labTestId"
+    },
+    {
+      "from": "deliveryaddresses",
+      "to": "orders",
+      "type": "one-to-many",
+      "field": "deliveryAddressId"
+    },
+    {
+      "from": "deliveryaddresses",
+      "to": "neworders",
+      "type": "one-to-many",
+      "field": "deliveryAddressId"
+    }
+  ],
+  "indexes": [
+    {
+      "collection": "userprofiles",
+      "indexes": [
+        { "field": "abhaAddress", "unique": true },
+        { "field": "mobileNumber" },
+        { "field": "abhaNumber" }
+      ]
+    },
+    {
+      "collection": "orders",
+      "indexes": [
+        { "field": "abhaAddress" },
+        { "field": "orderId", "unique": true },
+        { "field": "orderedAt", "direction": -1 }
+      ]
+    },
+    {
+      "collection": "neworders",
+      "indexes": [
+        { "field": "abhaAddress" },
+        { "field": "orderId", "unique": true },
+        { "field": "type" },
+        { "field": "orderedAt", "direction": -1 }
+      ]
+    },
+    {
+      "collection": "carts",
+      "indexes": [
+        { "field": "abhaAddress" }
+      ]
+    },
+    {
+      "collection": "newcarts",
+      "indexes": [
+        { "field": "abhaAddress" },
+        { "field": "type" },
+        { "field": "createdAt", "direction": -1 }
+      ]
+    },
+    {
+      "collection": "medicines",
+      "indexes": [
+        { "field": "name", "type": "text" },
+        { "field": "category" },
+        { "field": "inStock" }
+      ]
+    },
+    {
+      "collection": "notifications",
+      "indexes": [
+        { "field": "abhaAddress" },
+        { "field": "seen" },
+        { "field": "createdAt", "direction": -1 }
+      ]
+    },
+    {
+      "collection": "fhir.documents",
+      "indexes": [
+        { "field": "patient" },
+        { "field": "type" },
+        { "field": "timestamp", "direction": -1 }
+      ]
+    },
+    {
+      "collection": "abdmtxnidstorages",
+      "indexes": [
+        { "field": "txnId" },
+        { "field": "abhaNumber" },
+        { "field": "status" }
+      ]
+    }
+  ]
+} 

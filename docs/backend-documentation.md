@@ -63,6 +63,8 @@ GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json
 
 ## API Documentation
 
+For comprehensive API documentation including all endpoints, request/response examples, authentication flows, and integration guides, please refer to our [Complete API Documentation]({{ site.baseurl }}/api-documentation/).
+
 ### Base URL
 ```
 https://api.swasthx.in/v1
@@ -74,7 +76,7 @@ All protected routes require a JWT token in the Authorization header:
 Authorization: Bearer <token>
 ```
 
-### Key Endpoints
+### Key Endpoints Overview
 
 #### Authentication
 - `POST /auth/register` - Register new user
@@ -93,6 +95,8 @@ Authorization: Bearer <token>
 - `POST /health-records` - Upload record
 - `GET /health-records/:id` - Get record
 - `DELETE /health-records/:id` - Delete record
+
+> **Note**: For detailed API documentation with request/response examples, error handling, and integration guides, see our [Complete API Documentation]({{ site.baseurl }}/api-documentation/).
 
 ## Database Schema
 
