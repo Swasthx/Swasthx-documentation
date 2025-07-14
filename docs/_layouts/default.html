@@ -295,7 +295,7 @@
                 <span class="nav-text">Home</span>
               </a>
             </li>
-            
+
             <!-- Getting Started Section -->
             <li class="nav-section">
               <span class="nav-section-title">Getting Started</span>
@@ -312,9 +312,15 @@
                     <span class="nav-text">System Overview</span>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/documentation-structure" class="nav-link {% if page.url contains 'documentation-structure' %}active{% endif %}">
+                    <i class="fas fa-sitemap"></i>
+                    <span class="nav-text">Documentation Structure</span>
+                  </a>
+                </li>
               </ul>
             </li>
-            
+
             <!-- Development Section -->
             <li class="nav-section">
               <span class="nav-section-title">Development</span>
@@ -339,7 +345,50 @@
                 </li>
               </ul>
             </li>
-            
+
+            <!-- API & Integration Section -->
+            <li class="nav-section">
+              <span class="nav-section-title">API & Integration</span>
+              <ul class="nav-submenu">
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/api-documentation" class="nav-link {% if page.url contains 'api-documentation' %}active{% endif %}">
+                    <i class="fas fa-file-code"></i>
+                    <span class="nav-text">API Documentation</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/api-resources" class="nav-link {% if page.url contains 'api-resources' %}active{% endif %}">
+                    <i class="fas fa-tools"></i>
+                    <span class="nav-text">API Resources Hub</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/swagger-api-documentation.yaml" class="nav-link {% if page.url contains 'swagger-api-documentation.yaml' %}active{% endif %}">
+                    <i class="fas fa-file-code"></i>
+                    <span class="nav-text">Swagger/OpenAPI Spec</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/postman-collection.json" class="nav-link {% if page.url contains 'postman-collection.json' %}active{% endif %}">
+                    <i class="fas fa-file-export"></i>
+                    <span class="nav-text">Postman Collection</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/postman-collection-guide" class="nav-link {% if page.url contains 'postman-collection-guide' %}active{% endif %}">
+                    <i class="fas fa-book-open"></i>
+                    <span class="nav-text">Postman Guide</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/postman-quick-reference" class="nav-link {% if page.url contains 'postman-quick-reference' %}active{% endif %}">
+                    <i class="fas fa-bolt"></i>
+                    <span class="nav-text">Postman Quick Reference</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
             <!-- Database Section -->
             <li class="nav-section">
               <span class="nav-section-title">Database</span>
@@ -350,9 +399,27 @@
                     <span class="nav-text">MongoDB Guide</span>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/mongodb-documentation" class="nav-link {% if page.url contains 'mongodb-documentation' %}active{% endif %}">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-text">MongoDB Documentation</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/mongodb-queries" class="nav-link {% if page.url contains 'mongodb-queries' %}active{% endif %}">
+                    <i class="fas fa-search"></i>
+                    <span class="nav-text">MongoDB Queries</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/mongodb-schema.json" class="nav-link {% if page.url contains 'mongodb-schema.json' %}active{% endif %}">
+                    <i class="fas fa-schema"></i>
+                    <span class="nav-text">Database Schema</span>
+                  </a>
+                </li>
               </ul>
             </li>
-            
+
             <!-- Infrastructure Section -->
             <li class="nav-section">
               <span class="nav-section-title">Infrastructure</span>
@@ -364,22 +431,34 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/workflows" class="nav-link {% if page.url contains 'workflows' %}active{% endif %}">
-                    <i class="fas fa-project-diagram"></i>
-                    <span class="nav-text">Workflows</span>
+                  <a href="{{ site.baseurl }}/_docs/aws/resources" class="nav-link {% if page.url contains '_docs/aws/resources' %}active{% endif %}">
+                    <i class="fas fa-tools"></i>
+                    <span class="nav-text">AWS Tools</span>
                   </a>
                 </li>
               </ul>
             </li>
-            
-            <!-- Project Management Section -->
+
+            <!-- Workflows & Project Management Section -->
             <li class="nav-section">
-              <span class="nav-section-title">Project Management</span>
+              <span class="nav-section-title">Workflows & Project Management</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
                   <a href="{{ site.baseurl }}/branching-strategy" class="nav-link {% if page.url contains 'branching-strategy' %}active{% endif %}">
                     <i class="fas fa-code-branch"></i>
                     <span class="nav-text">Branching Strategy</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/Workflows/branching-strategy" class="nav-link {% if page.url contains 'Workflows/branching-strategy' %}active{% endif %}">
+                    <i class="fas fa-code-branch"></i>
+                    <span class="nav-text">Branching Strategy (Workflows)</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/workflows" class="nav-link {% if page.url contains 'workflows' %}active{% endif %}">
+                    <i class="fas fa-tasks"></i>
+                    <span class="nav-text">Development Workflows</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -390,6 +469,20 @@
                 </li>
               </ul>
             </li>
+
+            <!-- Alternate/Extra Docs Section -->
+            <li class="nav-section">
+              <span class="nav-section-title">Other Docs</span>
+              <ul class="nav-submenu">
+                <li class="nav-item">
+                  <a href="{{ site.baseurl }}/docs/overview" class="nav-link {% if page.url contains 'docs/overview' %}active{% endif %}">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">Docs Overview (Alternate)</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
           </ul>
         </nav>
       </div>
