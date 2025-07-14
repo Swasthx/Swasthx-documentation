@@ -1,36 +1,71 @@
 ---
 layout: default
-title: SwasthX Documentation
+title: Swasthx Documentation Hub
 ---
 
-# Welcome to SwasthX Documentation
+# 📚 Swasthx Documentation Hub
 
-Comprehensive guides and references for the SwasthX platform.
+Welcome to the official documentation portal for the Swasthx platform. Here you'll find everything you need to get started, develop, and maintain Swasthx projects.
 
-## Getting Started
+---
 
-- [Onboarding Guide](/docs/onboarding-guide) - Get started with the SwasthX platform
-- [System Architecture](/docs/architecture) - Understand the system design and components
-- [Branching Strategy](/docs/branching-strategy) - Learn about our Git workflow
+## 🚀 Quick Start
 
-## Development
+| Resource                | Description                                              |
+|-------------------------|----------------------------------------------------------|
+| [Onboarding Guide](/docs/onboarding-guide) | Step-by-step setup for new team members           |
+| [System Overview](/docs/overview)          | High-level architecture and platform introduction |
+| [Development Setup](/docs/coding-standards)| Coding standards and environment setup            |
 
-- [Coding Standards](/docs/coding-standards) - Our coding conventions and best practices
-- [API Guidelines](/docs/api-guidelines) - How to design and document APIs
-- [Backend Documentation](/docs/backend-documentation) - Core backend services and architecture
-- [MongoDB Guide](/docs/mongodb-guide) - Database design and best practices
+---
 
-## Infrastructure
+## 📖 Documentation Categories
 
-- [AWS Resources](/docs/aws-resources) - Cloud infrastructure and services
-- [Workflows](/docs/workflows) - CI/CD and automation
+### 🏗️ Architecture & Design
+- [System Architecture](/docs/architecture)
+- [Swasthx Architecture](/docs/architecture/swathx_architecture)
+- [Architecture Details](/docs/architecture/swathx_architecure)
 
-## Resources
+### 💻 Development
+- [Coding Standards](/docs/coding-standards)
+- [API Guidelines](/docs/api-guidelines)
+- [Backend Documentation](/docs/backend-documentation)
+- **API & Integration:**
+  - [API Documentation](/docs/api-documentation)
+  - [API Resources Hub](/docs/api-resources)
+  - [Swagger/OpenAPI Spec](/docs/swagger-api-documentation.yaml)
+  - [Postman Collection](/docs/postman-collection.json)
+  - [Postman Guide](/docs/postman-collection-guide)
+  - [Postman Quick Reference](/docs/postman-quick-reference)
 
-- [API Reference](/api) - Interactive API documentation
-- [GitHub Repository](https://github.com/Swasthx/Swasthx-documentation) - Source code and issues
-- [Changelog](/changelog) - Release notes and updates
+### 🗄️ Database
+- [MongoDB Guide](/docs/mongodb-guide)
+- [MongoDB Documentation](/docs/mongodb-documentation)
+- [MongoDB Queries](/docs/mongodb-queries)
+- [Database Schema](/docs/mongodb-schema.json)
 
-## Need Help?
+### ☁️ Infrastructure
+- [AWS Resources](/docs/aws-resources)
+- [AWS Tools](/docs/_docs/aws/resources)
 
-If you can't find what you're looking for, please [open an issue](https://github.com/Swasthx/Swasthx-documentation/issues) on GitHub.
+### 🔄 Workflows & Project Management
+- [Branching Strategy](/docs/branching-strategy)
+- [Branching Strategy (Workflows)](/docs/Workflows/branching-strategy)
+- [Development Workflows](/docs/workflows)
+- [Architecture](/docs/architecture)
+
+### 📚 Other Docs
+- [Documentation Structure](/docs/documentation-structure)
+- [Docs Overview (Alternate)](/docs/docs/overview)
+
+---
+
+## 🆘 Getting Help
+
+- **[Onboarding Guide](/docs/onboarding-guide):** For new team members
+- **[Coding Standards](/docs/coding-standards):** For best practices
+- **Contact:** [dev@swasthx.com](mailto:dev@swasthx.com) for technical support
+
+---
+
+> **Tip:** Use the sidebar to quickly navigate between all documentation sections and resources.
