@@ -3,12 +3,15 @@ layout: default
 title: Swasthx Documentation Hub
 ---
 
-<div class="home-container">
-  <h1 class="main-title">📚 Swasthx Documentation Hub</h1>
-  <p class="main-desc">Welcome to the official documentation portal for the Swasthx platform. Here you'll find everything you need to get started, develop, and maintain Swasthx projects.</p>
+<div class="home-hero">
+  <div class="home-hero-content">
+    <h1 class="main-title">📚 Swasthx Documentation Hub</h1>
+    <p class="main-desc">Welcome to the official documentation portal for the Swasthx platform.<br>Find everything you need to get started, develop, and maintain Swasthx projects—all in one place.</p>
+  </div>
+</div>
 
-  <!-- Quick Start Section -->
-  <h2>🚀 Quick Start</h2>
+<div class="home-section first-section">
+  <h2 class="section-title">🚀 Quick Start</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-user-plus card-icon"></i>
@@ -29,9 +32,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/coding-standards" class="btn-primary">Setup Guide</a>
     </div>
   </div>
+</div>
 
-  <!-- Architecture & Design Section -->
-  <h2>🏗️ Architecture & Design</h2>
+<div class="home-section">
+  <h2 class="section-title">🏗️ Architecture & Design</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-sitemap card-icon"></i>
@@ -52,9 +56,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/architecture/swathx_architecure" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Development Section -->
-  <h2>💻 Development</h2>
+<div class="home-section">
+  <h2 class="section-title">💻 Development</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-book card-icon"></i>
@@ -75,9 +80,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/backend-documentation" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- API Resources Section -->
-  <h2>🔌 API Resources</h2>
+<div class="home-section">
+  <h2 class="section-title">🔌 API Resources</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-tools card-icon"></i>
@@ -116,9 +122,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/postman-quick-reference" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Database Section -->
-  <h2>🗄️ Database</h2>
+<div class="home-section">
+  <h2 class="section-title">🗄️ Database</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-book-open card-icon"></i>
@@ -145,9 +152,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/mongodb-schema.json" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Infrastructure Section -->
-  <h2>☁️ Infrastructure</h2>
+<div class="home-section">
+  <h2 class="section-title">☁️ Infrastructure</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fab fa-aws card-icon"></i>
@@ -162,9 +170,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/_docs/aws/resources" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Workflows & Project Management Section -->
-  <h2>🔄 Workflows & Project Management</h2>
+<div class="home-section">
+  <h2 class="section-title">🔄 Workflows & Project Management</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-code-branch card-icon"></i>
@@ -191,9 +200,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/architecture" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Other Docs Section -->
-  <h2>📚 Other Docs</h2>
+<div class="home-section">
+  <h2 class="section-title">📚 Other Docs</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-sitemap card-icon"></i>
@@ -208,9 +218,10 @@ title: Swasthx Documentation Hub
       <a href="/docs/docs/overview" class="btn-secondary">View</a>
     </div>
   </div>
+</div>
 
-  <!-- Help Section -->
-  <h2>🆘 Getting Help</h2>
+<div class="home-section">
+  <h2 class="section-title">🆘 Getting Help</h2>
   <div class="card-grid">
     <div class="doc-card">
       <i class="fas fa-user-plus card-icon"></i>
@@ -232,26 +243,47 @@ title: Swasthx Documentation Hub
   </div>
 </div>
 
+<footer class="home-footer">
+  <div class="footer-content">
+    <p>&copy; {{ 'now' | date: "%Y" }} Swasthx. All rights reserved. | <a href="mailto:dev@swasthx.com">Contact Support</a></p>
+  </div>
+</footer>
+
 <style>
-.home-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.home-hero {
+  background: linear-gradient(120deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  padding: 2.5rem 0 1.5rem 0;
+  text-align: center;
+  margin-bottom: 0;
 }
-.main-title {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+.home-hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.first-section {
+  margin-top: 2.5rem;
+}
+.home-section {
+  max-width: 1200px;
+  margin: 0 auto 2.5rem auto;
+  padding: 0 1rem;
+}
+.section-title {
+  font-size: 1.5rem;
   color: #2563eb;
   font-weight: 700;
-}
-.main-desc {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.2rem;
+  border-left: 5px solid #2563eb;
+  padding-left: 0.7rem;
+  background: #f3f6fd;
+  border-radius: 0.3rem;
+  display: inline-block;
 }
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
   margin-bottom: 2.5rem;
 }
@@ -265,6 +297,9 @@ title: Swasthx Documentation Hub
   flex-direction: column;
   align-items: flex-start;
   transition: box-shadow 0.2s, transform 0.2s;
+  min-width: 320px;
+  max-width: 370px;
+  flex: 1 1 340px;
 }
 .doc-card:hover {
   box-shadow: 0 8px 32px rgba(37, 99, 235, 0.10);
@@ -315,9 +350,23 @@ title: Swasthx Documentation Hub
   color: #fff;
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.10);
 }
+.home-footer {
+  background: #f3f6fd;
+  padding: 1.2rem 0;
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+.footer-content p {
+  color: #2563eb;
+  font-size: 1rem;
+  margin: 0;
+}
 @media (max-width: 900px) {
   .card-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
   }
 }
 </style> 
