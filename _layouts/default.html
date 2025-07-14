@@ -24,53 +24,66 @@
           <li><a href="{{ '/' | relative_url }}"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="{{ '/docs/overview' | relative_url }}"><i class="fas fa-info-circle"></i> Overview</a></li>
           <li><a href="{{ '/docs/documentation-structure' | relative_url }}"><i class="fas fa-sitemap"></i> Documentation Structure</a></li>
-          
+
           <!-- 🚀 Getting Started -->
           <li class="section"><i class="fas fa-rocket"></i> Getting Started</li>
-          <li><a href="{{ '/docs/onboarding-guide' | relative_url }}"><i class="fas fa-user-plus"></i> Onboarding Guide</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/onboarding-guide' | relative_url }}"><i class="fas fa-user-plus"></i> Onboarding Guide</a></li>
+          </ul>
+
           <!-- 🏗️ Architecture & Design -->
           <li class="section"><i class="fas fa-building"></i> Architecture & Design</li>
-          <li><a href="{{ '/docs/architecture' | relative_url }}"><i class="fas fa-sitemap"></i> System Architecture</a></li>
-          <li><a href="{{ '/docs/architecture/swathx_architecture' | relative_url }}"><i class="fas fa-project-diagram"></i> Swasthx Architecture</a></li>
-          <li><a href="{{ '/docs/architecture/swathx_architecure' | relative_url }}"><i class="fas fa-cogs"></i> Architecture Details</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/architecture' | relative_url }}"><i class="fas fa-sitemap"></i> System Architecture</a></li>
+            <li><a href="{{ '/docs/architecture/swathx_architecture' | relative_url }}"><i class="fas fa-project-diagram"></i> Swasthx Architecture</a></li>
+            <li><a href="{{ '/docs/architecture/swathx_architecure' | relative_url }}"><i class="fas fa-cogs"></i> Architecture Details</a></li>
+          </ul>
+
           <!-- 💻 Development -->
           <li class="section"><i class="fas fa-code"></i> Development</li>
-          <li><a href="{{ '/docs/coding-standards' | relative_url }}"><i class="fas fa-book"></i> Coding Standards</a></li>
-          <li><a href="{{ '/docs/api-guidelines' | relative_url }}"><i class="fas fa-ruler"></i> API Guidelines</a></li>
-          <li><a href="{{ '/docs/backend-documentation' | relative_url }}"><i class="fas fa-server"></i> Backend Documentation</a></li>
-          <li><a href="{{ '/docs/api-documentation' | relative_url }}"><i class="fas fa-file-code"></i> API Documentation</a></li>
-          
-          <!-- 🔌 API Resources -->
-          <li class="section"><i class="fas fa-plug"></i> API Resources</li>
-          <li><a href="{{ '/docs/api-resources' | relative_url }}"><i class="fas fa-tools"></i> API Resources Hub</a></li>
-          <li><a href="{{ '/docs/swagger-api-documentation.yaml' | relative_url }}"><i class="fas fa-file-code"></i> Swagger/OpenAPI Spec</a></li>
-          <li><a href="{{ '/docs/postman-collection.json' | relative_url }}"><i class="fas fa-file-export"></i> Postman Collection</a></li>
-          <li><a href="{{ '/docs/postman-collection-guide' | relative_url }}"><i class="fas fa-book-open"></i> Postman Guide</a></li>
-          <li><a href="{{ '/docs/postman-quick-reference' | relative_url }}"><i class="fas fa-bolt"></i> Postman Quick Reference</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/coding-standards' | relative_url }}"><i class="fas fa-book"></i> Coding Standards</a></li>
+            <li><a href="{{ '/docs/api-guidelines' | relative_url }}"><i class="fas fa-ruler"></i> API Guidelines</a></li>
+            <li><a href="{{ '/docs/backend-documentation' | relative_url }}"><i class="fas fa-server"></i> Backend Documentation</a></li>
+            <li><a href="{{ '/docs/api-documentation' | relative_url }}"><i class="fas fa-file-code"></i> API Documentation</a></li>
+            <ul class="sidebar-sub">
+              <li><a href="{{ '/docs/api-resources' | relative_url }}"><i class="fas fa-tools"></i> API Resources Hub</a></li>
+              <li><a href="{{ '/docs/swagger-api-documentation.yaml' | relative_url }}"><i class="fas fa-file-code"></i> Swagger/OpenAPI Spec</a></li>
+              <li><a href="{{ '/docs/postman-collection.json' | relative_url }}"><i class="fas fa-file-export"></i> Postman Collection</a></li>
+              <li><a href="{{ '/docs/postman-collection-guide' | relative_url }}"><i class="fas fa-book-open"></i> Postman Guide</a></li>
+              <li><a href="{{ '/docs/postman-quick-reference' | relative_url }}"><i class="fas fa-bolt"></i> Postman Quick Reference</a></li>
+            </ul>
+          </ul>
+
           <!-- 🗄️ Database -->
           <li class="section"><i class="fas fa-database"></i> Database</li>
-          <li><a href="{{ '/docs/mongodb-guide' | relative_url }}"><i class="fas fa-book-open"></i> MongoDB Guide</a></li>
-          <li><a href="{{ '/docs/mongodb-documentation' | relative_url }}"><i class="fas fa-file-alt"></i> MongoDB Documentation</a></li>
-          <li><a href="{{ '/docs/mongodb-queries' | relative_url }}"><i class="fas fa-search"></i> MongoDB Queries</a></li>
-          <li><a href="{{ '/docs/mongodb-schema.json' | relative_url }}"><i class="fas fa-schema"></i> Database Schema</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/mongodb-guide' | relative_url }}"><i class="fas fa-book-open"></i> MongoDB Guide</a></li>
+            <li><a href="{{ '/docs/mongodb-documentation' | relative_url }}"><i class="fas fa-file-alt"></i> MongoDB Documentation</a></li>
+            <li><a href="{{ '/docs/mongodb-queries' | relative_url }}"><i class="fas fa-search"></i> MongoDB Queries</a></li>
+            <li><a href="{{ '/docs/mongodb-schema.json' | relative_url }}"><i class="fas fa-schema"></i> Database Schema</a></li>
+          </ul>
+
           <!-- ☁️ Infrastructure -->
           <li class="section"><i class="fas fa-cloud"></i> Infrastructure</li>
-          <li><a href="{{ '/docs/aws-resources' | relative_url }}"><i class="fab fa-aws"></i> AWS Resources</a></li>
-          <li><a href="{{ '/docs/_docs/aws/resources' | relative_url }}"><i class="fas fa-tools"></i> AWS Tools</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/aws-resources' | relative_url }}"><i class="fab fa-aws"></i> AWS Resources</a></li>
+            <li><a href="{{ '/docs/_docs/aws/resources' | relative_url }}"><i class="fas fa-tools"></i> AWS Tools</a></li>
+          </ul>
+
           <!-- 🔄 Workflows & Processes -->
           <li class="section"><i class="fas fa-sync-alt"></i> Workflows & Processes</li>
-          <li><a href="{{ '/docs/branching-strategy' | relative_url }}"><i class="fas fa-code-branch"></i> Branching Strategy</a></li>
-          <li><a href="{{ '/docs/Workflows/branching-strategy' | relative_url }}"><i class="fas fa-git-alt"></i> Git Workflow</a></li>
-          <li><a href="{{ '/docs/workflows' | relative_url }}"><i class="fas fa-tasks"></i> Development Workflows</a></li>
-          
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/branching-strategy' | relative_url }}"><i class="fas fa-code-branch"></i> Branching Strategy</a></li>
+            <li><a href="{{ '/docs/Workflows/branching-strategy' | relative_url }}"><i class="fas fa-git-alt"></i> Git Workflow</a></li>
+            <li><a href="{{ '/docs/workflows' | relative_url }}"><i class="fas fa-tasks"></i> Development Workflows</a></li>
+          </ul>
+
           <!-- 🛠️ Tools & Resources -->
           <li class="section"><i class="fas fa-tools"></i> Tools & Resources</li>
-          <li><a href="{{ '/docs/postman-collection.json' | relative_url }}"><i class="fas fa-file-export"></i> Postman Collection</a></li>
+          <ul class="sidebar-sub">
+            <li><a href="{{ '/docs/postman-collection.json' | relative_url }}"><i class="fas fa-file-export"></i> Postman Collection</a></li>
+          </ul>
         </ul>
       </nav>
     </div>
