@@ -1,0 +1,929 @@
+openapi: 3.0.3
+info:
+  title: SwasthX Healthcare Platform API
+  description: |
+    Comprehensive API documentation for the SwasthX healthcare platform.
+    
+    ## Overview
+    SwasthX is a healthcare platform that provides:
+    - Personal Health Record (PHR) management
+    - Medicine ordering and cart management
+    - Lab test booking
+    - Doctor appointment services
+    - Health document management
+    
+    ## Authentication
+    The API uses Bearer token authentication. Include the token in the Authorization header:
+    ```
+    Authorization: Bearer <your_token>
+    ```
+    
+    ## Base URL
+    Production: `https://swasthxapp.api.swasthx.com`
+    Development: `https://dev-api.swasthx.com`
+    
+    ## Rate Limiting
+    - 100 requests per minute per IP
+    - 1000 requests per hour per user
+    
+  version: 1.0.0
+  contact:
+    name: SwasthX Development Team
+    email: dev@swasthx.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://swasthxapp.api.swasthx.com
+    description: Production server
+  - url: https://dev-api.swasthx.com
+    description: Development server
+
+security:
+  - bearerAuth: []
+
+paths:
+  # Authentication Endpoints
+  /auth/login/otp:
+    post:
+      tags:
+        - Authentication
+      summary: Get OTP for Login
+      description: Send OTP to the provided mobile number for authentication
+      operationId: getLoginOTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - hashString
+                - mobileNum
+              properties:
+                hashString:
+                  type: string
+                  description: Hash string for security validation
+                  example: "abc123"
+                mobileNum:
+                  type: string
+                  description: Mobile number to send OTP
+                  pattern: '^[0-9]{10}$'
+                  example: "7351077069"
+      responses:
+        '201':
+          description: OTP sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "OTP sent successfully"
+                  status:
+                    type: integer
+                    example: 201
+        '400':
+          description: Invalid request parameters
+        '429':
+          description: Too many OTP requests
+
+  /auth/verify/login/otp:
+    post:
+      tags:
+        - Authentication
+      summary: Verify OTP for Login
+      description: Verify the OTP and complete login process
+      operationId: verifyLoginOTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mobileNum
+                - otp
+              properties:
+                mobileNum:
+                  type: string
+                  description: Mobile number used for OTP
+                  pattern: '^[0-9]{10}$'
+                  example: "7351077069"
+                otp:
+                  type: string
+                  description: 6-digit OTP code
+                  pattern: '^[0-9]{6}$'
+                  example: "123456"
+      responses:
+        '201':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+                  token:
+                    type: string
+                    description: JWT token for authentication
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  status:
+                    type: integer
+                    example: 201
+        '400':
+          description: Invalid OTP
+        '401':
+          description: OTP expired or invalid
+
+  /auth/token/app:
+    post:
+      tags:
+        - Authentication
+      summary: Get Token for App
+      description: Generate a session token for mobile app usage
+      operationId: getAppToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mobNum
+                - tag
+              properties:
+                mobNum:
+                  type: string
+                  description: Mobile number
+                  pattern: '^[0-9]{10}$'
+                  example: "7351077069"
+                tag:
+                  type: string
+                  description: App identifier tag
+                  example: "mobile_app"
+      responses:
+        '201':
+          description: Token generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Session token
+                    example: "session_token_here"
+                  status:
+                    type: integer
+                    example: 201
+
+  # PHR Cart Management
+  /phr/cart:
+    post:
+      tags:
+        - Cart Management
+      summary: Add Item to Cart
+      description: Add medicine items to the user's cart
+      operationId: addToCart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartAddRequest'
+      responses:
+        '201':
+          description: Item added to cart successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+        '400':
+          description: Invalid request data
+        '401':
+          description: Unauthorized
+        '404':
+          description: Medicine not found
+
+    patch:
+      tags:
+        - Cart Management
+      summary: Update Cart Item
+      description: Update quantity of an item in the cart
+      operationId: updateCartItem
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - abhaAddress
+                - medicineId
+                - quantity
+              properties:
+                abhaAddress:
+                  type: string
+                  description: User's ABHA address
+                  example: "user@abdm"
+                medicineId:
+                  type: string
+                  description: ID of the medicine to update
+                  example: "med_123"
+                quantity:
+                  type: integer
+                  minimum: 1
+                  description: New quantity
+                  example: 3
+      responses:
+        '200':
+          description: Cart item updated successfully
+        '400':
+          description: Invalid quantity
+        '404':
+          description: Item not found in cart
+
+  /phr/cart/new:
+    post:
+      tags:
+        - Cart Management
+      summary: Add Item to New Cart
+      description: Create a new cart and add items to it
+      operationId: addToNewCart
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCartRequest'
+      responses:
+        '201':
+          description: New cart created with items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+
+  /phr/cart/{abhaAddress}:
+    get:
+      tags:
+        - Cart Management
+      summary: Get Cart
+      description: Retrieve the current cart for a user
+      operationId: getCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: abhaAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's ABHA address
+          example: "user@abdm"
+      responses:
+        '200':
+          description: Cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+        '404':
+          description: Cart not found
+
+  /phr/cart/new/{abhaAddress}:
+    get:
+      tags:
+        - Cart Management
+      summary: Get New Cart
+      description: Retrieve the new cart for a user
+      operationId: getNewCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: abhaAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [MEDICINE, LAB_TEST, APPOINTMENT]
+          description: Type of cart items
+          example: "MEDICINE"
+      responses:
+        '200':
+          description: New cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+
+  /phr/cart/upload-prescription:
+    post:
+      tags:
+        - Cart Management
+      summary: Upload Prescription
+      description: Upload prescription documents to the cart
+      operationId: uploadPrescription
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - abhaAddress
+                - cartId
+                - prescriptionDocs
+              properties:
+                abhaAddress:
+                  type: string
+                  description: User's ABHA address
+                  example: "user@abdm"
+                cartId:
+                  type: string
+                  description: Cart ID
+                  example: "cart_123"
+                prescriptionDocs:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of prescription document URLs
+                  example: ["https://example.com/prescription1.pdf", "https://example.com/prescription2.pdf"]
+      responses:
+        '201':
+          description: Prescription uploaded successfully
+        '400':
+          description: Invalid document URLs
+        '404':
+          description: Cart not found
+
+  # Order Management
+  /phr/orders:
+    post:
+      tags:
+        - Order Management
+      summary: Create Order
+      description: Create a new order from cart items
+      operationId: createOrder
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreateRequest'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+
+  /phr/orders/{abhaAddress}:
+    get:
+      tags:
+        - Order Management
+      summary: Get User Orders
+      description: Retrieve all orders for a user
+      operationId: getUserOrders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: abhaAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED]
+          description: Filter orders by status
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of orders to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Number of orders to skip
+      responses:
+        '200':
+          description: Orders retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderResponse'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  # Health Documents
+  /phr/documents:
+    post:
+      tags:
+        - Health Documents
+      summary: Upload Health Document
+      description: Upload a health document to user's PHR
+      operationId: uploadHealthDocument
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - abhaAddress
+                - documentType
+                - file
+              properties:
+                abhaAddress:
+                  type: string
+                  description: User's ABHA address
+                  example: "user@abdm"
+                documentType:
+                  type: string
+                  enum: [PRESCRIPTION, LAB_REPORT, DISCHARGE_SUMMARY, VACCINATION_CERTIFICATE, OTHER]
+                  description: Type of health document
+                  example: "LAB_REPORT"
+                file:
+                  type: string
+                  format: binary
+                  description: Document file to upload
+                description:
+                  type: string
+                  description: Optional description of the document
+                  example: "Blood test report from January 2024"
+      responses:
+        '201':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+
+  /phr/documents/{abhaAddress}:
+    get:
+      tags:
+        - Health Documents
+      summary: Get Health Documents
+      description: Retrieve all health documents for a user
+      operationId: getHealthDocuments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: abhaAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        - name: documentType
+          in: query
+          schema:
+            type: string
+            enum: [PRESCRIPTION, LAB_REPORT, DISCHARGE_SUMMARY, VACCINATION_CERTIFICATE, OTHER]
+          description: Filter by document type
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+          description: Number of documents to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Number of documents to skip
+      responses:
+        '200':
+          description: Documents retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DocumentResponse'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  # Search APIs
+  /search/medicines:
+    get:
+      tags:
+        - Search
+      summary: Search Medicines
+      description: Search for medicines by name, composition, or manufacturer
+      operationId: searchMedicines
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query
+          example: "paracetamol"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+          description: Number of results to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Number of results to skip
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Medicine'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CartAddRequest:
+      type: object
+      required:
+        - abhaAddress
+        - type
+        - medicines
+      properties:
+        abhaAddress:
+          type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        type:
+          type: string
+          enum: [MEDICINE, LAB_TEST, APPOINTMENT]
+          description: Type of cart items
+          example: "MEDICINE"
+        medicines:
+          type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                required:
+                  - medicineId
+                  - quantity
+                properties:
+                  medicineId:
+                    type: string
+                    description: ID of the medicine
+                    example: "med_123"
+                  quantity:
+                    type: integer
+                    minimum: 1
+                    description: Quantity to add
+                    example: 2
+            prescriptionDocs:
+              type: array
+              items:
+                type: string
+              description: Array of prescription document URLs
+              example: ["https://example.com/prescription1.pdf"]
+
+    NewCartRequest:
+      type: object
+      required:
+        - abhaAddress
+        - type
+        - medicines
+      properties:
+        abhaAddress:
+          type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        type:
+          type: string
+          enum: [MEDICINE, LAB_TEST, APPOINTMENT]
+          description: Type of cart items
+          example: "MEDICINE"
+        medicines:
+          type: object
+          required:
+            - items
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                required:
+                  - medicineId
+                  - quantity
+                properties:
+                  medicineId:
+                    type: string
+                    description: ID of the medicine
+                    example: "med_123"
+                  quantity:
+                    type: integer
+                    minimum: 1
+                    description: Quantity to add
+                    example: 2
+        forceClear:
+          type: boolean
+          default: false
+          description: Whether to clear existing cart
+          example: false
+
+    CartResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Item added to cart successfully"
+        data:
+          type: object
+          properties:
+            cartId:
+              type: string
+              description: Unique cart identifier
+              example: "cart_123"
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/CartItem'
+            total:
+              type: number
+              description: Total cart value
+              example: 200.50
+
+    CartItem:
+      type: object
+      properties:
+        medicineId:
+          type: string
+          description: ID of the medicine
+          example: "med_123"
+        name:
+          type: string
+          description: Name of the medicine
+          example: "Paracetamol 500mg"
+        quantity:
+          type: integer
+          description: Quantity in cart
+          example: 2
+        price:
+          type: number
+          description: Price per unit
+          example: 100.25
+        totalPrice:
+          type: number
+          description: Total price for this item
+          example: 200.50
+
+    OrderCreateRequest:
+      type: object
+      required:
+        - abhaAddress
+        - cartId
+        - shippingAddress
+      properties:
+        abhaAddress:
+          type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        cartId:
+          type: string
+          description: Cart ID to create order from
+          example: "cart_123"
+        shippingAddress:
+          $ref: '#/components/schemas/Address'
+        paymentMethod:
+          type: string
+          enum: [COD, ONLINE, WALLET]
+          description: Payment method
+          example: "ONLINE"
+
+    OrderResponse:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Unique order identifier
+          example: "order_123"
+        abhaAddress:
+          type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        status:
+          type: string
+          enum: [PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED]
+          description: Order status
+          example: "CONFIRMED"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        totalAmount:
+          type: number
+          description: Total order amount
+          example: 500.75
+        shippingAddress:
+          $ref: '#/components/schemas/Address'
+        createdAt:
+          type: string
+          format: date-time
+          description: Order creation timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    DocumentResponse:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: Unique document identifier
+          example: "doc_123"
+        abhaAddress:
+          type: string
+          description: User's ABHA address
+          example: "user@abdm"
+        documentType:
+          type: string
+          enum: [PRESCRIPTION, LAB_REPORT, DISCHARGE_SUMMARY, VACCINATION_CERTIFICATE, OTHER]
+          description: Type of health document
+          example: "LAB_REPORT"
+        fileName:
+          type: string
+          description: Original file name
+          example: "blood_test_report.pdf"
+        fileUrl:
+          type: string
+          description: URL to access the document
+          example: "https://storage.swasthx.com/documents/doc_123.pdf"
+        description:
+          type: string
+          description: Document description
+          example: "Blood test report from January 2024"
+        uploadedAt:
+          type: string
+          format: date-time
+          description: Upload timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    Medicine:
+      type: object
+      properties:
+        medicineId:
+          type: string
+          description: Unique medicine identifier
+          example: "med_123"
+        name:
+          type: string
+          description: Medicine name
+          example: "Paracetamol 500mg"
+        composition:
+          type: string
+          description: Medicine composition
+          example: "Paracetamol 500mg"
+        manufacturer:
+          type: string
+          description: Medicine manufacturer
+          example: "ABC Pharmaceuticals"
+        price:
+          type: number
+          description: Medicine price
+          example: 100.25
+        prescriptionRequired:
+          type: boolean
+          description: Whether prescription is required
+          example: false
+        inStock:
+          type: boolean
+          description: Whether medicine is in stock
+          example: true
+
+    Address:
+      type: object
+      required:
+        - street
+        - city
+        - state
+        - pincode
+      properties:
+        street:
+          type: string
+          description: Street address
+          example: "123 Main Street"
+        city:
+          type: string
+          description: City name
+          example: "Mumbai"
+        state:
+          type: string
+          description: State name
+          example: "Maharashtra"
+        pincode:
+          type: string
+          description: PIN code
+          pattern: '^[0-9]{6}$'
+          example: "400001"
+        landmark:
+          type: string
+          description: Nearby landmark
+          example: "Near Railway Station"
+
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of items
+          example: 100
+        limit:
+          type: integer
+          description: Number of items per page
+          example: 20
+        offset:
+          type: integer
+          description: Number of items skipped
+          example: 0
+        hasMore:
+          type: boolean
+          description: Whether there are more items
+          example: true
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization endpoints
+  - name: Cart Management
+    description: Shopping cart operations for medicines and services
+  - name: Order Management
+    description: Order creation and management
+  - name: Health Documents
+    description: Personal Health Record document management
+  - name: Search
+    description: Search functionality for medicines and services 
