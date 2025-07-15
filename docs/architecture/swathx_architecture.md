@@ -1,176 +1,564 @@
 ---
 layout: default
-title: Architecture Overview
+title: Swasthx System Architecture
+description: Comprehensive architecture overview of the Swasthx healthcare platform including components, interactions, and deployment strategies
 ---
 
 # Swasthx System Architecture
 
+## Table of Contents
+- [Overview](#overview)
+- [Architecture Principles](#architecture-principles)
+- [System Architecture](#system-architecture)
+- [Component Details](#component-details)
+- [Data Flow](#data-flow)
+- [Security Architecture](#security-architecture)
+- [Performance & Scalability](#performance--scalability)
+- [Deployment Architecture](#deployment-architecture)
+- [Monitoring & Observability](#monitoring--observability)
+- [Disaster Recovery](#disaster-recovery)
+- [API Architecture](#api-architecture)
+- [Database Architecture](#database-architecture)
+- [Integration Patterns](#integration-patterns)
+
 ## Overview
 
-This document outlines the high-level architecture of the Swasthx platform, including its components, their interactions, and deployment strategies.
+The Swasthx platform is a comprehensive healthcare management system designed to provide seamless patient care, appointment scheduling, payment processing, and real-time communication. This document outlines the high-level architecture, including its components, their interactions, and deployment strategies.
 
-## Architecture Diagram
+### Key Features
+- **Multi-platform Support**: Native iOS and Android applications
+- **Real-time Communication**: Instant notifications and messaging
+- **Secure Payment Processing**: PCI DSS compliant payment handling
+- **Scalable Infrastructure**: Cloud-native architecture on AWS
+- **Comprehensive Monitoring**: End-to-end observability and alerting
+
+## Architecture Principles
+
+### 1. Microservices Architecture
+- **Service Independence**: Each service can be developed, deployed, and scaled independently
+- **Technology Diversity**: Services can use different technologies based on requirements
+- **Fault Isolation**: Failure in one service doesn't affect others
+- **Team Autonomy**: Different teams can work on different services
+
+### 2. Security First
+- **Zero Trust Model**: No implicit trust, continuous verification
+- **Data Encryption**: Encryption at rest and in transit
+- **Principle of Least Privilege**: Minimal access rights
+- **Regular Security Audits**: Continuous security assessment
+
+### 3. Scalability & Performance
+- **Horizontal Scaling**: Add more instances to handle load
+- **Caching Strategy**: Multi-layer caching for performance
+- **Load Balancing**: Distribute traffic across multiple instances
+- **Auto-scaling**: Automatic resource management
+
+### 4. Reliability & Availability
+- **High Availability**: 99.9% uptime target
+- **Fault Tolerance**: System continues operating despite failures
+- **Disaster Recovery**: Quick recovery from catastrophic failures
+- **Data Backup**: Regular automated backups
+
+## System Architecture
+
+### Architecture Diagram
 
 ![Swasthx Architecture]({{ site.baseurl }}/images/swatsthxarchitecture.png)
 
+### High-Level System Flow
+
 ```mermaid
 graph TD
-    subgraph Client Layer
-        A[iOS App] -->|HTTPS| B[Route 53]
-        C[Android App] -->|HTTPS| B
+    subgraph "Client Applications"
+        A[iOS App] -->|HTTPS/API Calls| B[API Gateway]
+        C[Android App] -->|HTTPS/API Calls| B
+        D[Web Dashboard] -->|HTTPS/API Calls| B
     end
     
-    subgraph AWS Infrastructure
-        B --> D[App Runner]
-        D --> E[Authentication Middleware]
-        E --> F[Authorized?]
-        F -->|Yes| G[Backend Services]
-        F -->|No| H[Return 401 Unauthorized]
+    subgraph "AWS Infrastructure"
+        B --> E[Route 53]
+        E --> F[CloudFront CDN]
+        F --> G[API Gateway]
+        G --> H[Authentication Service]
+        H --> I{Valid Token?}
+        I -->|Yes| J[Load Balancer]
+        I -->|No| K[Return 401]
+        J --> L[App Runner Services]
+    end
+    
+    subgraph "Backend Services"
+        L --> M[User Service]
+        L --> N[Appointment Service]
+        L --> O[Payment Service]
+        L --> P[Notification Service]
+        L --> Q[Health Records Service]
+        L --> R[Analytics Service]
+    end
+    
+    subgraph "Data Layer"
+        M <--> S[(MongoDB Primary)]
+        N <--> S
+        O <--> T[(Payment Database)]
+        P <--> U[(Notification Queue)]
+        Q <--> V[(Health Records DB)]
+        R <--> W[(Analytics Warehouse)]
         
-        subgraph Backend Services
-            G --> I[User Service]
-            G --> J[Appointment Service]
-            G --> K[Payment Service]
-            G --> L[Notification Service]
-        end
+        S --> X[(MongoDB Replica)]
+        T --> Y[(Payment Backup)]
+        V --> Z[(Health Records Backup)]
     end
     
-    subgraph Data Layer
-        G <--> L[(Auth Database)]
-        H <--> M[(User Data)]
-        I <--> N[(Appointments)]
-        J <--> O[(Transactions)]
-        K <--> P[(Notifications)]
-        
-        Q[(S3 Storage)] <-->|Static Assets| B
-        R[ElastiCache] <-->|Session Cache| G
+    subgraph "External Services"
+        O --> AA[Payment Gateway]
+        P --> BB[Push Notification Service]
+        P --> CC[Email Service]
+        P --> DD[SMS Service]
     end
     
-    subgraph Monitoring
-        S[CloudWatch] -->|Logs & Metrics| T[Dashboard]
-        U[X-Ray] -->|Tracing| T
+    subgraph "Monitoring & Observability"
+        EE[CloudWatch] -->|Logs & Metrics| FF[Dashboard]
+        GG[X-Ray] -->|Distributed Tracing| FF
+        HH[CloudTrail] -->|API Activity| FF
+        II[Health Checks] -->|Service Status| FF
     end
 ```
 
 ## Component Details
 
 ### 1. Client Layer
-- **Mobile Applications**:
-  - Native iOS and Android apps
-  - Direct HTTPS communication with backend
-  - Token-based authentication
-  - Offline capability with local data sync
 
-### 2. Request Flow
-1. **DNS Resolution**:
-   - Requests first hit Route 53 for DNS resolution
-   - Route 53 routes traffic to the appropriate App Runner service
+#### Mobile Applications
+- **iOS Application**:
+  - Native Swift/SwiftUI development
+  - iOS 14.0+ support
+  - Push notifications via APNs
+  - Offline data synchronization
+  - Biometric authentication support
+  
+- **Android Application**:
+  - Native Kotlin development
+  - Android 8.0+ support
+  - Push notifications via FCM
+  - Offline data synchronization
+  - Biometric authentication support
 
-2. **App Runner**:
-   - Hosts the backend API services
-   - Handles request routing and load balancing
-   - Manages automatic scaling based on traffic
+#### Web Dashboard
+- **Admin Portal**:
+  - React.js frontend
+  - Responsive design
+  - Real-time data updates
+  - Role-based access control
+  - Analytics dashboard
 
-3. **Authentication Middleware**:
-   - Validates JWT tokens in the request headers
-   - Enforces role-based access control
-   - Handles token refresh flow
+### 2. API Gateway & Load Balancing
 
-### 3. Application Layer
-- **Authentication Service**: JWT-based auth, OAuth 2.0, and role-based access
-- **User Service**: Manages user profiles and preferences
-- **Appointment Service**: Handles scheduling and management
-- **Payment Service**: Processes transactions and billing
-- **Notification Service**: Real-time alerts and communications
-- **Encryption/Decryption API**:
-  - Hosted on MongoDB EC2 instance
-  - Handles data encryption at rest and in transit
-  - Used by backend services for secure data handling
+#### AWS API Gateway
+- **Request Routing**: Routes requests to appropriate services
+- **Rate Limiting**: Prevents API abuse
+- **Request/Response Transformation**: Data format conversion
+- **Caching**: Reduces backend load
+- **API Versioning**: Supports multiple API versions
 
-### 4. Data Layer
-- **MongoDB Database**:
+#### Application Load Balancer
+- **Health Checks**: Monitors service health
+- **SSL Termination**: Handles HTTPS termination
+- **Session Affinity**: Maintains user sessions
+- **Auto-scaling Integration**: Scales with traffic
+
+### 3. Authentication & Authorization
+
+#### Authentication Service
+- **JWT Token Management**:
+  - Token generation and validation
+  - Refresh token handling
+  - Token revocation
+  - Token expiration management
+  
+- **Multi-factor Authentication**:
+  - SMS-based verification
+  - Email-based verification
+  - TOTP support
+  - Biometric authentication
+
+#### Authorization Middleware
+- **Role-based Access Control (RBAC)**:
+  - User roles and permissions
+  - Resource-level access control
+  - Dynamic permission updates
+  - Audit logging
+
+### 4. Core Services
+
+#### User Service
+- **User Management**:
+  - User registration and profile management
+  - Password reset and account recovery
+  - User preferences and settings
+  - Account verification and validation
+  
+- **Profile Management**:
+  - Personal information management
+  - Medical history tracking
+  - Emergency contact management
+  - Insurance information
+
+#### Appointment Service
+- **Scheduling System**:
+  - Appointment booking and cancellation
+  - Availability management
+  - Conflict detection and resolution
+  - Recurring appointment support
+  
+- **Calendar Integration**:
+  - Google Calendar sync
+  - Outlook Calendar sync
+  - Calendar export functionality
+  - Reminder notifications
+
+#### Payment Service
+- **Payment Processing**:
+  - Multiple payment method support
+  - Secure payment gateway integration
+  - Transaction history and receipts
+  - Refund processing
+  
+- **Billing Management**:
+  - Invoice generation
+  - Payment plan management
+  - Insurance claim processing
+  - Financial reporting
+
+#### Notification Service
+- **Multi-channel Notifications**:
+  - Push notifications (iOS/Android)
+  - Email notifications
+  - SMS notifications
+  - In-app notifications
+  
+- **Notification Management**:
+  - Notification preferences
+  - Delivery status tracking
+  - Notification history
+  - Template management
+
+#### Health Records Service
+- **Medical Records Management**:
+  - Patient medical history
+  - Lab results and reports
+  - Prescription management
+  - Treatment plans
+  
+- **Data Standards**:
+  - HL7 FHIR compliance
+  - HIPAA compliance
+  - Data interoperability
+  - Standard medical codes
+
+#### Analytics Service
+- **Data Analytics**:
+  - Patient analytics
+  - Business intelligence
+  - Performance metrics
+  - Predictive analytics
+  
+- **Reporting**:
+  - Custom report generation
+  - Scheduled reports
+  - Data visualization
+  - Export capabilities
+
+### 5. Data Layer
+
+#### MongoDB Database
+- **Primary Database**:
   - Self-hosted on EC2 instance
-  - Replica set configuration for high availability
-  - Regular automated backups
-  - Data encryption at rest using LUKS
-  - Network isolation in private subnet
-- **Cache & Session Management**:
-  - Redis for caching and session storage
-  - In-memory caching for improved performance
-- **Storage**:
-  - Amazon S3 for static assets and file uploads
-  - EBS volumes for MongoDB data persistence
-  - Regular snapshots for disaster recovery
+  - Replica set configuration (3 nodes)
+  - Automated failover
+  - Read/write separation
+  
+- **Data Security**:
+  - Encryption at rest (LUKS)
+  - Encryption in transit (TLS)
+  - Network isolation (VPC)
+  - Access control (IAM)
 
-### 5. Infrastructure
-- **Backend Hosting**: 
-  - Containerized applications deployed on AWS App Runner
-  - Automatic scaling based on traffic
-  - Managed load balancing and SSL termination
-- **CI/CD Pipeline**:
-  - GitHub Actions for automated builds and deployments
-  - Automated testing before deployment
-  - Blue/Green deployment strategy
-- **Monitoring & Observability**:
-  - AWS CloudWatch for centralized logging and metrics
-  - AWS X-Ray for distributed tracing
-  - Custom dashboards with CloudWatch Dashboards
-  - Alerting and notifications via SNS
+#### Caching Layer
+- **Redis Cache**:
+  - Session storage
+  - API response caching
+  - Database query caching
+  - Rate limiting storage
+  
+- **ElastiCache**:
+  - Managed Redis service
+  - Automatic scaling
+  - Multi-AZ deployment
+  - Backup and recovery
+
+#### File Storage
+- **Amazon S3**:
+  - Static asset storage
+  - User file uploads
+  - Backup storage
+  - CDN integration
+  
+- **EBS Volumes**:
+  - Database storage
+  - Application logs
+  - Configuration files
+  - Temporary data
+
+## Data Flow
+
+### User Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as App
+    participant G as API Gateway
+    participant Auth as Auth Service
+    participant DB as Database
+    participant Cache as Redis Cache
+
+    U->>A: Login Request
+    A->>G: POST /auth/login
+    G->>Auth: Forward Request
+    Auth->>DB: Validate Credentials
+    DB-->>Auth: User Data
+    Auth->>Auth: Generate JWT Token
+    Auth->>Cache: Store Session
+    Auth-->>G: Token Response
+    G-->>A: Success Response
+    A->>A: Store Token
+    A-->>U: Login Success
+```
+
+### Appointment Booking Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as App
+    participant G as API Gateway
+    participant Auth as Auth Service
+    participant Appt as Appointment Service
+    participant Notif as Notification Service
+    participant DB as Database
+
+    U->>A: Book Appointment
+    A->>G: POST /appointments
+    G->>Auth: Validate Token
+    Auth-->>G: Valid User
+    G->>Appt: Create Appointment
+    Appt->>DB: Save Appointment
+    DB-->>Appt: Confirmation
+    Appt->>Notif: Send Confirmation
+    Notif->>U: Push/Email/SMS
+    Appt-->>G: Success Response
+    G-->>A: Appointment Created
+    A-->>U: Booking Confirmed
+```
+
+## Security Architecture
+
+### Network Security
+- **VPC Configuration**:
+  - Private subnets for backend services
+  - Public subnets for load balancers
+  - NAT gateways for outbound traffic
+  - Security groups for access control
+
+### Data Security
+- **Encryption**:
+  - TLS 1.3 for data in transit
+  - AES-256 for data at rest
+  - Key management via AWS KMS
+  - Certificate management
+
+### Access Control
+- **Identity Management**:
+  - AWS IAM for service access
+  - JWT tokens for API access
+  - Role-based permissions
+  - Multi-factor authentication
+
+### Compliance
+- **Healthcare Standards**:
+  - HIPAA compliance
+  - HITECH Act compliance
+  - SOC 2 Type II certification
+  - Regular security audits
+
+## Performance & Scalability
+
+### Performance Optimization
+- **Caching Strategy**:
+  - CDN for static assets
+  - Redis for session data
+  - Database query caching
+  - API response caching
+
+### Scalability Patterns
+- **Horizontal Scaling**:
+  - Auto-scaling groups
+  - Load balancer distribution
+  - Database read replicas
+  - Microservices architecture
+
+### Performance Monitoring
+- **Metrics Collection**:
+  - Response time monitoring
+  - Throughput measurement
+  - Error rate tracking
+  - Resource utilization
 
 ## Deployment Architecture
 
 ### Development Environment
-- Local development with Docker Compose
-- Feature branch deployments for testing
+- **Local Development**:
+  - Docker Compose setup
+  - Local database instances
+  - Mock external services
+  - Hot reloading
 
 ### Staging Environment
-- Mirrors production configuration
-- Used for QA and UAT
+- **Pre-production Testing**:
+  - Production-like configuration
+  - Automated testing
+  - Performance testing
+  - Security testing
 
 ### Production Environment
-- Multi-AZ deployment for high availability
-- Auto-scaling groups for dynamic load management
-- Blue/Green deployments for zero-downtime updates
+- **High Availability**:
+  - Multi-AZ deployment
+  - Auto-scaling configuration
+  - Load balancer setup
+  - Database replication
 
-## Logging Strategy
+## Monitoring & Observability
 
-### Current State
-- Basic application logging to local files
-- Limited log retention and analysis capabilities
-- Manual log inspection required for debugging
-
-### Future Implementation (AWS CloudWatch)
+### Logging Strategy
 - **Centralized Logging**:
-  - Application logs streamed to CloudWatch Logs
-  - Structured logging with JSON format
-  - Custom log groups for different services
-  
-- **Log Processing**:
-  - CloudWatch Logs Insights for querying logs
-  - Metric filters for monitoring error rates
-  - Custom dashboards for log visualization
-  
-- **Retention & Archiving**:
-  - 90-day retention for active logs
-  - Automated archival to S3 for long-term storage
-  - Lifecycle policies for cost optimization
+  - CloudWatch Logs
+  - Structured JSON logging
+  - Log aggregation
+  - Log retention policies
 
-- **Alerts & Notifications**:
-  - Real-time alerts on critical errors
-  - Scheduled reports on application health
-  - Integration with SNS for notifications
+### Metrics & Monitoring
+- **Application Metrics**:
+  - Custom CloudWatch metrics
+  - Performance dashboards
+  - Alerting rules
+  - Capacity planning
 
-## Security Considerations
-- End-to-end encryption (TLS 1.3+)
-- VPC with private subnets for backend services
-- Secrets management using AWS Secrets Manager
-- Regular security audits and penetration testing
-- All logs encrypted at rest and in transit
+### Distributed Tracing
+- **Request Tracing**:
+  - AWS X-Ray integration
+  - Service dependency mapping
+  - Performance bottleneck identification
+  - Error correlation
 
-## Performance
-- Global CDN for static assets
-- Database read replicas for read-heavy operations
-- Caching at multiple layers (CDN, API, Database)
-- Connection pooling and query optimization
+## Disaster Recovery
 
-For detailed information about AWS resources, please refer to the [AWS Resources](/Swasthx-documentation/aws-resources/) documentation.
+### Backup Strategy
+- **Data Backup**:
+  - Automated daily backups
+  - Point-in-time recovery
+  - Cross-region backup storage
+  - Backup verification
+
+### Recovery Procedures
+- **Recovery Time Objectives (RTO)**:
+  - Database recovery: < 4 hours
+  - Application recovery: < 1 hour
+  - Full system recovery: < 8 hours
+
+### Business Continuity
+- **Failover Procedures**:
+  - Automated failover
+  - Manual failover procedures
+  - Data consistency checks
+  - Service validation
+
+## API Architecture
+
+### RESTful API Design
+- **API Standards**:
+  - RESTful principles
+  - HTTP status codes
+  - JSON response format
+  - API versioning
+
+### API Documentation
+- **OpenAPI Specification**:
+  - Swagger documentation
+  - Interactive API explorer
+  - Code examples
+  - SDK generation
+
+### API Security
+- **Authentication**:
+  - JWT token validation
+  - API key management
+  - Rate limiting
+  - Request signing
+
+## Database Architecture
+
+### Data Modeling
+- **Schema Design**:
+  - Normalized data structure
+  - Index optimization
+  - Query performance
+  - Data integrity
+
+### Data Migration
+- **Migration Strategy**:
+  - Zero-downtime migrations
+  - Rollback procedures
+  - Data validation
+  - Performance impact
+
+### Data Archival
+- **Archival Policy**:
+  - Automated archival
+  - Data lifecycle management
+  - Storage optimization
+  - Compliance requirements
+
+## Integration Patterns
+
+### External Integrations
+- **Payment Gateways**:
+  - Stripe integration
+  - PayPal integration
+  - Local payment methods
+  - Webhook handling
+
+### Third-party Services
+- **Notification Services**:
+  - Firebase Cloud Messaging
+  - SendGrid for emails
+  - Twilio for SMS
+  - Webhook notifications
+
+### Healthcare Integrations
+- **EHR Systems**:
+  - HL7 FHIR integration
+  - Epic integration
+  - Cerner integration
+  - Custom EHR adapters
+
+---
+
+## Related Documentation
+
+- [AWS Resources](/docs/aws-resources/) - Detailed AWS infrastructure documentation
+- [API Documentation](/docs/api-documentation/) - Complete API reference
+- [Database Guide](/docs/mongodb-guide/) - MongoDB setup and management
+- [Deployment Guide](/docs/deployment-guide/) - Deployment procedures and best practices
+- [Security Guidelines](/docs/security-guidelines/) - Security policies and procedures
+
+---
+
+*Last updated: {{ site.time | date: "%B %d, %Y" }}*
