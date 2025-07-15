@@ -11,7 +11,7 @@ This document outlines the high-level architecture of the Swasthx platform, incl
 
 ## Architecture Diagram
 
-![Swasthx Architecture]({{ '/Swasthx-documentation/images/swatsthxarchitecture.png' | relative_url }})
+![Swasthx Architecture]({{ site.baseurl }}/images/swatsthxarchitecture.png)
 
 ```mermaid
 graph TD
