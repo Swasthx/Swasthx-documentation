@@ -1,241 +1,113 @@
-# SwasthX Backend API Documentation
+# SwasthX API Documentation
 
-> **Tip:** For hands-on testing, download the [Swasthx Postman Collection](/docs/postman-collection.json) and follow the [Postman Guide](/docs/postman-collection-guide) for setup and usage.
-
-## 🚀 How to Use This Documentation with Postman
-
-1. **Download the Postman Collection:** [postman-collection.json](/docs/postman-collection.json)
-2. **Import into Postman:** Open Postman → Import → File → Select the JSON file.
-3. **Set Up Environment:**
-   - Create a new environment (see [Environment Setup](/docs/postman-collection-guide#environment-setup))
-   - Add variables: `baseUrl`, `authToken`, `abhaAddress`, `mobileNum`, etc.
-4. **Authenticate:**
-   - Use the `Authentication` folder in the collection to get your token.
-   - Save the token as `authToken` in your environment.
-5. **Test Endpoints:**
-   - Each API group below references the corresponding Postman folder/request.
-   - Use the collection to send requests and view responses.
-
----
-
-## Table of Contents
-1. [Overview](#overview)
-2. [Authentication](#authentication)
-3. [PHR (Personal Health Record) APIs](#phr-apis)
-4. [Cart Management](#cart-management)
-5. [Order Management](#order-management)
-6. [Health Document Management](#health-document-management)
-7. [Search APIs](#search-apis)
-8. [Notification APIs](#notification-apis)
-9. [Services APIs](#services-apis)
-10. [Error Handling](#error-handling)
-11. [Rate Limiting](#rate-limiting)
-12. [Step-by-Step Example Workflow](#step-by-step-example-workflow)
-
----
-
-## Overview
-
-SwasthX is a comprehensive healthcare platform that provides Personal Health Record (PHR) management, medicine ordering, lab test booking, and doctor appointment services. This API documentation covers all the major endpoints available in the backend system.
-
-**Base URL**: `https://api.swasthx.com` (Replace with your actual base URL)
+This document provides a comprehensive reference for all SwasthX API endpoints, based on the official Postman collection.
 
 ---
 
 ## Authentication
 
-> **Test with Postman:**
-> - Folder: `Authentication`
-> - Requests: `Get OTP for Login`, `Verify OTP for Login`, `Get Token for App`
-
-### Login Flow
-
-#### 1. Get OTP for Login
-**Postman Request:** `Authentication → Get OTP for Login`
-```http
-POST /auth/login/otp
-```
-
-**Request Body:**
+### Get OTP for Login
+- **POST** `{{baseUrl}}/auth/login/otp`
+- **Headers:** `Content-Type: application/json`
+- **Body:**
 ```json
-{
-  "hashString": "string",
-  "mobileNum": "7351077069"
-}
+{ "hashString": "abc123", "mobileNum": "{{mobileNum}}" }
 ```
 
-**Response:**
+### Verify OTP for Login
+- **POST** `{{baseUrl}}/auth/verify/login/otp`
+- **Headers:** `Content-Type: application/json`
+- **Body:**
 ```json
-{
-  "message": "OTP sent successfully",
-  "status": 201
-}
+{ "mobileNum": "{{mobileNum}}", "otp": "123456" }
 ```
 
-#### 2. Verify OTP for Login
-**Postman Request:** `Authentication → Verify OTP for Login`
-```http
-POST /auth/verify/login/otp
-```
-
-**Request Body:**
+### Get Token for App
+- **POST** `{{baseUrl}}/auth/token/app`
+- **Headers:** `Content-Type: application/json`
+- **Body:**
 ```json
-{
-  "mobileNum": "7351077069",
-  "otp": "123456"
-}
-```
-
-**Response:**
-```json
-{
-  "message": "Login successful",
-  "token": "jwt_token_here",
-  "status": 201
-}
-```
-
-#### 3. Get Token for App
-**Postman Request:** `Authentication → Get Token for App`
-```http
-POST /auth/token/app
-```
-
-**Request Body:**
-```json
-{
-  "mobNum": "7351077069",
-  "tag": "app_tag"
-}
-```
-
-**Response:**
-```json
-{
-  "token": "session_token_here",
-  "status": 201
-}
+{ "mobNum": "{{mobileNum}}", "tag": "mobile_app" }
 ```
 
 ---
 
-## PHR (Personal Health Record) APIs
+## Cart Management
 
-> **Test with Postman:**
-> - Folder: `Cart Management`
-
-### Cart Management
-
-#### Add Item to Cart
-**Postman Request:** `Cart Management → Add Item to Cart`
-```http
-POST /phr/cart
-```
-
-**Request Body:**
+### Add Item to Cart
+- **POST** `{{baseUrl}}/phr/cart`
+- **Headers:** `Content-Type: application/json`, `Authorization: Bearer {{authToken}}`
+- **Body:**
 ```json
 {
-  "abhaAddress": "user@abdm",
+  "abhaAddress": "{{abhaAddress}}",
   "type": "MEDICINE",
   "medicines": {
     "items": [
-      {
-        "medicineId": "medicine_id_here",
-        "quantity": 2
-      }
+      { "medicineId": "medicine_id_here", "quantity": 2 }
     ],
     "prescriptionDocs": ["doc_url_1", "doc_url_2"]
   }
 }
 ```
 
-**Response:**
+### Add Item to New Cart
+- **POST** `{{baseUrl}}/phr/cart/new`
+- **Headers:** as above
+- **Body:**
 ```json
 {
-  "success": true,
-  "message": "Item added to cart successfully",
-  "data": {
-    "cartId": "cart_id_here",
-    "items": [...]
-  }
-}
-```
-
-#### Add Item to New Cart
-**Postman Request:** `Cart Management → Add Item to New Cart`
-```http
-POST /phr/cart/new
-```
-
-**Request Body:**
-```json
-{
-  "abhaAddress": "user@abdm",
+  "abhaAddress": "{{abhaAddress}}",
   "type": "MEDICINE",
   "medicines": {
     "items": [
-      {
-        "medicineId": "medicine_id_here",
-        "quantity": 2
-      }
+      { "medicineId": "medicine_id_here", "quantity": 2 }
     ]
   },
   "forceClear": false
 }
 ```
 
-#### Upload Prescription
-**Postman Request:** `Cart Management → Upload Prescription`
-```http
-POST /phr/cart/upload-prescription
-```
+### Get Cart
+- **GET** `{{baseUrl}}/phr/cart/{{abhaAddress}}`
+- **Headers:** `Authorization: Bearer {{authToken}}`
 
-**Request Body:**
+### Get New Cart
+- **GET** `{{baseUrl}}/phr/cart/new/{{abhaAddress}}?type=MEDICINE`
+- **Headers:** as above
+
+### Update Cart Item
+- **PATCH** `{{baseUrl}}/phr/cart`
+- **Headers:** as above
+- **Body:**
 ```json
 {
-  "abhaAddress": "user@abdm",
-  "cartId": "cart_id_here",
-  "prescriptionDocs": ["doc_url_1", "doc_url_2"]
-}
-```
-
-#### Get Cart
-**Postman Request:** `Cart Management → Get Cart`
-```http
-GET /phr/cart/{abhaAddress}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "cartId": "cart_id_here",
-    "items": [
-      {
-        "medicineId": "medicine_id",
-        "name": "Medicine Name",
-        "quantity": 2,
-        "price": 100
-      }
-    ],
-    "total": 200
-  }
-}
-```
-
-#### Update Cart Item
-**Postman Request:** `Cart Management → Update Cart Item`
-```http
-PATCH /phr/cart
-```
-
-**Request Body:**
-```json
-{
-  "abhaAddress": "user@abdm",
+  "abhaAddress": "{{abhaAddress}}",
   "medicineId": "medicine_id_here",
   "quantity": 3
+}
+```
+
+### Remove from Cart
+- **DELETE** `{{baseUrl}}/phr/cart`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaAddress": "{{abhaAddress}}",
+  "medicineId": "medicine_id_here"
+}
+```
+
+### Upload Prescription
+- **POST** `{{baseUrl}}/phr/cart/upload-prescription`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaAddress": "{{abhaAddress}}",
+  "cartId": "cart_id_here",
+  "prescriptionDocs": ["doc_url_1", "doc_url_2"]
 }
 ```
 
@@ -243,22 +115,16 @@ PATCH /phr/cart
 
 ## Order Management
 
-> **Test with Postman:**
-> - Folder: `Order Management`
-
-#### Create Order
-**Postman Request:** `Order Management → Create Order`
-```http
-POST /phr/orders
-```
-
-**Request Body:**
+### Create Order
+- **POST** `{{baseUrl}}/phr/order`
+- **Headers:** as above
+- **Body:**
 ```json
 {
-  "abhaAddress": "user@abdm",
+  "abhaAddress": "{{abhaAddress}}",
   "cartId": "cart_id_here",
-  "shippingAddress": {
-    "street": "123 Main Street",
+  "deliveryAddress": {
+    "address": "123 Main St",
     "city": "Mumbai",
     "state": "Maharashtra",
     "pincode": "400001"
@@ -267,101 +133,247 @@ POST /phr/orders
 }
 ```
 
-**Response:**
+### Create New Order
+- **POST** `{{baseUrl}}/phr/order/new`
+- **Headers:** as above
+- **Body:**
 ```json
 {
-  "orderId": "order_123",
-  "status": "CONFIRMED",
-  ...
+  "abhaAddress": "{{abhaAddress}}",
+  "type": "MEDICINE",
+  "items": [],
+  "deliveryAddress": {
+    "address": "123 Main St",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "pincode": "400001"
+  },
+  "paymentMethod": "ONLINE"
 }
 ```
 
-#### Get User Orders
-**Postman Request:** `Order Management → Get User Orders`
-```http
-GET /phr/orders/{abhaAddress}`
-```
+### Get Order History
+- **GET** `{{baseUrl}}/phr/order/{{abhaAddress}}?dateFilter=last30days&deliveryStatus=PENDING`
+- **Headers:** as above
 
----
+### Get Order by ID
+- **GET** `{{baseUrl}}/phr/order/id/order_id_here`
+- **Headers:** as above
 
-## Health Document Management
-
-> **Test with Postman:**
-> - Folder: `Health Documents`
-
-#### Upload Health Document
-**Postman Request:** `Health Documents → Upload Health Document`
-```http
-POST /phr/documents
-```
-
-**Form Data:**
-- abhaAddress: `{{abhaAddress}}`
-- documentType: `LAB_REPORT`
-- file: [Select file]
-- description: `Blood test report from January 2024`
-
-#### Get Health Documents
-**Postman Request:** `Health Documents → Get Health Documents`
-```http
-GET /phr/documents/{abhaAddress}`
-```
-
----
-
-## Search APIs
-
-> **Test with Postman:**
-> - Folder: `Search APIs`
-
-#### Search Medicines
-**Postman Request:** `Search APIs → Search Medicines`
-```http
-GET /search/medicines?q=paracetamol
-```
-
----
-
-## Error Handling
-
-All error responses follow this format:
+### Update Order Status
+- **PATCH** `{{baseUrl}}/phr/order/update`
+- **Headers:** as above
+- **Body:**
 ```json
 {
-  "error": "ErrorType",
-  "message": "Error message",
-  "status": 400
+  "orderId": "order_id_here",
+  "deliveryStatus": "CONFIRMED"
 }
 ```
 
 ---
 
-## Rate Limiting
+## Health Documents
 
-- **100 requests per minute** per IP
-- **1000 requests per hour** per user
-- **Burst limit:** 50 requests per 10 seconds
+### Upload Health Document
+- **POST** `{{baseUrl}}/upload/document/any`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "patient": "{{mobileNum}}",
+  "data": {
+    "resourceType": "DocumentReference",
+    "content": [],
+    "context": {}
+  },
+  "careContext": {}
+}
+```
+
+### Get Documents
+- **GET** `{{baseUrl}}/upload/get-document?patient={{mobileNum}}`
+- **Headers:** as above
+
+### Filter Documents
+- **GET** `{{baseUrl}}/upload/getFilterDocs?patient={{mobileNum}}&timeline=last30days&documenttype=prescription&doctorname=Dr. Smith`
+- **Headers:** as above
+
+### Get Health Points
+- **GET** `{{baseUrl}}/upload/get-points?patient={{mobileNum}}`
+- **Headers:** as above
+
+### Get Health Data
+- **GET** `{{baseUrl}}/upload/health-data?patient={{mobileNum}}`
+- **Headers:** as above
+
+### Update Health Data
+- **PUT** `{{baseUrl}}/upload/health-data`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "patient": "{{mobileNum}}",
+  "healthData": {
+    "bloodPressure": "120/80",
+    "weight": "70kg",
+    "height": "170cm"
+  }
+}
+```
 
 ---
 
-## Step-by-Step Example Workflow
+## Search
 
-### Example: Place a Medicine Order Using Postman
-
-1. **Authenticate**
-   - Use `Authentication → Get OTP for Login` and `Verify OTP for Login` to get your token
-   - Set the `authToken` variable in your environment
-2. **Search for a Medicine**
-   - Use `Search APIs → Search Medicines` to find the medicine you want
-3. **Add to Cart**
-   - Use `Cart Management → Add Item to Cart` with the medicine ID
-   - Save the `cartId` from the response
-4. **Upload Prescription (if required)**
-   - Use `Cart Management → Upload Prescription` with your prescription file
-5. **Create Order**
-   - Use `Order Management → Create Order` with the `cartId` and shipping details
-6. **Track Order**
-   - Use `Order Management → Get User Orders` to view your order status
+### Search
+- **GET** `{{baseUrl}}/phr/search?query=medicine_name`
+- **Headers:** as above
 
 ---
 
-> For more details, see the [Postman Collection Guide](/docs/postman-collection-guide) and [Postman Quick Reference](/docs/postman-quick-reference). 
+## Notifications
+
+### Create Notification
+- **POST** `{{baseUrl}}/phr/notifications`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaaddress": "{{abhaAddress}}",
+  "title": "Order Update",
+  "message": "Your order has been confirmed",
+  "type": "ORDER_UPDATE"
+}
+```
+
+### Get User Notifications
+- **GET** `{{baseUrl}}/phr/notifications/{{abhaAddress}}?seen=false`
+- **Headers:** as above
+
+### Mark Notification as Seen
+- **PATCH** `{{baseUrl}}/phr/notifications/notification_id_here/seen`
+- **Headers:** as above
+
+### Mark All Notifications as Seen
+- **PATCH** `{{baseUrl}}/phr/notifications/{{abhaAddress}}/seen-all`
+- **Headers:** as above
+
+---
+
+## Delivery Address
+
+### Add Delivery Address
+- **POST** `{{baseUrl}}/delivery-address`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaAddress": "{{abhaAddress}}",
+  "address": "123 Main St",
+  "city": "Mumbai",
+  "state": "Maharashtra",
+  "pincode": "400001",
+  "isDefault": true
+}
+```
+
+### Get Delivery Addresses
+- **GET** `{{baseUrl}}/delivery-address/{{abhaAddress}}`
+- **Headers:** as above
+
+---
+
+## Services
+
+### Get Medicines
+- **GET** `{{baseUrl}}/medicine?category=antibiotics&search=paracetamol`
+- **Headers:** as above
+
+### Get Medicine Categories
+- **GET** `{{baseUrl}}/medicine/categories`
+- **Headers:** as above
+
+### Get Lab Test Slots
+- **GET** `{{baseUrl}}/lab-test/slots/lab_test_id_here`
+- **Headers:** as above
+
+### Book Lab Test
+- **POST** `{{baseUrl}}/lab-test/book`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaAddress": "{{abhaAddress}}",
+  "labTestId": "test_id_here",
+  "slot": {
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "date": "2024-01-01"
+  }
+}
+```
+
+### Get Doctor Profile
+- **GET** `{{baseUrl}}/doctor-appointment/doctor/doctor_id_here`
+- **Headers:** as above
+
+### Book Doctor Appointment
+- **POST** `{{baseUrl}}/doctor-appointment/book`
+- **Headers:** as above
+- **Body:**
+```json
+{
+  "abhaAddress": "{{abhaAddress}}",
+  "doctorId": "doctor_id_here",
+  "slot": {
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "date": "2024-01-01"
+  },
+  "symptoms": "Fever and cough"
+}
+```
+
+---
+
+## PHR APIs
+
+### Enroll using ABHA Number
+- **POST** `{{baseUrl}}/phr/m1/enrollment/abha-number`
+- **Headers:** as above
+- **Body:**
+```json
+{ "abhaNumber": "1234567890123456" }
+```
+
+### Enroll using Mobile Number
+- **POST** `{{baseUrl}}/phr/m1/enrollment/mobile`
+- **Headers:** as above
+- **Body:**
+```json
+{ "mobileNumber": "{{mobileNum}}" }
+```
+
+### Discover and Link User
+- **POST** `{{baseUrl}}/phr/m2/discovery/link`
+- **Headers:** as above
+- **Body:**
+```json
+{ "abhaAddress": "{{abhaAddress}}" }
+```
+
+### Consent Management
+- **POST** `{{baseUrl}}/phr/m3/consent/init`
+- **Headers:** as above
+- **Body:**
+```json
+{ "abhaAddress": "{{abhaAddress}}", "hipId": "hip_id_here" }
+```
+
+---
+
+**Usage Notes:**
+- Replace variables like `{{baseUrl}}`, `{{authToken}}`, `{{abhaAddress}}`, `{{mobileNum}}` with actual values.
+- All endpoints requiring authentication must include the `Authorization: Bearer {{authToken}}` header.
+- For POST/PATCH/PUT requests, refer to the Postman collection for full request body examples. 
