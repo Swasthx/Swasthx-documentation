@@ -62,7 +62,7 @@ This guide will help you set up your development environment and get familiar wi
 
 ### 3. Clone the Repository
 ```bash
-git clone https://github.com/your-org/swasthx-backend.git
+git clone https://github.com/Swasthx/swasthx_Backend.git
 cd swasthx-backend
 ```
 
