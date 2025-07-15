@@ -1,5 +1,9 @@
 # SwasthX Developer Onboarding Guide
 
+## Codebase Repositories
+
+- **Backend:** [github.com/Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend.git)
+
 ## Welcome to SwasthX!
 
 This guide will help you set up your development environment and get familiar with our codebase and workflows.

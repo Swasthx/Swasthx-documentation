@@ -135,7 +135,7 @@ X-RateLimit-Reset: 1614556800
 
 ### URL Versioning
 ```
-https://api.swasthx.in/v1/users
+https://swasthxapp.api.swasthx.com/users
 ```
 
 ### Accept Header Versioning

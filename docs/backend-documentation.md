@@ -63,11 +63,11 @@ GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json
 
 ## API Documentation
 
-For comprehensive API documentation including all endpoints, request/response examples, authentication flows, and integration guides, please refer to our [Complete API Documentation]({{ site.baseurl }}/api-documentation/).
+For comprehensive API documentation including all endpoints, request/response examples, authentication flows, and integration guides, please refer to our [Complete API Documentation]({{ site.baseurl }}/api-documentation).
 
 ### Base URL
 ```
-https://api.swasthx.in/v1
+https://swasthxapp.api.swasthx.com
 ```
 
 ### Authentication
