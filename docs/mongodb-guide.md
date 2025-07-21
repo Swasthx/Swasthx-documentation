@@ -17,6 +17,48 @@
 9. [Security](#security)
 10. [Monitoring & Maintenance](#monitoring--maintenance)
 
+## MongoDB Naming Conventions
+
+Consistent naming in MongoDB helps keep your data model clear, maintainable, and easy to query. Here are the conventions we follow:
+
+### Database Names
+- **Use lowercase with hyphens** (e.g., `swasthx-prod`, `swasthx-staging`)
+  - Rationale: Lowercase avoids case-sensitivity issues. Hyphens are URL-friendly and readable.
+  - **Do not** use spaces, uppercase letters, or special characters.
+
+### Collection Names
+- **Use lowercase, plural nouns** (e.g., `users`, `appointments`, `orders`)
+  - Rationale: Plural nouns represent sets of documents. Lowercase is standard in MongoDB.
+  - **Do not** use camelCase, PascalCase, or singular names for collections.
+- **Be descriptive**: Name collections after what they store (e.g., `userprofiles`, `healthrecords`).
+
+### Field Names
+- **Use camelCase** (e.g., `firstName`, `dateOfBirth`, `abhaAddress`)
+  - Rationale: camelCase is idiomatic in JavaScript/TypeScript and works well with most ORMs.
+  - **Do not** use snake_case, kebab-case, or spaces in field names.
+- **Keep field names short but meaningful** (e.g., `createdAt`, `updatedAt`)
+- **Always use `_id` as the primary key**
+  - MongoDB automatically creates an `_id` field for each document.
+
+### Embedded Documents & References
+- **Consistent naming** for embedded documents and references
+  - Example: If referencing a user, use `userId` as the field name.
+  - For arrays of references, use plural (e.g., `orderIds`)
+
+### Examples
+| Type         | Good Example         | Bad Example         |
+|--------------|---------------------|--------------------|
+| Database     | swasthx-prod        | SwasthxProd, swasthx prod |
+| Collection   | users, appointments | user, Appointments, userProfiles |
+| Field        | firstName           | first_name, FirstName |
+| Reference    | userId, orderIds    | user_id, OrderIDs   |
+
+### Summary
+- Use lowercase and plural for collections
+- Use camelCase for fields
+- Avoid special characters, spaces, and inconsistent casing
+- Be descriptive and consistent
+
 ## Database Design
 
 ### Naming Conventions

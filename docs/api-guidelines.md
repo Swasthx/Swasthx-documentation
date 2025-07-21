@@ -266,3 +266,63 @@ Content-Security-Policy: default-src 'self'
 - Maintain backward compatibility when possible
 - Deprecate old versions with `Sunset` header
 - Provide migration guides for breaking changes
+
+## REST API Naming Conventions (NestJS)
+
+We use [NestJS](https://nestjs.com/) for our backend API development and follow RESTful best practices for endpoint naming. Consistent naming makes APIs predictable, easy to use, and easy to document.
+
+### General Principles
+- **Resource names should be plural nouns**
+  - Use `/users` instead of `/user` or `/getUsers`.
+  - Rationale: Plural nouns represent collections of resources, which is the RESTful standard.
+- **Use HTTP methods to indicate actions, not verbs in the path**
+  - Use `POST /users` to create a user, not `/createUser`.
+  - Rationale: The HTTP method (GET, POST, etc.) already describes the action.
+- **Use kebab-case for multi-word resource names**
+  - Example: `/health-records` instead of `/healthRecords` or `/health_records`.
+  - Rationale: Kebab-case is URL-friendly and easy to read.
+- **Use nested resources for relationships**
+  - Example: `/users/{userId}/appointments` to get all appointments for a user.
+  - Rationale: Shows the relationship between resources clearly.
+- **Use query parameters for filtering, sorting, and pagination**
+  - Example: `/users?role=doctor&page=2&limit=20`
+  - Rationale: Keeps endpoints clean and flexible.
+- **Use path parameters for resource identification**
+  - Example: `/users/{userId}`
+  - Rationale: Clearly identifies which resource is being accessed.
+- **Versioning (if needed) should be in the URL prefix**
+  - Example: `/v1/users` (currently not used in our base URL)
+  - Rationale: Allows for backward compatibility when making breaking changes.
+
+### HTTP Method Usage
+- `GET /resources` — List all resources (e.g., `GET /users`)
+- `GET /resources/{id}` — Get a single resource (e.g., `GET /users/123`)
+- `POST /resources` — Create a new resource (e.g., `POST /users`)
+- `PUT /resources/{id}` — Replace a resource (e.g., `PUT /users/123`)
+- `PATCH /resources/{id}` — Update part of a resource (e.g., `PATCH /users/123`)
+- `DELETE /resources/{id}` — Delete a resource (e.g., `DELETE /users/123`)
+
+### Practical Examples
+- **List all users:** `GET /users`
+- **Get a specific user:** `GET /users/12345`
+- **Create a new appointment:** `POST /appointments`
+- **Update a health record:** `PATCH /health-records/abcde`
+- **Delete an order:** `DELETE /orders/98765`
+- **List all appointments for a user:** `GET /users/12345/appointments`
+- **Filter users by role:** `GET /users?role=doctor`
+- **Paginate results:** `GET /appointments?page=2&limit=10`
+
+### What to Avoid
+- Avoid verbs in endpoint paths: `/getUsers`, `/createUser`, `/deleteOrder`
+- Avoid using file extensions: `/users.json`, `/orders.xml`
+- Avoid using action words: `/users/delete/123`
+
+### Summary Table
+| Action                | HTTP Method | Example Endpoint                |
+|-----------------------|-------------|---------------------------------|
+| List all users        | GET         | /users                          |
+| Get user by ID        | GET         | /users/{userId}                 |
+| Create user           | POST        | /users                          |
+| Update user           | PATCH/PUT   | /users/{userId}                 |
+| Delete user           | DELETE      | /users/{userId}                 |
+| List user's appts     | GET         | /users/{userId}/appointments    |
