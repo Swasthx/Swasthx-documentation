@@ -11,7 +11,7 @@ This document outlines our Git workflow structure, naming conventions, and CI/CD
 
 ### Workflow Diagram
 
-![Branching Workflow](./images/branching-workflow.png)
+<img src="./images/branching-workflow.png" alt="Branching Workflow" style="max-width: 700px; width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 ### Branching Strategy Table
 
