@@ -11,23 +11,7 @@ This document outlines our Git workflow structure, naming conventions, and CI/CD
 
 ### Workflow Diagram
 
-```mermaid
-graph TD
-    A[Start: New Feature] --> B[Create feature branch\nfrom development]
-    B --> C[Work on feature]
-    C --> D[Push to remote]
-    D --> E[Create PR to development]
-    E --> F[Code Review & CI]
-    F --> G[Merge to development]
-    G --> H[Create PR to preprod]
-    H --> I[QA & Approval]
-    I --> J[Merge to preprod]
-    J --> K[Auto-deploy to\nAWS App Runner]
-    K --> L{Production Release?}
-    L -->|Yes| M[Create PR to main]
-    M --> N[Manual Release]
-    L -->|No| O[Continue Development]
-```
+![Branching Workflow](./images/branching-workflow.png)
 
 ### Branching Strategy Table
 
@@ -111,6 +95,32 @@ After successful review and test validation.
 1. `restrict-preprod-merges.yml`: Ensures only `development` → `preprod` merges
 2. `enforce-branch-name.yml`: Validates branch name format for all PRs
 3. `deploy-to-apprunner.yml`: Builds Docker image & deploys to App Runner on `preprod` push
+
+## Automated Deployment Triggers
+
+Our CI/CD pipeline is configured so that **any time a feature, hotfix, or bugfix branch is merged into the `development` branch**, an automated deployment is triggered for the development environment.
+
+- **Trigger:** Merge to `development` from `feature/*`, `hotfix/*`, or `bugfix/*`
+- **Repository:** [swasthx_Backend](https://github.com/Swasthx/swasthx_Backend)
+- **Deployment Target:** Development environment (dev server)
+- **CI/CD Tool:** GitHub Actions
+
+### Deployment Flow
+1. Developer creates a feature, hotfix, or bugfix branch from `development`.
+2. Work is completed and a pull request (PR) is opened to merge into `development`.
+3. After code review and approval, the PR is merged.
+4. **On merge, the CI/CD pipeline automatically builds and deploys the latest code to the development environment.**
+5. Developers can immediately test their changes on the dev server.
+
+### Example Branches That Trigger Deployment
+- `feature/login-api`
+- `bugfix/appointment-timezone`
+- `hotfix/payment-crash`
+
+### Notes
+- Direct pushes to `development` are blocked; all changes must go through PRs.
+- Only merges from `feature/*`, `bugfix/*`, or `hotfix/*` branches will trigger deployment.
+- The same process applies for other environments (e.g., merging to `preprod` or `main` for staging/production deployments), but this section focuses on the development environment.
 
 ## Contributor Tips
 - Always branch from `development`
