@@ -44,21 +44,118 @@
 
 ## Naming Conventions
 
+### General Rules
+- Use meaningful, self-documenting names
+- Avoid abbreviations unless they are widely known in the domain
+- Be consistent with naming patterns across the codebase
+
 ### Variables and Functions
-- Use meaningful, descriptive names
-- Boolean variables should ask a question (e.g., `isLoading`, `hasPermission`)
-- Functions should be verbs (e.g., `getUser`, `calculateTotal`)
-- Avoid abbreviations unless widely known
+- **camelCase** for variables and functions
+  ```typescript
+  // Good
+  const userProfile = {};
+  function fetchUserData() {}
+  
+  // Bad
+  const user_profile = {};
+  function FetchUserData() {}
+  ```
+- **Boolean** variables should be questions/conditions:
+  ```typescript
+  // Good
+  const isActive = true;
+  const hasPermission = false;
+  const canEdit = true;
+  
+  // Bad
+  const active = true;
+  const permission = false;
+  ```
+- **Functions** should be verbs/actions:
+  ```typescript
+  // Good
+  function calculateTotal() {}
+  async function fetchUserById(id: string) {}
+  
+  // Bad
+  function total() {}
+  async function user(id: string) {}
+  ```
 
 ### Files and Directories
-- Use `kebab-case` for file and directory names
-- Suffix files with their type (e.g., `.service.ts`, `.controller.ts`)
-- Keep test files next to the code they test (e.g., `user.service.spec.ts`)
+- **kebab-case** for all file and directory names
+  ```
+  // Good
+  src/
+    user-profile/
+      user-profile.component.ts
+      user-profile.service.ts
+      user-profile.spec.ts
+    
+  // Bad
+  src/
+    userProfile/
+      userProfile.component.ts
+      UserProfileService.ts
+  ```
+- **File Naming Pattern**: `[name].[type].ts`
+  - Component: `user-profile.component.ts`
+  - Service: `user.service.ts`
+  - Test: `user.service.spec.ts`
+  - Interface: `user.interface.ts`
+  - DTO: `create-user.dto.ts`
 
 ### Classes and Interfaces
-- Use nouns or noun phrases
-- Be specific and avoid generic names like `Manager` or `Handler`
-- Suffix interfaces with `I` (e.g., `IUser`)
+- **PascalCase** for classes and interfaces
+  ```typescript
+  // Good
+  class UserService {}
+  interface UserProfile {}
+  
+  // Bad
+  class userService {}
+  interface IUserProfile {}
+  ```
+- **Specific over generic names**:
+  ```typescript
+  // Good
+  class UserRepository {}
+  class PaymentProcessor {}
+  
+  // Avoid
+  class Manager {}
+  class Handler {}
+  ```
+
+### Constants and Enums
+- **UPPER_SNAKE_CASE** for constants and enums
+  ```typescript
+  // Good
+  const MAX_RETRY_COUNT = 3;
+  enum UserRole {
+    ADMIN = 'ADMIN',
+    DOCTOR = 'DOCTOR',
+    PATIENT = 'PATIENT'
+  }
+  
+  // Bad
+  const maxRetryCount = 3;
+  enum userRole {}
+  ```
+
+### TypeScript Specific
+- No `I` prefix for interfaces
+- Suffix type names with their purpose:
+  ```typescript
+  // Good
+  interface User {}
+  type UserResponse = {};
+  class UserDto {}
+  
+  // Avoid
+  interface IUser {}
+  type TUser = {};
+  ```
 
 ## File Structure
 

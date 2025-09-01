@@ -1,0 +1,45 @@
+{% assign minHeader = include.h_min | default: 2 %}
+{% assign maxHeader = include.h_max | default: 3 %}
+{% assign nodes = include.html | split: '<h' %}
+
+{% capture my_toc %}
+<nav class="toc">
+  <ul>
+{% for node in nodes %}
+  {% if node == "" %}
+    {% continue %}
+  {% endif %}
+  
+  {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+  
+  {% if headerLevel < minHeader or headerLevel > maxHeader %}
+    {% continue %}
+  {% endif %}
+
+  {% if node contains 'id=' %}
+    {% assign id = node | split: 'id="' | last | split: '"' | first %}
+  {% else %}
+    {% assign id = node | split: '>' | last | strip_html | slugify | replace: '/', '-' | replace: '.', '-' | replace: '--', '-' | downcase %}
+  {% endif %}
+
+  {% assign indentAmount = headerLevel | minus: minHeader | times: 1 %}
+  {% assign space = '' %}
+  {% for i in (1..indentAmount) %}
+    {% assign space = space | append: '  ' %}
+  {% endfor %}
+
+  {% assign nodeText = node | split: '>' | last | split: '</h' | first | strip_html | strip %}
+  {% if nodeText != "" %}
+    {{ space }}<li>
+    {{ space }}  <a href="#{{ id }}">{{ nodeText }}</a>
+    {{ space }}</li>
+  {% endif %}
+{% endfor %}
+  </ul>
+</nav>
+{% endcapture %}
+
+{% assign tocItems = my_toc | strip %}
+{% if tocItems != "" %}
+  {{ my_toc }}
+{% endif %}

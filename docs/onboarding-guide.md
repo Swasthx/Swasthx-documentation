@@ -1,26 +1,123 @@
 # SwasthX Developer Onboarding Guide
 
-## Codebase Repositories
-
-- **Backend:** [github.com/Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend.git)
-
 ## Welcome to SwasthX!
 
-This guide will help you set up your development environment and get familiar with our codebase and workflows.
+This guide will help you set up your development environment, understand our documentation structure, and get familiar with our codebase and workflows.
+
+## Documentation Navigation
+
+### Finding Information
+1. **Home Page**
+   - Start with the [home page](/)
+   - Cards are organized by category (Development, Database, APIs, etc.)
+   - Each card lists key content areas with direct links
+
+2. **Search**
+   - Use the search bar at the top right
+   - Search by keywords, file names, or content
+
+3. **Table of Contents**
+   - Each page has a collapsible TOC
+   - Shows h2 and h3 headings
+   - Click any heading to jump to that section
+
+### Documentation Maintenance
+
+1. **Updating Documentation**
+   - Documentation lives in the `docs` directory
+   - Follow these file naming conventions:
+     - Use kebab-case for filenames (e.g., `coding-standards.md`)
+     - Keep file names short but descriptive
+   - Update the `last_updated` field in the front matter when making changes
+
+2. **Style Guidelines**
+   - Use clear, concise language
+   - Break content into short paragraphs and lists
+   - Use headings to organize content (h2 for main sections, h3 for subsections)
+   - Add code examples where helpful
+   - Include relevant screenshots for UI elements
+
+3. **Review Process**
+   - Create a PR for documentation changes
+   - Request review from at least one team member
+   - Update the changelog for significant changes
+
+## Team Structure
+
+### Development Team
+- **Backend Team**: [List of backend developers and their responsibilities]
+- **Frontend Team**: [List of frontend developers and their responsibilities]
+- **DevOps Team**: [List of DevOps engineers and their responsibilities]
+- **QA Team**: [List of QA engineers and their responsibilities]
+
+### Project Management
+- **Product Owners**: [Names and contact info]
+- **Scrum Masters**: [Names and contact info]
+
+## Codebase Repositories
+
+### Backend
+- **Main Repository**: [github.com/Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend.git)
+  - Description: Core backend services and APIs
+  - Tech Stack: [List of technologies used]
+
+### Frontend
+- **Web Application**: [GitHub Link]
+  - Description: Patient and provider web interface
+  - Tech Stack: [List of technologies used]
+- **Mobile App**: [GitHub Link] (if applicable)
+  - Description: Mobile application for patients and providers
+  - Tech Stack: [List of technologies used]
+
+### Other Repositories
+- **Documentation**: [GitHub Link]
+- **DevOps**: [GitHub Link]
 
 ## Table of Contents
-1. [Prerequisites](#prerequisites)
-2. [Development Environment Setup](#development-environment-setup)
-3. [Project Setup](#project-setup)
-4. [Development Workflow](#development-workflow)
-5. [Code Review Process](#code-review-process)
-6. [Testing](#testing)
-7. [Deployment](#deployment)
-8. [Useful Commands](#useful-commands)
-9. [Troubleshooting](#troubleshooting)
-10. [Getting Help](#getting-help)
+1. [Team Structure](#team-structure)
+2. [Codebase Repositories](#codebase-repositories)
+3. [Development Tools](#development-tools)
+4. [Development Setup](#development-setup)
+   - [Backend Setup](#backend-setup)
+   - [Frontend Setup](#frontend-setup)
+5. [Development Workflow](#development-workflow)
+6. [Code Review Process](#code-review-process)
+7. [Testing](#testing)
+8. [Deployment](#deployment)
+9. [Platforms We Work With](#platforms-we-work-with)
+10. [Useful Commands](#useful-commands)
+11. [Troubleshooting](#troubleshooting)
+12. [Getting Help](#getting-help)
 
-## Prerequisites
+## Development Tools
+
+### Communication
+- **Email**: firstname.lastname@swasthx.com (for official communication)
+- **Slack**:
+  - #general - Team announcements and discussions
+  - #dev - Technical discussions and help
+  - #alerts - System notifications
+
+### Version Control
+- **GitHub**: [github.com/Swasthx](https://github.com/Swasthx)
+  - Branching strategy: Git Flow
+  - PR template: Fill all required fields
+  - Review: At least one approval required
+
+### Development Tools
+- **VS Code** with standard extensions
+- **Postman** for API testing
+- **MongoDB Compass** for database management
+- **Docker** for containerization
+
+### Project Management
+- **Jira** for issue tracking
+- **Confluence** for documentation
+- **Sentry** for error tracking
+
+## Development Setup
+
+### Prerequisites
 
 ### Hardware Requirements
 - Computer with at least 8GB RAM (16GB recommended)
@@ -42,6 +139,14 @@ This guide will help you set up your development environment and get familiar wi
 - Docker
 - Jest Runner
 - REST Client
+
+### Backend Setup
+
+For detailed backend setup instructions, please refer to the [Backend Development Guide](link-to-backend-readme) in the repository.
+
+### Frontend Setup
+
+For detailed frontend setup instructions, please refer to the [Frontend Development Guide](link-to-frontend-readme) in the repository.
 
 ## Development Environment Setup
 
@@ -157,6 +262,18 @@ We use Git Flow with the following branch types:
 - Follow the Arrange-Act-Assert pattern
 - Mock external dependencies
 
+## Platforms We Work With
+
+### Healthcare Integration
+- ABDM (Ayushman Bharat Digital Mission)
+- [Other healthcare platforms]
+
+### Payment Gateways
+- [List of payment gateways]
+
+### Third-party Services
+- [List of third-party services]
+
 ## Deployment
 
 ### Staging
@@ -215,6 +332,21 @@ docker-compose up
    ```
 
 ## Getting Help
+
+### Support Channels
+- **Technical Support**: #support channel in Slack
+- **Urgent Issues**: [Emergency contact information]
+- **Mentorship**: [Mentorship program details]
+
+### Learning Resources
+- [Internal documentation]
+- [External learning resources]
+- [Training materials]
+
+### Team Availability
+- **Stand-up Meetings**: [Time and Zoom link]
+- **Sprint Planning**: [Schedule]
+- **Office Hours**: [If applicable]
 
 - **Slack**: Join our `#engineering` channel
 - **Email**: dev-support@swasthx.in

@@ -251,6 +251,62 @@
     }
 
     /* Table Styling */
+    /* Table of Contents Styles */
+    .toc-container {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      border: 1px solid #e1e4e8;
+    }
+    
+    .toc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .toc-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+    
+    .toc-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6a737d;
+      padding: 0.25rem;
+    }
+    
+    .toc-content {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .toc-content ul {
+      list-style: none;
+      padding-left: 1rem;
+      margin: 0;
+    }
+    
+    .toc-content li {
+      margin: 0.5rem 0;
+      line-height: 1.4;
+    }
+    
+    .toc-content a {
+      color: #0366d6;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+    
+    .toc-content a:hover {
+      text-decoration: underline;
+    }
+    
     table {
       border-collapse: collapse;
       width: 100%;
@@ -490,14 +546,43 @@
 
     <main class="main-content" style="margin-left: 280px; padding: 2rem; width: calc(100% - 280px);">
       <div class="content-container">
+        {% if page.toc != false %}
+        <div class="toc-container">
+          <div class="toc-header">
+            <h3>Table of Contents</h3>
+            <button class="toc-toggle" aria-label="Toggle table of contents">
+              <i class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div class="toc-content">
+            {% include toc.html html=content h_min=2 h_max=3 %}
+          </div>
+        </div>
+        {% endif %}
         {{ content }}
       </div>
     </main>
   </div>
 
   <script>
-    // Add active class to current navigation item
+    // Toggle Table of Contents
     document.addEventListener('DOMContentLoaded', function() {
+      // TOC toggle functionality
+      const tocToggle = document.querySelector('.toc-toggle');
+      const tocContent = document.querySelector('.toc-content');
+      
+      if (tocToggle && tocContent) {
+        tocToggle.addEventListener('click', () => {
+          const isExpanded = tocContent.style.maxHeight !== '0px';
+          tocContent.style.maxHeight = isExpanded ? '0' : '500px';
+          const icon = tocToggle.querySelector('i');
+          if (icon) {
+            icon.className = isExpanded ? 'fas fa-chevron-right' : 'fas fa-chevron-down';
+          }
+        });
+      }
+      
+      // Add active class to current navigation item
       const currentPath = window.location.pathname;
       const navLinks = document.querySelectorAll('.nav-link');
       
