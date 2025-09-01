@@ -4,35 +4,97 @@
 
 {% capture my_toc %}
 <nav class="toc">
+  <div class="toc-header">
+    <h3>Table of Contents</h3>
+    <button class="toc-toggle" onclick="this.closest('.toc').classList.toggle('collapsed')">
+      <span class="toc-toggle-text">Collapse</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
   <ul>
-{% for node in nodes %}
-  {% if node == "" %}
-    {% continue %}
-  {% endif %}
+    {% for node in nodes %}
+      {% if node == "" %}
+        {% continue %}
+      {% endif %}
+      
+      {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+      
+      {% if headerLevel < minHeader or headerLevel > maxHeader %}
+        {% continue %}
+      {% endif %}
+
+      {% if node contains 'id=' %}
+        {% assign id = node | split: 'id="' | last | split: '"' | first %}
+      {% else %}
+        {% assign id = node | split: '>' | last | strip_html | slugify | replace: '/', '-' | replace: '.', '-' | replace: '--', '-' | downcase %}
+      {% endif %}
+
+      {% assign nodeText = node | split: '>' | last | split: '</h' | first | strip_html | strip %}
+      {% if nodeText != "" %}
+        <li>
+          <a href="#{{ id }}" class="toc-link">
+            {{ nodeText }}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add active class to current section in TOC
+  const links = document.querySelectorAll('.toc a');
   
-  {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+  function highlightActive() {
+    const scrollPosition = window.scrollY + 100;
+    
+    document.querySelectorAll('h2, h3').forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+      
+      if (sectionId && scrollPosition >= sectionTop && scrollPosition < (sectionTop + sectionHeight)) {
+        links.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+            // Scroll into view if not visible
+            if (link.scrollIntoViewIfNeeded) {
+              link.scrollIntoViewIfNeeded({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
+        });
+      }
+    });
+  }
   
-  {% if headerLevel < minHeader or headerLevel > maxHeader %}
-    {% continue %}
-  {% endif %}
-
-  {% if node contains 'id=' %}
-    {% assign id = node | split: 'id="' | last | split: '"' | first %}
-  {% else %}
-    {% assign id = node | split: '>' | last | strip_html | slugify | replace: '/', '-' | replace: '.', '-' | replace: '--', '-' | downcase %}
-  {% endif %}
-
-  {% assign indentAmount = headerLevel | minus: minHeader | times: 1 %}
-  {% assign space = '' %}
-  {% for i in (1..indentAmount) %}
-    {% assign space = space | append: '  ' %}
-  {% endfor %}
-
-  {% assign nodeText = node | split: '>' | last | split: '</h' | first | strip_html | strip %}
-  {% if nodeText != "" %}
-    {{ space }}<li>
-    {{ space }}  <a href="#{{ id }}">{{ nodeText }}</a>
-    {{ space }}</li>
+  // Run on scroll and on page load
+  window.addEventListener('scroll', highlightActive);
+  highlightActive();
+  
+  // Smooth scroll for TOC links
+  document.querySelectorAll('.toc a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+        
+        // Update URL without page jump
+        history.pushState(null, '', targetId);
+      }
+    });
+  });
+});
+</script>
   {% endif %}
 {% endfor %}
   </ul>

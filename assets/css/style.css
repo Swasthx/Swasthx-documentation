@@ -1,3 +1,125 @@
+/* Table of Contents */
+.toc {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.toc h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.toc-toggle {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.toc-toggle:hover {
+  color: #1e40af;
+}
+
+.toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.toc.collapsed ul {
+  max-height: 0;
+}
+
+.toc li {
+  margin: 0.25rem 0;
+  line-height: 1.4;
+  position: relative;
+  padding: 0.25rem 0 0.25rem 1rem;
+  break-inside: avoid;
+}
+
+.toc li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #94a3b8;
+}
+
+.toc a {
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  display: block;
+  padding: 0.25rem 0;
+}
+
+.toc a:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+.toc li li {
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+  border-left: 1px dashed #cbd5e1;
+}
+
+.toc li li:before {
+  content: '◦';
+  color: #cbd5e1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .toc ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .toc {
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+  
+  .toc ul {
+    grid-template-columns: 1fr;
+  }
+  
+  .toc li {
+    font-size: 0.9rem;
+  }
+}
+
 /* Base Styles */
 :root {
   --primary-color: #2563eb;
