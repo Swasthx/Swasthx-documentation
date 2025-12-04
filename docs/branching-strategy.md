@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Branching Strategy
+permalink: /branching-strategy
 ---
 
 # Swasthx Branching Strategy & Deployment Policy

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: AWS Resources
+permalink: /aws-resources
 ---
 
 # AWS Resources in Use

@@ -1,3 +1,9 @@
+---
+layout: default
+title: MongoDB Guide
+permalink: /mongodb-guide
+---
+
 # MongoDB Best Practices & Guidelines
 
 > **📚 Related Documentation**: 

@@ -1,3 +1,9 @@
+---
+layout: default
+title: API Guidelines
+permalink: /api-guidelines
+---
+
 # SwasthX API Design Guidelines
 
 ## Table of Contents

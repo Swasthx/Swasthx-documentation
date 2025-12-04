@@ -1,3 +1,9 @@
+---
+layout: default
+title: Coding Standards
+permalink: /coding-standards
+---
+
 # SwasthX Coding Standards
 
 ## Table of Contents

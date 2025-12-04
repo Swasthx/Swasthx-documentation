@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Postman Quick Reference
+permalink: /postman-quick-reference
 ---
 
 # ⚡ Postman Collection Quick Reference

@@ -1,3 +1,9 @@
+---
+layout: default
+title: API Documentation
+permalink: /api-documentation
+---
+
 # SwasthX API Documentation
 
 This document provides a comprehensive reference for all SwasthX API endpoints, based on the official Postman collection.

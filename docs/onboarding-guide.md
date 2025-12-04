@@ -1,3 +1,9 @@
+---
+layout: default
+title: Onboarding Guide
+permalink: /onboarding-guide
+---
+
 # SwasthX Developer Onboarding Guide
 
 ## Welcome to SwasthX!

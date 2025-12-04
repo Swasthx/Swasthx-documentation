@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Swasthx Platform Overview
+permalink: /overview
 ---
 
 # Swasthx Healthcare Platform

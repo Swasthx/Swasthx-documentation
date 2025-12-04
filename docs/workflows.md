@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Workflows
+permalink: /workflows
 ---
 
 # Workflows

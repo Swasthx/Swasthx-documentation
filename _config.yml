@@ -151,6 +151,9 @@ navigation:
       - title: "Backend Documentation"
         url: "/backend-documentation"
         icon: fas fa-server
+      - title: "API Documentation"
+        url: "/api-documentation"
+        icon: fas fa-book
       - title: "MongoDB Guide"
         url: "/mongodb-guide"
         icon: fas fa-database

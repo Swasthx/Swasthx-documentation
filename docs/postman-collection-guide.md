@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Postman Collection Guide
+permalink: /postman-collection-guide
 ---
 
 # 📦 Swasthx Postman Collection Guide

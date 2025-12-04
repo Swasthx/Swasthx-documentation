@@ -1,6 +1,7 @@
 ---
 layout: default
 title: API Resources & Documentation
+permalink: /api-resources
 ---
 
 # 🔌 API Resources & Documentation

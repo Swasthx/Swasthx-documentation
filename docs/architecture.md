@@ -2,6 +2,7 @@
 layout: default
 title: Swasthx System Architecture
 description: Comprehensive architecture overview of the Swasthx healthcare platform including components, interactions, and deployment strategies
+permalink: /architecture
 ---
 
 # Swasthx System Architecture

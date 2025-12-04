@@ -1,3 +1,9 @@
+---
+layout: default
+title: MongoDB Queries
+permalink: /mongodb-queries
+---
+
 # MongoDB Query Examples for SwasthX
 
 ## Table of Contents
