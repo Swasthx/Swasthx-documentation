@@ -1,565 +1,203 @@
 ---
 layout: default
-title: Swasthx System Architecture
-description: Comprehensive architecture overview of the Swasthx healthcare platform including components, interactions, and deployment strategies
+title: System Architecture
 permalink: /architecture
 ---
 
 # Swasthx System Architecture
 
-## Table of Contents
-- [Overview](#overview)
-- [Architecture Principles](#architecture-principles)
-- [System Architecture](#system-architecture)
-- [Component Details](#component-details)
-- [Data Flow](#data-flow)
-- [Security Architecture](#security-architecture)
-- [Performance & Scalability](#performance--scalability)
-- [Deployment Architecture](#deployment-architecture)
-- [Monitoring & Observability](#monitoring--observability)
-- [Disaster Recovery](#disaster-recovery)
-- [API Architecture](#api-architecture)
-- [Database Architecture](#database-architecture)
-- [Integration Patterns](#integration-patterns)
+This document provides a detailed technical overview of the Swasthx platform architecture, covering the PHR Mobile Application, Website/Portals, and the underlying cloud infrastructure on AWS.
 
-## Overview
+---
 
-The Swasthx platform is a comprehensive healthcare management system designed to provide seamless patient care, appointment scheduling, payment processing, and real-time communication. This document outlines the high-level architecture, including its components, their interactions, and deployment strategies.
+## 📖 How to Read Architecture Diagrams
 
-### Key Features
-- **Multi-platform Support**: Native iOS and Android applications
-- **Real-time Communication**: Instant notifications and messaging
-- **Secure Payment Processing**: PCI DSS compliant payment handling
-- **Scalable Infrastructure**: Cloud-native architecture on AWS
-- **Comprehensive Monitoring**: End-to-end observability and alerting
+To help you understand the architecture diagrams given in this section, please refer to this legend:
 
-## Architecture Principles
+| Symbol | Representation | Description |
+| :--- | :--- | :--- |
+| **Rectangle** | `[Component]` | Represents a service, application, or AWS resource (e.g., API Gateway, App Runner). |
+| **Cylinder** | `[(Database)]` | Represents data storage systems (e.g., DocumentDB, S3 Buckets). |
+| **Solid Line** | `-->` | Synchronous request or direct data flow (e.g., API call). |
+| **Dotted Line** | `-.->` | Asynchronous communication or callback (e.g., Webhook). |
+| **Subgraph** | `Box` | Groups related components (e.g., "AWS Infrastructure", "Data Layer"). |
 
-### 1. Microservices Architecture
-- **Service Independence**: Each service can be developed, deployed, and scaled independently
-- **Technology Diversity**: Services can use different technologies based on requirements
-- **Fault Isolation**: Failure in one service doesn't affect others
-- **Team Autonomy**: Different teams can work on different services
+---
 
-### 2. Security First
-- **Zero Trust Model**: No implicit trust, continuous verification
-- **Data Encryption**: Encryption at rest and in transit
-- **Principle of Least Privilege**: Minimal access rights
-- **Regular Security Audits**: Continuous security assessment
+## 1. PHR App Architecture
 
-### 3. Scalability & Performance
-- **Horizontal Scaling**: Add more instances to handle load
-- **Caching Strategy**: Multi-layer caching for performance
-- **Load Balancing**: Distribute traffic across multiple instances
-- **Auto-scaling**: Automatic resource management
+The Personal Health Record (PHR) application enables patients to manage their health data.
 
-### 4. Reliability & Availability
-- **High Availability**: 99.9% uptime target
-- **Fault Tolerance**: System continues operating despite failures
-- **Disaster Recovery**: Quick recovery from catastrophic failures
-- **Data Backup**: Regular automated backups
+### Tech Stack
+-   **Frontend**: React Native (Android & iOS).
+-   **Backend**: Nest.js Framework.
+-   **Infrastructure**: AWS Cloud (App Runner, API Gateway, etc.).
 
-## System Architecture
+### System Flow
+1.  **Request Entry**: Use specific requests (HTTPS) initiated from the Android/iOS app.
+2.  **API Gateway**: All requests first hit the **AWS API Gateway**.
+    -   **Authentication**: The gateway validates the JWT token.
+    -   **Routing**: Valid requests are routed to the backend service.
+3.  **Backend Execution**:
+    -   Requests are processed by **AWS App Runner** running the Nest.js application.
+    -   **Environment**: Secrets and environment variables are configured directly in AWS App Runner.
+4.  **Data Persistence**:
+    -   Core data is stored in **AWS DocumentDB** (MongoDB compatible).
+    -   Images/Files are stored in **Amazon S3**.
+5.  **External Communication**:
+    -   SMS notifications are sent using **AWS SNS**.
+    -   Deep integration with **ABDM** (Ayushman Bharat Digital Mission).
 
-### Architecture Diagram
+### ABDM Integration Flow
+-   **Outbound**: Backend makes calls to ABDM servers for discovery, linking, etc.
+-   **Inbound (Callbacks)**: ABDM sends asynchronous responses via webhooks.
+    -   **API Gateway** intercepts these callbacks.
+    -   Routes them to the specific backend handler in App Runner.
 
-![Swasthx Architecture]({{ site.baseurl }}/images/swatsthxarchitecture.png)
-
-### High-Level System Flow
+### PHR Architecture Diagram
 
 ```mermaid
 graph TD
-    subgraph "Client Applications"
-        A[iOS App] -->|HTTPS/API Calls| B[API Gateway]
-        C[Android App] -->|HTTPS/API Calls| B
-        D[Web Dashboard] -->|HTTPS/API Calls| B
+    subgraph "Client"
+        App[PHR Mobile App <br/> (React Native)]
     end
-    
+
     subgraph "AWS Infrastructure"
-        B --> E[Route 53]
-        E --> F[CloudFront CDN]
-        F --> G[API Gateway]
-        G --> H[Authentication Service]
-        H --> I{Valid Token?}
-        I -->|Yes| J[Load Balancer]
-        I -->|No| K[Return 401]
-        J --> L[App Runner Services]
-    end
-    
-    subgraph "Backend Services"
-        L --> M[User Service]
-        L --> N[Appointment Service]
-        L --> O[Payment Service]
-        L --> P[Notification Service]
-        L --> Q[Health Records Service]
-        L --> R[Analytics Service]
-    end
-    
-    subgraph "Data Layer"
-        M <--> S[(MongoDB Primary)]
-        N <--> S
-        O <--> T[(Payment Database)]
-        P <--> U[(Notification Queue)]
-        Q <--> V[(Health Records DB)]
-        R <--> W[(Analytics Warehouse)]
+        R53[Route 53 <br/> Domain Service]
+        Gw[AWS API Gateway <br/> (Auth & Routing)]
+        Runner[AWS App Runner <br/> (Nest.js Backend)]
         
-        S --> X[(MongoDB Replica)]
-        T --> Y[(Payment Backup)]
-        V --> Z[(Health Records Backup)]
+        subgraph "Data & Storage"
+            DocDB[(AWS DocumentDB)]
+            S3[Amazon S3 <br/> (Images/Docs)]
+        end
+        
+        subgraph "Services"
+            SNS[AWS SNS <br/> (SMS Service)]
+        end
     end
+
+    subgraph "External"
+        ABDM[ABDM Network]
+    end
+
+    App -->|HTTPS| R53
+    R53 --> Gw
+    Gw -->|1. Token Auth| Gw
+    Gw -->|2. Forward Request| Runner
     
-    subgraph "External Services"
-        O --> AA[Payment Gateway]
-        P --> BB[Push Notification Service]
-        P --> CC[Email Service]
-        P --> DD[SMS Service]
-    end
+    Runner -->|Read/Write| DocDB
+    Runner -->|Store/Retrieve| S3
+    Runner -->|Send SMS| SNS
     
-    subgraph "Monitoring & Observability"
-        EE[CloudWatch] -->|Logs & Metrics| FF[Dashboard]
-        GG[X-Ray] -->|Distributed Tracing| FF
-        HH[CloudTrail] -->|API Activity| FF
-        II[Health Checks] -->|Service Status| FF
-    end
+    %% ABDM Flow
+    Runner -->|API Call| ABDM
+    ABDM -.->|Callback Webhook| Gw
 ```
-
-## Component Details
-
-### 1. Client Layer
-
-#### Mobile Applications
-- **iOS Application**:
-  - Native Swift/SwiftUI development
-  - iOS 14.0+ support
-  - Push notifications via APNs
-  - Offline data synchronization
-  - Biometric authentication support
-  
-- **Android Application**:
-  - Native Kotlin development
-  - Android 8.0+ support
-  - Push notifications via FCM
-  - Offline data synchronization
-  - Biometric authentication support
-
-#### Web Dashboard
-- **Admin Portal**:
-  - React.js frontend
-  - Responsive design
-  - Real-time data updates
-  - Role-based access control
-  - Analytics dashboard
-
-### 2. API Gateway & Load Balancing
-
-#### AWS API Gateway
-- **Request Routing**: Routes requests to appropriate services
-- **Rate Limiting**: Prevents API abuse
-- **Request/Response Transformation**: Data format conversion
-- **Caching**: Reduces backend load
-- **API Versioning**: Supports multiple API versions
-
-#### Application Load Balancer
-- **Health Checks**: Monitors service health
-- **SSL Termination**: Handles HTTPS termination
-- **Session Affinity**: Maintains user sessions
-- **Auto-scaling Integration**: Scales with traffic
-
-### 3. Authentication & Authorization
-
-#### Authentication Service
-- **JWT Token Management**:
-  - Token generation and validation
-  - Refresh token handling
-  - Token revocation
-  - Token expiration management
-  
-- **Multi-factor Authentication**:
-  - SMS-based verification
-  - Email-based verification
-  - TOTP support
-  - Biometric authentication
-
-#### Authorization Middleware
-- **Role-based Access Control (RBAC)**:
-  - User roles and permissions
-  - Resource-level access control
-  - Dynamic permission updates
-  - Audit logging
-
-### 4. Core Services
-
-#### User Service
-- **User Management**:
-  - User registration and profile management
-  - Password reset and account recovery
-  - User preferences and settings
-  - Account verification and validation
-  
-- **Profile Management**:
-  - Personal information management
-  - Medical history tracking
-  - Emergency contact management
-  - Insurance information
-
-#### Appointment Service
-- **Scheduling System**:
-  - Appointment booking and cancellation
-  - Availability management
-  - Conflict detection and resolution
-  - Recurring appointment support
-  
-- **Calendar Integration**:
-  - Google Calendar sync
-  - Outlook Calendar sync
-  - Calendar export functionality
-  - Reminder notifications
-
-#### Payment Service
-- **Payment Processing**:
-  - Multiple payment method support
-  - Secure payment gateway integration
-  - Transaction history and receipts
-  - Refund processing
-  
-- **Billing Management**:
-  - Invoice generation
-  - Payment plan management
-  - Insurance claim processing
-  - Financial reporting
-
-#### Notification Service
-- **Multi-channel Notifications**:
-  - Push notifications (iOS/Android)
-  - Email notifications
-  - SMS notifications
-  - In-app notifications
-  
-- **Notification Management**:
-  - Notification preferences
-  - Delivery status tracking
-  - Notification history
-  - Template management
-
-#### Health Records Service
-- **Medical Records Management**:
-  - Patient medical history
-  - Lab results and reports
-  - Prescription management
-  - Treatment plans
-  
-- **Data Standards**:
-  - HL7 FHIR compliance
-  - HIPAA compliance
-  - Data interoperability
-  - Standard medical codes
-
-#### Analytics Service
-- **Data Analytics**:
-  - Patient analytics
-  - Business intelligence
-  - Performance metrics
-  - Predictive analytics
-  
-- **Reporting**:
-  - Custom report generation
-  - Scheduled reports
-  - Data visualization
-  - Export capabilities
-
-### 5. Data Layer
-
-#### MongoDB Database
-- **Primary Database**:
-  - Self-hosted on EC2 instance
-  - Replica set configuration (3 nodes)
-  - Automated failover
-  - Read/write separation
-  
-- **Data Security**:
-  - Encryption at rest (LUKS)
-  - Encryption in transit (TLS)
-  - Network isolation (VPC)
-  - Access control (IAM)
-
-#### Caching Layer
-- **Redis Cache**:
-  - Session storage
-  - API response caching
-  - Database query caching
-  - Rate limiting storage
-  
-- **ElastiCache**:
-  - Managed Redis service
-  - Automatic scaling
-  - Multi-AZ deployment
-  - Backup and recovery
-
-#### File Storage
-- **Amazon S3**:
-  - Static asset storage
-  - User file uploads
-  - Backup storage
-  - CDN integration
-  
-- **EBS Volumes**:
-  - Database storage
-  - Application logs
-  - Configuration files
-  - Temporary data
-
-## Data Flow
-
-### User Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant A as App
-    participant G as API Gateway
-    participant Auth as Auth Service
-    participant DB as Database
-    participant Cache as Redis Cache
-
-    U->>A: Login Request
-    A->>G: POST /auth/login
-    G->>Auth: Forward Request
-    Auth->>DB: Validate Credentials
-    DB-->>Auth: User Data
-    Auth->>Auth: Generate JWT Token
-    Auth->>Cache: Store Session
-    Auth-->>G: Token Response
-    G-->>A: Success Response
-    A->>A: Store Token
-    A-->>U: Login Success
-```
-
-### Appointment Booking Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant A as App
-    participant G as API Gateway
-    participant Auth as Auth Service
-    participant Appt as Appointment Service
-    participant Notif as Notification Service
-    participant DB as Database
-
-    U->>A: Book Appointment
-    A->>G: POST /appointments
-    G->>Auth: Validate Token
-    Auth-->>G: Valid User
-    G->>Appt: Create Appointment
-    Appt->>DB: Save Appointment
-    DB-->>Appt: Confirmation
-    Appt->>Notif: Send Confirmation
-    Notif->>U: Push/Email/SMS
-    Appt-->>G: Success Response
-    G-->>A: Appointment Created
-    A-->>U: Booking Confirmed
-```
-
-## Security Architecture
-
-### Network Security
-- **VPC Configuration**:
-  - Private subnets for backend services
-  - Public subnets for load balancers
-  - NAT gateways for outbound traffic
-  - Security groups for access control
-
-### Data Security
-- **Encryption**:
-  - TLS 1.3 for data in transit
-  - AES-256 for data at rest
-  - Key management via AWS KMS
-  - Certificate management
-
-### Access Control
-- **Identity Management**:
-  - AWS IAM for service access
-  - JWT tokens for API access
-  - Role-based permissions
-  - Multi-factor authentication
-
-### Compliance
-- **Healthcare Standards**:
-  - HIPAA compliance
-  - HITECH Act compliance
-  - SOC 2 Type II certification
-  - Regular security audits
-
-## Performance & Scalability
-
-### Performance Optimization
-- **Caching Strategy**:
-  - CDN for static assets
-  - Redis for session data
-  - Database query caching
-  - API response caching
-
-### Scalability Patterns
-- **Horizontal Scaling**:
-  - Auto-scaling groups
-  - Load balancer distribution
-  - Database read replicas
-  - Microservices architecture
-
-### Performance Monitoring
-- **Metrics Collection**:
-  - Response time monitoring
-  - Throughput measurement
-  - Error rate tracking
-  - Resource utilization
-
-## Deployment Architecture
-
-### Development Environment
-- **Local Development**:
-  - Docker Compose setup
-  - Local database instances
-  - Mock external services
-  - Hot reloading
-
-### Staging Environment
-- **Pre-production Testing**:
-  - Production-like configuration
-  - Automated testing
-  - Performance testing
-  - Security testing
-
-### Production Environment
-- **High Availability**:
-  - Multi-AZ deployment
-  - Auto-scaling configuration
-  - Load balancer setup
-  - Database replication
-
-## Monitoring & Observability
-
-### Logging Strategy
-- **Centralized Logging**:
-  - CloudWatch Logs
-  - Structured JSON logging
-  - Log aggregation
-  - Log retention policies
-
-### Metrics & Monitoring
-- **Application Metrics**:
-  - Custom CloudWatch metrics
-  - Performance dashboards
-  - Alerting rules
-  - Capacity planning
-
-### Distributed Tracing
-- **Request Tracing**:
-  - AWS X-Ray integration
-  - Service dependency mapping
-  - Performance bottleneck identification
-  - Error correlation
-
-## Disaster Recovery
-
-### Backup Strategy
-- **Data Backup**:
-  - Automated daily backups
-  - Point-in-time recovery
-  - Cross-region backup storage
-  - Backup verification
-
-### Recovery Procedures
-- **Recovery Time Objectives (RTO)**:
-  - Database recovery: < 4 hours
-  - Application recovery: < 1 hour
-  - Full system recovery: < 8 hours
-
-### Business Continuity
-- **Failover Procedures**:
-  - Automated failover
-  - Manual failover procedures
-  - Data consistency checks
-  - Service validation
-
-## API Architecture
-
-### RESTful API Design
-- **API Standards**:
-  - RESTful principles
-  - HTTP status codes
-  - JSON response format
-  - API versioning
-
-### API Documentation
-- **OpenAPI Specification**:
-  - Swagger documentation
-  - Interactive API explorer
-  - Code examples
-  - SDK generation
-
-### API Security
-- **Authentication**:
-  - JWT token validation
-  - API key management
-  - Rate limiting
-  - Request signing
-
-## Database Architecture
-
-### Data Modeling
-- **Schema Design**:
-  - Normalized data structure
-  - Index optimization
-  - Query performance
-  - Data integrity
-
-### Data Migration
-- **Migration Strategy**:
-  - Zero-downtime migrations
-  - Rollback procedures
-  - Data validation
-  - Performance impact
-
-### Data Archival
-- **Archival Policy**:
-  - Automated archival
-  - Data lifecycle management
-  - Storage optimization
-  - Compliance requirements
-
-## Integration Patterns
-
-### External Integrations
-- **Payment Gateways**:
-  - Stripe integration
-  - PayPal integration
-  - Local payment methods
-  - Webhook handling
-
-### Third-party Services
-- **Notification Services**:
-  - Firebase Cloud Messaging
-  - SendGrid for emails
-  - Twilio for SMS
-  - Webhook notifications
-
-### Healthcare Integrations
-- **EHR Systems**:
-  - HL7 FHIR integration
-  - Epic integration
-  - Cerner integration
-  - Custom EHR adapters
 
 ---
 
-## Related Documentation
+## 2. Website & Portals Architecture
 
-- [AWS Resources](/docs/aws-resources/) - Detailed AWS infrastructure documentation
-- [API Documentation](/docs/api-documentation/) - Complete API reference
-- [Database Guide](/docs/mongodb-guide/) - MongoDB setup and management
-- [Deployment Guide](/docs/deployment-guide/) - Deployment procedures and best practices
-- [Security Guidelines](/docs/security-guidelines/) - Security policies and procedures
+The Swasthx Website and Doctor Portals provide interfaces for patients and providers via web browsers.
+
+### Tech Stack
+-   **Frontend**: React.js.
+-   **Hosting**: AWS Amplify.
+-   **Backend**: Nest.js Framework.
+
+### System Flow
+1.  **Frontend Delivery**: The React application is hosted and served via **AWS Amplify**.
+2.  **API Routing**: API requests from the browser are directed to **AWS API Gateway** (mapped via Route 53).
+3.  **Backend Processing**:
+    -   Similar to the PHR app, the backend runs on **AWS App Runner**.
+    -   **Configuration**: Environment variables are managed in App Runner + **AWS Secrets Manager** for sensitive credentials.
+4.  **Database & Storage**:
+    -   Shares the same **AWS DocumentDB** cluster for data.
+    -   Uses **Amazon S3** for file storage.
+5.  **ABDM Integration**: Same flow as PHR, handling callbacks via API Gateway.
+
+### Website Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph "Client Browser"
+        Web[React.js Website]
+    end
+
+    subgraph "AWS Frontend"
+        Amplify[AWS Amplify <br/> (Hosting & CD)]
+    end
+
+    subgraph "AWS Backend Infrastructure"
+        R53[Route 53]
+        Gw[AWS API Gateway]
+        Runner[AWS App Runner <br/> (Nest.js)]
+        Secret[AWS Secrets Manager]
+        
+        subgraph "Data"
+            DocDB[(AWS DocumentDB)]
+            S3[Amazon S3]
+        end
+    end
+
+    Web -->|Load Assets| Amplify
+    Web -->|API Calls| R53
+    R53 --> Gw
+    Gw --> Runner
+    
+    Runner -->|Get Config| Secret
+    Runner --> DocDB
+    Runner --> S3
+```
 
 ---
 
-*Last updated: {{ site.time | date: "%B %d, %Y" }}*
+## 3. Shared Infrastructure & Network Security
+
+### Virtual Private Cloud (VPC)
+To ensure security and low latency, critical components are isolated within the same **AWS VPC**:
+-   **AWS App Runner** (VPC Connector enabled)
+-   **AWS DocumentDB** (Private Subnet)
+-   **EC2 Bastion Host** (See below)
+
+### Database Access
+**AWS DocumentDB** runs in a private subnet and is not accessible from the public internet. 
+-   **Compass Access**: An **EC2 instance** is deployed in the same VPC to act as a jump server/bastion.
+-   Developers connect to this EC2 instance via SSH tunnel to access DocumentDB using MongoDB Compass.
+
+### Network Diagram
+
+```mermaid
+graph LR
+    subgraph "AWS VPC"
+        subgraph "Private Subnet"
+            DocDB[(AWS DocumentDB)]
+        end
+        
+        subgraph "Public/App Subnet"
+            EC2[EC2 Bastion Host]
+            Runner[AWS App Runner]
+        end
+    end
+
+    Dev[Developer / Compass] -->|SSH Tunnel| EC2
+    EC2 -->|Connect| DocDB
+    Runner -->|VPC Connection| DocDB
+```
+
+---
+
+## 4. Summary of AWS Resources
+
+| Service | Purpose |
+| :--- | :--- |
+| **AWS Amplify** | Hosting and CI/CD for React Frontend. |
+| **AWS API Gateway** | Entry point for APIs, Authentication, Routing, and ABDM Callback handling. |
+| **AWS App Runner** | Containerized backend service (Nest.js). Auto-scaling and load balancing. |
+| **AWS DocumentDB** | Managed NoSQL database (MongoDB compatible). Secure and scalable. |
+| **Amazon S3** | Object storage for images, prescriptions, and static assets. |
+| **AWS SNS** | Simple Notification Service for sending SMS. |
+| **Route 53** | DNS management and domain registration. |
+| **EC2** | Bastion host for secure database access. |
+| **Secrets Manager** | Secure storage for website backend credentials. |
