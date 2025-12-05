@@ -8,37 +8,21 @@ permalink: /aws-resources
 
 This document provides a comprehensive overview of all AWS resources used in the Swasthx infrastructure.
 
-## EC2 Graviton Instances
+## AWS Services Overview
 
-All instances are powered by AWS Graviton processors for optimal price-performance ratio.
+| Service | Category | Description |
+| :--- | :--- | :--- |
+| **AWS Amplify** | Frontend / Hosting | Hosts the React.js website and portals; handles CI/CD and domain mapping. |
+| **AWS App Runner** | Compute / Container | Managed service for running the Nest.js backend APIs (containerized). |
+| **Amazon DocumentDB** | Database | Fully managed NoSQL database service (MongoDB compatible) for storing application data. |
+| **Amazon S3** | Storage | Object storage for user-uploaded files, images, and static assets. |
+| **Amazon SNS** | Messaging | Simple Notification Service used for sending SMS alerts and notifications. |
+| **API Gateway** | Networking | Fully managed service that acts as the "front door" for the backend APIs, handling Auth and Routing. |
+| **Route 53** | Networking | scalable DNS and Domain Name System web service. |
+| **AWS Secrets Manager** | Security | Securely stores and manages sensitive credentials (e.g., API keys, DB passwords). |
+| **EC2** | Compute | Used as a Bastion Host for secure access to the private DocumentDB cluster. |
 
-### Key Instances
-
-#### 1. swasthxPhrAppGravInst (m7g.large)
-- **Purpose**: Hosts backend for Swasthx PHR app
-- **Integrations**:
-  - Amazon S3 for storage
-  - Amazon SNS for notifications
-  - AWS Bedrock for AI features
-- **Environment**: Production
-
-#### 2. swasthxDocWebsiteGravInst (m7g.large)
-- **Purpose**: Hosts backend for Swasthx HMIS platform
-- **Integrations**:
-  - Amazon S3 for storage
-  - Amazon SNS for notifications
-- **Environment**: Production
-
-#### 3. swasthxSnomedGravInst (m7g.xlarge)
-- **Purpose**: Hosts SNOMED and LIONC servers
-- **Usage**: Clinical terminology in HMIS platform
-- **Environment**: Production
-
-### Access Management
-- Private key-based SSH access
-- IAM roles for service communication
-- Security groups for network isolation
-- Resource tagging for cost allocation
+---
 
 ## Amazon S3
 
@@ -63,6 +47,7 @@ All instances are powered by AWS Graviton processors for optimal price-performan
 
 ### 1. Swasthx_LandingPage_Frontend
 - **URL**: [https://swasthx.com/](https://swasthx.com/)
+- **Branch**: main
 - **Type**: Public marketing website
 - **Features**:
   - Responsive design
@@ -70,7 +55,26 @@ All instances are powered by AWS Graviton processors for optimal price-performan
   - Custom domain with SSL
 
 ### 2. Swasthx_HIP_Frontend
-- **URL**: [https://doctor.swasthx.com](https://doctor.swasthx.com)
+- **URL**: [https://qa-doctor.swasthx.com/](QA website for HMIS)
+- **Branch**: QA
+- **Type**: Healthcare provider portal (HMIS)
+- **Features**:
+  - Secure authentication
+  - Real-time data updates
+  - Role-based access control
+
+### 3. Swasthx_HIP_Frontend
+- **URL**: [https://dev-doctor.swasthx.com/](dev website for HMIS)
+- **Branch**: development-new
+- **Type**: Healthcare provider portal (HMIS)
+- **Features**:
+  - Secure authentication
+  - Real-time data updates
+  - Role-based access control
+
+### 4. Swasthx_HIP_Frontend
+- **URL**: [https://prod-doctor.swasthx.com/](production website for HMIS)
+- **Branch**: production
 - **Type**: Healthcare provider portal (HMIS)
 - **Features**:
   - Secure authentication
@@ -82,132 +86,153 @@ All instances are powered by AWS Graviton processors for optimal price-performan
 ### Overview
 AWS App Runner is used to deploy and scale containerized web applications and APIs with minimal configuration.
 
-### Services Deployed
+### Deployed Services
 
-#### 1. API Services
-- **Containerized Backend APIs**
-  - Auto-scaling based on traffic
-  - Automatic load balancing
-  - Built-in monitoring and logging
-
-#### 2. Authentication Service
+#### 1. website-production-service
+- **Connected API Gateway**: `website_production`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
   - JWT token validation
-  - Role-based access control
-  - Integration with IAM for service authentication
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - Secrets Manager for credentials
+  - CloudWatch Logs
 
-### Configuration
-- **Source**: Container registry (ECR)
-- **Runtime**: Custom Docker containers
-- **Scaling**: Automatic (1-25 instances)
-- **Health Checks**: 
-  - Path: `/health`
-  - Protocol: HTTP
-  - Interval: 5 seconds
-  - Timeout: 2 seconds
-  - Healthy threshold: 3
-  - Unhealthy threshold: 5
+#### 2. website-qa-service
+- **Connected API Gateway**: `website_qa`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
+  - JWT token validation
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - Secrets Manager for credentials
+  - CloudWatch Logs
 
-### Integration
-- **Route 53**: Custom domain routing
-- **CloudWatch**: Logs and metrics
-- **VPC**: Secure network configuration
-- **Secrets Manager**: Secure configuration management
+#### 3. website-development-service
+- **Connected API Gateway**: `website_development`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
+  - JWT token validation
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - Secrets Manager for credentials
+  - CloudWatch Logs
 
-## AWS Bedrock
+#### 4. PHR_production
+- **Connected API Gateway**: `PHR_production`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
+  - JWT token validation
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - CloudWatch Logs
+
+#### 5. PHR_QA_DEPLOYMENT
+- **Connected API Gateway**: `PHR_qa`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
+  - JWT token validation
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - CloudWatch Logs
+
+#### 6. swasthx-backend-service
+- **Connected API Gateway**: `PHR_development`
+- **API Services**:
+  - Containerized Backend APIs (Nest.js)
+  - Auto-scaling and Load Balancing enabled
+- **Authentication**:
+  - JWT token validation
+  - IAM integration
+- **Configuration**:
+  - **Source**: ECR Container Registry
+  - **Scaling**: Automatic (1-25 instances)
+  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+- **Integration**:
+  - VPC Connector for DB access
+  - CloudWatch Logs
+
+## Google gemini
 
 ### AI/ML Models
 
 #### Primary Model
-- **Claude 3.5 Sonnet**
+- **gemini-2.0-flash**
   - Used for Q&A chatbot in PHR app
   - Optimized for healthcare domain
 
-#### Additional Models
-- Claude 3 Sonnet
-- Claude 3 Haiku
-
 ### Integration
 - Secure API access via IAM roles
-- Rate limiting and monitoring
-- Usage analytics
 
 ## Amazon Simple Notification Service (SNS)
 
 ### Use Cases
 1. **Appointment Management**
    - Confirmation messages
-   - Reminder notifications
    - Schedule updates
 
 2. **Record Updates**
-   - New test results
-   - Prescription updates
    - Health record changes
-
-3. **System Alerts**
-   - Security notifications
-   - System maintenance alerts
-   - Usage reports
 
 ### Configuration
 - SMS delivery preferences
-- Email notifications
 - Mobile push notifications
-- Webhook integrations
 
 ## Amazon Route 53
 
 ### Domain Management
 - **Primary Domain**: swasthx.com
 - **Subdomains**:
-  - doctor.swasthx.com (HMIS platform)
-  - api.swasthx.com (API endpoints)
-  - app.swasthx.com (PHR application)
+  - **Website Frontend Subdomains**
+    - prod-website.swasthx.com (Website production branch)
+    - qa-website.swasthx.com (Website qa branch)
+    - dev-website.swasthx.com (Website development branch)
+  - **Website Backend Subdomains**
+    - websitedevelopment.api.swasthx.com (HMIS development branch backend) 
+    - websiteproduction.api.swasthx.com (HMIS production branch backend) 
+    - websiteqa.api.swasthx.com (HMIS qa branch backend) 
+  - **PHR Backend Subdomains**
+    - new-swasthxapp.api.swasthx.com (PHR development branch backend) 
+    - phrproduction.api.swasthx.com (PHR production branch backend) 
+    - phrqa.api.swasthx.com (PHR qa branch backend)
 
 ### DNS Features
 - A records for service endpoints
 - CNAME records for aliases
 - MX records for email services
 - TXT records for verification
-
-## Resource Organization
-
-### Tagging Strategy
-- **Environment** (Production/Staging/Development)
-- **Owner** (Team/Department)
-- **Cost Center** (Billing allocation)
-- **Compliance** (Data classification)
-
-### Cost Management
-- Monthly budget alerts
-- Resource utilization reports
-- Cost allocation tags
-- Reserved Instance planning
-
-## Security & Compliance
-
-### IAM Best Practices
-- Least privilege access
-- Role-based access control
-- Regular access reviews
-- Multi-factor authentication
-
-### Monitoring & Logging
-- CloudTrail for API logging
-- Config for resource tracking
-- GuardDuty for threat detection
-- Security Hub for compliance
-
-## Backup & Recovery
-
-### Data Protection
-- Automated EBS snapshots
-- S3 versioning
-- Cross-region replication
-- Point-in-time recovery
-
-### Disaster Recovery
-- Backup retention policies
-- Recovery time objectives
-- Failover procedures
-- Regular testing schedule
