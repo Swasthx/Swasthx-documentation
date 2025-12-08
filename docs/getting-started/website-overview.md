@@ -44,11 +44,11 @@ Backend services are deployed on **AWS App Runner**.
 
 | Environment | App Runner Service | AWS Resources Link |
 | :--- | :--- | :--- |
-| **Development** | `website-development-service` | [View Resources]({{ '/aws-resources' | relative_url }}#3-website-development-service) |
-| **QA** | `website-qa-service` | [View Resources]({{ '/aws-resources' | relative_url }}#2-website-qa-service) |
-| **Production** | `website-production-service` | [View Resources]({{ '/aws-resources' | relative_url }}#1-website-production-service) |
+| **Development** | `website-development-service` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#3-website-development-service) |
+| **QA** | `website-qa-service` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#2-website-qa-service) |
+| **Production** | `website-production-service` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#1-website-production-service) |
 
-For further details, refer to the [AWS Resources]({{ '/aws-resources' | relative_url }}) page.
+For further details, refer to the [AWS Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}) page.
 
 ## 4. Backend APIs
 The website interacts with the core backend services.

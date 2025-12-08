@@ -62,47 +62,110 @@ sitemap:
 # Navigation
 navigation:
   - title: "Overview"
-    url: "/"
+    url: "/overview"
     icon: fas fa-home
-    
-  - title: "Products"
+
+  - title: "Getting Started"
     url: "#"
-    icon: fas fa-mobile-alt
+    icon: fas fa-flag
     children:
-      - title: "PHR App"
-        url: "/phr-app"
-        icon: fas fa-heartbeat
-      - title: "Website & Portals"
-        url: "/website"
-        icon: fas fa-laptop-medical
+      - title: "Onboarding Guide"
+        url: "/docs/getting-started/onboarding-guide.html"
+        icon: fas fa-users
+
+  - title: "Release"
+    url: "#"
+    icon: fas fa-rocket
+    children:
+      - title: "PHR App Release Guidelines"
+        url: "/docs/release/phr-app-release.html"
+        icon: fas fa-mobile-alt
+
+  - title: "Architecture & Design"
+    url: "#"
+    icon: fas fa-sitemap
+    children:
+      - title: "Swasthx Arch"
+        url: "/architecture"
+        icon: fas fa-project-diagram
+
+
+  - title: "Development"
+    url: "#"
+    icon: fas fa-code
+    children:
+      - title: "Development Overview"
+        url: "/docs/development/overview.html"
+        icon: fas fa-info-circle
+      - title: "Frontend Guidelines"
+        url: "/docs/development/frontend-guidelines.html"
+        icon: fas fa-desktop
+      - title: "Backend Guidelines"
+        url: "/docs/development/backend-guidelines.html"
+        icon: fas fa-server
+
+
+  - title: "API & Integration"
+    url: "#"
+    icon: fas fa-plug
+    children:
+      - title: "Overview"
+        url: "/docs/api/overview.html"
+        icon: fas fa-info
+      - title: "API Guidelines"
+        url: "/docs/api/api-guidelines.html"
+        icon: fas fa-list-ul
+      - title: "Postman Guide"
+        url: "/postman-collection-guide"
+        icon: fas fa-envelope-open-text
+
+
+  - title: "Database"
+    url: "#"
+    icon: fas fa-database
+    children:
+      - title: "DB Overview"
+        url: "/mongodb-guide"
+        icon: fas fa-info
+      - title: "DB Guidelines"
+        url: "/docs/database/guidelines.html"
+        icon: fas fa-check-circle
+      - title: "DB Documentations"
+        url: "/docs/database/documentation.html"
+        icon: fas fa-file-alt
+      - title: "DB Schema"
+        url: "/docs/database/schema.html"
+        icon: fas fa-table
 
   - title: "Infrastructure"
     url: "#"
-    icon: fas fa-server
+    icon: fas fa-cloud
     children:
-      - title: "Architecture"
-        url: "/architecture"
-        icon: fas fa-sitemap
-      - title: "AWS Resources"
-        url: "/aws-resources"
+      - title: "Cloud Overview"
+        url: "/docs/infra/cloud-overview.html"
         icon: fab fa-aws
-      - title: "Database Info"
-        url: "/mongodb-guide"
-        icon: fas fa-database
-      - title: "Access Info"
-        url: "/access-info"
-        icon: fas fa-key
+      - title: "Cloud Guidelines"
+        url: "/docs/infra/guidelines.html"
+        icon: fas fa-check-square
+      - title: "Cloud Documentations"
+        url: "/docs/infra/documentation.html"
+        icon: fas fa-file-contract
 
-  - title: "References"
+  - title: "Workflows & Processes"
     url: "#"
-    icon: fas fa-book
+    icon: fas fa-tasks
     children:
-      - title: "PHR API"
-        url: "/api-phr"
-        icon: fas fa-mobile-alt
-      - title: "Website API"
-        url: "/api-website"
-        icon: fas fa-laptop-code
-      - title: "Postman Guide"
-        url: "/postman-collection-guide"
-        icon: fas fa-rocket
+      - title: "Branching Strategy"
+        url: "/docs/workflows/branching-strategy.html"
+        icon: fas fa-code-branch
+      - title: "Development Workflows"
+        url: "/docs/workflows/development-workflows.html"
+        icon: fas fa-stream
+
+  - title: "Tools & Resources"
+    url: "#"
+    icon: fas fa-tools
+    children:
+      - title: "List of Tools"
+        url: "/docs/tools/tools-list.html"
+        icon: fas fa-wrench
