@@ -1,32 +1,44 @@
 // Swasthx Documentation Navigation Enhancement
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // Add active page highlighting
     highlightActivePage();
-    
+
     // Add smooth scrolling to anchor links
     addSmoothScrolling();
-    
+
     // Add sidebar scroll restoration
     restoreSidebarScroll();
-    
+
     // Add keyboard navigation support
     addKeyboardNavigation();
-    
+
     // Add search functionality
     addSearchFunctionality();
 });
 
 // Highlight the current page in the sidebar
 function highlightActivePage() {
-    const currentPath = window.location.pathname;
+    const currentPath = window.location.pathname.replace(/\/$/, '');
     const sidebarLinks = document.querySelectorAll('.sidebar nav a');
-    
+
     sidebarLinks.forEach(link => {
-        const linkPath = link.getAttribute('href');
-        if (linkPath && currentPath.includes(linkPath.replace(/^\//, ''))) {
+        let linkPath = link.getAttribute('href');
+
+        // Skip empty links or hash links
+        if (!linkPath || linkPath === '#' || linkPath.endsWith('/#')) {
+            return;
+        }
+
+        // Normalize link path
+        linkPath = linkPath.replace(/\/$/, '');
+
+        // Check for exact match
+        if (currentPath === linkPath) {
             link.classList.add('active');
             link.closest('li').classList.add('active');
+
+            // Should also expand parent section if we had collapsible sections
         }
     });
 }
@@ -34,13 +46,13 @@ function highlightActivePage() {
 // Add smooth scrolling to anchor links
 function addSmoothScrolling() {
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
+
     anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
-            
+
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
@@ -55,14 +67,14 @@ function addSmoothScrolling() {
 function restoreSidebarScroll() {
     const sidebar = document.querySelector('.sidebar');
     const scrollKey = 'sidebar-scroll-position';
-    
+
     // Save scroll position before page unload
-    window.addEventListener('beforeunload', function() {
+    window.addEventListener('beforeunload', function () {
         if (sidebar) {
             localStorage.setItem(scrollKey, sidebar.scrollTop);
         }
     });
-    
+
     // Restore scroll position on page load
     if (sidebar) {
         const savedPosition = localStorage.getItem(scrollKey);
@@ -75,11 +87,11 @@ function restoreSidebarScroll() {
 // Add keyboard navigation support
 function addKeyboardNavigation() {
     const sidebarLinks = document.querySelectorAll('.sidebar nav a');
-    
+
     sidebarLinks.forEach((link, index) => {
         link.setAttribute('tabindex', '0');
-        
-        link.addEventListener('keydown', function(e) {
+
+        link.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 this.click();
@@ -108,7 +120,7 @@ function addSearchFunctionality() {
             </div>
         `;
         sidebar.insertAdjacentHTML('beforebegin', searchHTML);
-        
+
         const searchInput = document.getElementById('doc-search');
         searchInput.addEventListener('input', filterSidebarLinks);
     }
@@ -119,11 +131,11 @@ function filterSidebarLinks() {
     const searchTerm = this.value.toLowerCase();
     const sidebarLinks = document.querySelectorAll('.sidebar nav a');
     const sections = document.querySelectorAll('.sidebar .section');
-    
+
     sidebarLinks.forEach(link => {
         const linkText = link.textContent.toLowerCase();
         const linkItem = link.closest('li');
-        
+
         if (linkText.includes(searchTerm)) {
             linkItem.style.display = 'block';
             linkItem.style.opacity = '1';
@@ -132,12 +144,12 @@ function filterSidebarLinks() {
             linkItem.style.opacity = '0.3';
         }
     });
-    
+
     // Show/hide sections based on visible links
     sections.forEach(section => {
         const sectionLinks = section.nextElementSibling;
         let hasVisibleLinks = false;
-        
+
         while (sectionLinks && !sectionLinks.classList.contains('section')) {
             if (sectionLinks.style.display !== 'none') {
                 hasVisibleLinks = true;
@@ -145,7 +157,7 @@ function filterSidebarLinks() {
             }
             sectionLinks = sectionLinks.nextElementSibling;
         }
-        
+
         section.style.display = hasVisibleLinks ? 'flex' : 'none';
     });
 }
@@ -215,15 +227,15 @@ document.head.insertAdjacentHTML('beforeend', searchStyles);
 // Add utility functions for documentation
 window.SwasthxDocs = {
     // Scroll to section
-    scrollToSection: function(sectionId) {
+    scrollToSection: function (sectionId) {
         const element = document.getElementById(sectionId);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     },
-    
+
     // Copy code blocks
-    copyCodeBlock: function(codeElement) {
+    copyCodeBlock: function (codeElement) {
         const text = codeElement.textContent;
         navigator.clipboard.writeText(text).then(() => {
             // Show success message
@@ -242,24 +254,24 @@ window.SwasthxDocs = {
                 animation: slideIn 0.3s ease;
             `;
             document.body.appendChild(message);
-            
+
             setTimeout(() => {
                 message.remove();
             }, 3000);
         });
     },
-    
+
     // Toggle sidebar on mobile
-    toggleSidebar: function() {
+    toggleSidebar: function () {
         const sidebar = document.querySelector('.sidebar');
         sidebar.classList.toggle('mobile-open');
     }
 };
 
 // Add copy button to code blocks
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const codeBlocks = document.querySelectorAll('pre code');
-    
+
     codeBlocks.forEach(codeBlock => {
         const copyButton = document.createElement('button');
         copyButton.innerHTML = '<i class="fas fa-copy"></i>';
@@ -279,21 +291,21 @@ document.addEventListener('DOMContentLoaded', function() {
             opacity: 0;
             transition: opacity 0.2s ease;
         `;
-        
-        copyButton.addEventListener('click', function() {
+
+        copyButton.addEventListener('click', function () {
             SwasthxDocs.copyCodeBlock(codeBlock);
         });
-        
+
         const preElement = codeBlock.closest('pre');
         if (preElement) {
             preElement.style.position = 'relative';
             preElement.appendChild(copyButton);
-            
-            preElement.addEventListener('mouseenter', function() {
+
+            preElement.addEventListener('mouseenter', function () {
                 copyButton.style.opacity = '1';
             });
-            
-            preElement.addEventListener('mouseleave', function() {
+
+            preElement.addEventListener('mouseleave', function () {
                 copyButton.style.opacity = '0';
             });
         }
