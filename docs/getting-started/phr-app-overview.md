@@ -33,11 +33,11 @@ The PHR App backend services are containerized and deployed on **AWS App Runner*
 
 | Environment | App Runner Service | Infrastructure Details |
 | :--- | :--- | :--- |
-| **Development** | `swasthx-backend-service` | [View Resources]({{ '/aws-resources' | relative_url }}#6-swasthx-backend-service) |
-| **QA** | `PHR_QA_DEPLOYMENT` | [View Resources]({{ '/aws-resources' | relative_url }}#5-phr_qa_deployment) |
-| **Production** | `PHR_production` | [View Resources]({{ '/aws-resources' | relative_url }}#4-phr_production) |
+| **Development** | `swasthx-backend-service` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#6-swasthx-backend-service) |
+| **QA** | `PHR_QA_DEPLOYMENT` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#5-phr_qa_deployment) |
+| **Production** | `PHR_production` | [View Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}#4-phr_production) |
 
-For a complete list of cloud resources, refer to the [AWS Resources]({{ '/aws-resources' | relative_url }}) page.
+For a complete list of cloud resources, refer to the [AWS Resources]({{ '/docs/infra/cloud-overview.html' | relative_url }}) page.
 
 ## 4. APIs & Integration
 The PHR App consumes the Swasthx Backend APIs.

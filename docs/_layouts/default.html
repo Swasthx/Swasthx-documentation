@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +40,7 @@
       min-height: 100vh;
       flex-direction: row;
     }
-    
+
     /* Sidebar Styles */
     .sidebar {
       width: 280px;
@@ -53,11 +54,11 @@
       overflow-y: auto;
       border-right: 1px solid var(--border-color);
     }
-    
+
     .sidebar-section {
       margin-top: 1.5rem;
     }
-    
+
     .sidebar-title {
       font-size: 0.9rem;
       text-transform: uppercase;
@@ -98,11 +99,11 @@
       padding: 0;
       margin: 0;
     }
-    
+
     .nav-section {
       margin-top: 0.5rem;
     }
-    
+
     .nav-section-title {
       display: block;
       font-size: 0.75rem;
@@ -113,17 +114,17 @@
       margin-top: 0.5rem;
       letter-spacing: 0.05em;
     }
-    
+
     .nav-submenu {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    
+
     .nav-item {
       margin: 0.25rem 0;
     }
-    
+
     .nav-link {
       display: flex;
       align-items: center;
@@ -135,7 +136,7 @@
       margin: 0.1rem 0.5rem;
       font-size: 0.9rem;
     }
-    
+
     .nav-link i {
       width: 1.25rem;
       text-align: center;
@@ -143,22 +144,22 @@
       font-size: 0.9em;
       color: #6b7280;
     }
-    
+
     .nav-link:hover {
       background-color: #f3f4f6;
       color: var(--primary-color);
     }
-    
+
     .nav-link.active {
       background-color: #e0e7ff;
       color: var(--primary-color);
       font-weight: 500;
     }
-    
+
     .nav-link.active i {
       color: var(--primary-color);
     }
-    
+
     .nav-text {
       font-size: 0.9rem;
     }
@@ -195,17 +196,33 @@
     }
 
     /* Content Styling */
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: #2c3e50;
       margin-top: 1.5em;
       margin-bottom: 0.75em;
       line-height: 1.3;
     }
 
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.5rem; }
-    h4 { font-size: 1.3rem; }
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.3rem;
+    }
 
     p {
       margin-bottom: 1.2em;
@@ -259,20 +276,20 @@
       margin-bottom: 2rem;
       border: 1px solid #e1e4e8;
     }
-    
+
     .toc-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
     }
-    
+
     .toc-header h3 {
       margin: 0;
       font-size: 1.1rem;
       color: var(--text-color);
     }
-    
+
     .toc-toggle {
       background: none;
       border: none;
@@ -280,33 +297,33 @@
       color: #6a737d;
       padding: 0.25rem;
     }
-    
+
     .toc-content {
       max-height: 500px;
       overflow-y: auto;
     }
-    
+
     .toc-content ul {
       list-style: none;
       padding-left: 1rem;
       margin: 0;
     }
-    
+
     .toc-content li {
       margin: 0.5rem 0;
       line-height: 1.4;
     }
-    
+
     .toc-content a {
       color: #0366d6;
       text-decoration: none;
       font-size: 0.95em;
     }
-    
+
     .toc-content a:hover {
       text-decoration: underline;
     }
-    
+
     table {
       border-collapse: collapse;
       width: 100%;
@@ -314,7 +331,8 @@
       font-size: 0.95em;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid var(--border-color);
       padding: 0.75em 1em;
       text-align: left;
@@ -332,6 +350,7 @@
   <!-- SEO Tags -->
   {% seo %}
 </head>
+
 <body>
   <div class="container">
     <aside class="sidebar">
@@ -357,19 +376,22 @@
               <span class="nav-section-title">Getting Started</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/onboarding-guide" class="nav-link {% if page.url contains 'onboarding-guide' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/onboarding-guide"
+                    class="nav-link {% if page.url contains 'onboarding-guide' %}active{% endif %}">
                     <i class="fas fa-user-plus"></i>
                     <span class="nav-text">Onboarding Guide</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/overview" class="nav-link {% if page.url contains 'overview' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/overview"
+                    class="nav-link {% if page.url contains 'overview' %}active{% endif %}">
                     <i class="fas fa-info-circle"></i>
                     <span class="nav-text">System Overview</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/documentation-structure" class="nav-link {% if page.url contains 'documentation-structure' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/documentation-structure"
+                    class="nav-link {% if page.url contains 'documentation-structure' %}active{% endif %}">
                     <i class="fas fa-sitemap"></i>
                     <span class="nav-text">Documentation Structure</span>
                   </a>
@@ -382,19 +404,22 @@
               <span class="nav-section-title">Development</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/coding-standards" class="nav-link {% if page.url contains 'coding-standards' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/coding-standards"
+                    class="nav-link {% if page.url contains 'coding-standards' %}active{% endif %}">
                     <i class="fas fa-file-code"></i>
                     <span class="nav-text">Coding Standards</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/api-guidelines" class="nav-link {% if page.url contains 'api-guidelines' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/api-guidelines"
+                    class="nav-link {% if page.url contains 'api-guidelines' %}active{% endif %}">
                     <i class="fas fa-exchange-alt"></i>
                     <span class="nav-text">API Guidelines</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/backend-documentation" class="nav-link {% if page.url contains 'backend-documentation' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/backend-documentation"
+                    class="nav-link {% if page.url contains 'backend-documentation' %}active{% endif %}">
                     <i class="fas fa-server"></i>
                     <span class="nav-text">Backend Docs</span>
                   </a>
@@ -407,37 +432,43 @@
               <span class="nav-section-title">API & Integration</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/api-documentation" class="nav-link {% if page.url contains 'api-documentation' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/api-documentation"
+                    class="nav-link {% if page.url contains 'api-documentation' %}active{% endif %}">
                     <i class="fas fa-file-code"></i>
                     <span class="nav-text">API Documentation</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/api-resources" class="nav-link {% if page.url contains 'api-resources' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/api-resources"
+                    class="nav-link {% if page.url contains 'api-resources' %}active{% endif %}">
                     <i class="fas fa-tools"></i>
                     <span class="nav-text">API Resources Hub</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/swagger-api-documentation.yaml" class="nav-link {% if page.url contains 'swagger-api-documentation.yaml' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/swagger-api-documentation.yaml"
+                    class="nav-link {% if page.url contains 'swagger-api-documentation.yaml' %}active{% endif %}">
                     <i class="fas fa-file-code"></i>
                     <span class="nav-text">Swagger/OpenAPI Spec</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/postman-collection.json" class="nav-link {% if page.url contains 'postman-collection.json' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/postman-collection.json"
+                    class="nav-link {% if page.url contains 'postman-collection.json' %}active{% endif %}">
                     <i class="fas fa-file-export"></i>
                     <span class="nav-text">Postman Collection</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/postman-collection-guide" class="nav-link {% if page.url contains 'postman-collection-guide' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/postman-collection-guide"
+                    class="nav-link {% if page.url contains 'postman-collection-guide' %}active{% endif %}">
                     <i class="fas fa-book-open"></i>
                     <span class="nav-text">Postman Guide</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/postman-quick-reference" class="nav-link {% if page.url contains 'postman-quick-reference' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/postman-quick-reference"
+                    class="nav-link {% if page.url contains 'postman-quick-reference' %}active{% endif %}">
                     <i class="fas fa-bolt"></i>
                     <span class="nav-text">Postman Quick Reference</span>
                   </a>
@@ -450,25 +481,29 @@
               <span class="nav-section-title">Database</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/mongodb-guide" class="nav-link {% if page.url contains 'mongodb-guide' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/mongodb-guide"
+                    class="nav-link {% if page.url contains 'mongodb-guide' %}active{% endif %}">
                     <i class="fas fa-database"></i>
                     <span class="nav-text">MongoDB Guide</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/mongodb-documentation" class="nav-link {% if page.url contains 'mongodb-documentation' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/mongodb-documentation"
+                    class="nav-link {% if page.url contains 'mongodb-documentation' %}active{% endif %}">
                     <i class="fas fa-file-alt"></i>
                     <span class="nav-text">MongoDB Documentation</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/mongodb-queries" class="nav-link {% if page.url contains 'mongodb-queries' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/mongodb-queries"
+                    class="nav-link {% if page.url contains 'mongodb-queries' %}active{% endif %}">
                     <i class="fas fa-search"></i>
                     <span class="nav-text">MongoDB Queries</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/mongodb-schema.json" class="nav-link {% if page.url contains 'mongodb-schema.json' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/mongodb-schema.json"
+                    class="nav-link {% if page.url contains 'mongodb-schema.json' %}active{% endif %}">
                     <i class="fas fa-schema"></i>
                     <span class="nav-text">Database Schema</span>
                   </a>
@@ -481,13 +516,15 @@
               <span class="nav-section-title">Infrastructure</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/aws-resources" class="nav-link {% if page.url contains 'aws-resources' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/docs/infra/cloud-overview.html"
+                    class="nav-link {% if page.url contains 'cloud-overview' %}active{% endif %}">
                     <i class="fab fa-aws"></i>
                     <span class="nav-text">AWS Resources</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/_docs/aws/resources" class="nav-link {% if page.url contains '_docs/aws/resources' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/_docs/aws/resources"
+                    class="nav-link {% if page.url contains '_docs/aws/resources' %}active{% endif %}">
                     <i class="fas fa-tools"></i>
                     <span class="nav-text">AWS Tools</span>
                   </a>
@@ -500,25 +537,29 @@
               <span class="nav-section-title">Workflows & Project Management</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/branching-strategy" class="nav-link {% if page.url contains 'branching-strategy' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/branching-strategy"
+                    class="nav-link {% if page.url contains 'branching-strategy' %}active{% endif %}">
                     <i class="fas fa-code-branch"></i>
                     <span class="nav-text">Branching Strategy</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/Workflows/branching-strategy" class="nav-link {% if page.url contains 'Workflows/branching-strategy' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/Workflows/branching-strategy"
+                    class="nav-link {% if page.url contains 'Workflows/branching-strategy' %}active{% endif %}">
                     <i class="fas fa-code-branch"></i>
                     <span class="nav-text">Branching Strategy (Workflows)</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/workflows" class="nav-link {% if page.url contains 'workflows' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/workflows"
+                    class="nav-link {% if page.url contains 'workflows' %}active{% endif %}">
                     <i class="fas fa-tasks"></i>
                     <span class="nav-text">Development Workflows</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/architecture" class="nav-link {% if page.url contains 'architecture' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/architecture"
+                    class="nav-link {% if page.url contains 'architecture' %}active{% endif %}">
                     <i class="fas fa-sitemap"></i>
                     <span class="nav-text">Architecture</span>
                   </a>
@@ -531,7 +572,8 @@
               <span class="nav-section-title">Other Docs</span>
               <ul class="nav-submenu">
                 <li class="nav-item">
-                  <a href="{{ site.baseurl }}/docs/overview" class="nav-link {% if page.url contains 'docs/overview' %}active{% endif %}">
+                  <a href="{{ site.baseurl }}/docs/overview"
+                    class="nav-link {% if page.url contains 'docs/overview' %}active{% endif %}">
                     <i class="fas fa-info-circle"></i>
                     <span class="nav-text">Docs Overview (Alternate)</span>
                   </a>
@@ -566,11 +608,11 @@
 
   <script>
     // Toggle Table of Contents
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // TOC toggle functionality
       const tocToggle = document.querySelector('.toc-toggle');
       const tocContent = document.querySelector('.toc-content');
-      
+
       if (tocToggle && tocContent) {
         tocToggle.addEventListener('click', () => {
           const isExpanded = tocContent.style.maxHeight !== '0px';
@@ -581,11 +623,11 @@
           }
         });
       }
-      
+
       // Add active class to current navigation item
       const currentPath = window.location.pathname;
       const navLinks = document.querySelectorAll('.nav-link');
-      
+
       navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPath) {
           link.classList.add('active');
@@ -594,4 +636,5 @@
     });
   </script>
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 ---
 layout: default
-title: MongoDB Guide
-permalink: /mongodb-guide
+title: Database Overview
+parent: Database
 ---
 
 # MongoDB Best Practices & Guidelines

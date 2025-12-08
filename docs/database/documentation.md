@@ -1,7 +1,6 @@
 ---
 layout: default
 title: MongoDB Documentation
-permalink: /mongodb-documentation
 ---
 
 # SwasthX MongoDB Database Documentation
