@@ -125,7 +125,7 @@ navigation:
     icon: fas fa-database
     children:
       - title: "DB Overview"
-        url: "/mongodb-guide"
+        url: "/docs/database/overview.html"
         icon: fas fa-info
       - title: "DB Guidelines"
         url: "/docs/database/guidelines.html"
@@ -133,9 +133,7 @@ navigation:
       - title: "DB Documentations"
         url: "/docs/database/documentation.html"
         icon: fas fa-file-alt
-      - title: "DB Schema"
-        url: "/docs/database/schema.html"
-        icon: fas fa-table
+
 
   - title: "Infrastructure"
     url: "#"
@@ -144,9 +142,7 @@ navigation:
       - title: "Cloud Overview"
         url: "/docs/infra/cloud-overview.html"
         icon: fab fa-aws
-      - title: "Cloud Guidelines"
-        url: "/docs/infra/guidelines.html"
-        icon: fas fa-check-square
+
       - title: "Cloud Documentations"
         url: "/docs/infra/documentation.html"
         icon: fas fa-file-contract
@@ -162,10 +158,10 @@ navigation:
         url: "/docs/workflows/development-workflows.html"
         icon: fas fa-stream
 
-  - title: "Tools & Resources"
+  - title: "Resources"
     url: "#"
     icon: fas fa-tools
     children:
-      - title: "List of Tools"
-        url: "/docs/tools/tools-list.html"
+      - title: "Resources"
+        url: "/docs/tools/resources.html"
         icon: fas fa-wrench
