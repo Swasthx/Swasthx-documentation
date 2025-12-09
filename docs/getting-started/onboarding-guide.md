@@ -61,9 +61,9 @@ Welcome to the Swasthx team! This guide serves as your map to navigate our docum
 
   <div class="doc-card">
     <i class="fas fa-tools card-icon"></i>
-    <h3>Tools & Resources</h3>
+    <h3>Resources</h3>
     <p>List of essential tools, libraries, and external resources we use.</p>
-    <a href="{{ '/docs/tools/tools-list.html' | relative_url }}" class="btn-primary">View Tools</a>
+    <a href="{{ '/docs/tools/resources.html' | relative_url }}" class="btn-primary">View Resources</a>
   </div>
 
 </div>
