@@ -95,6 +95,11 @@ graph TD
     ABDM -.->|Callback Webhook| Gw
 ```
 
+### Cloud Infrastructure Diagram (Mobile App)
+![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
+
+
+
 ---
 
 ## 2. Website & Portals Architecture
@@ -150,6 +155,11 @@ graph TD
     Runner --> DocDB
     Runner --> S3
 ```
+
+### Cloud Infrastructure Diagram (Website)
+![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
+
+
 
 ---
 

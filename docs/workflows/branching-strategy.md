@@ -1,149 +1,140 @@
 ---
 layout: default
 title: Branching Strategy
+parent: Workflows & Processes
 ---
 
-# Swasthx Branching Strategy & Deployment Policy
+# Branching Strategy & Deployment Policy
 
-This document outlines our Git workflow structure, naming conventions, and CI/CD rules for contributing to the Swasthx API backend repository. All developers must adhere to this standard to maintain a clean, secure, and automated release process.
+This document outlines our Git workflow structure, naming conventions, and CI/CD rules for contributing to the Swasthx repositories. All developers must adhere to this standard to maintain a clean, secure, and automated release process.
 
-## Branching Model
+## 1. Branching Structure
 
-### Workflow Diagram
+We maintain specific branching structures for our different application components:
 
-<img src="./images/branching-workflow.png" alt="Branching Workflow" style="max-width: 700px; width: 100%; height: auto; display: block; margin: 0 auto;" />
+### App Frontend
+*   **development**: For day-to-day development work.
+*   **qa**: For quality assurance testing.
+*   **production**: For the live application.
 
-### Branching Strategy Table
+### App Backend
+*   **development**: For day-to-day development work.
+*   **qa**: For quality assurance testing.
+*   **production**: For the live application.
 
-| Branch | Purpose | Deployment |
-|--------|---------|------------|
-| `main` | Reserved for production-ready releases | Manual (if used) |
-| `preprod` | Last-mile testing and approval environment | Auto-deployed |
-| `development` | Integrated working branch for all completed features | Optional QA |
-| `feature/*` | Individual features or bug fixes | N/A (via PRs) |
+### Website Frontend
+*   **development-new**: For day-to-day development work.
+*   **qa**: For quality assurance testing.
+*   **production**: For the live website.
 
-### Feature Branch Naming Policy
+### Website Backend
+*   **development**: For day-to-day development work.
+*   **qa**: For quality assurance testing.
+*   **production**: For the live application.
 
-All new work must follow this format:
-```
-feature/{short-description}
-```
+---
 
-**Examples:**
-- `feature/login-api`
-- `feature/fix-scroll`
-- `feature/add-appointment-service`
+## 2. The Rules of Pushing Code
 
-**Not allowed:**
-- `feature/1234-login-api`
-- `bugfix/navbar`
-- `hotfix/image-issue`
+1.  **One way merging**: You merge `development` -> `QA` -> `production`.
+2.  **PRs only**: Never push directly to `QA` or `production`. You must open a Pull Request.
+3.  **No skipping**: You cannot merge `development` straight to `production`. You must go through `QA` first.
 
-PRs with invalid branch names will be blocked by GitHub Actions.
+---
 
-## Workflow for Developers
+## 3. Scenarios
 
-### 1. Create a Feature Branch
-```bash
-git checkout development
-git pull origin development
-git checkout -b feature/login-api
-```
+### Scenario 1: Bug Found in QA (Bug)
 
-### 2. Push to Remote
-```bash
-git push origin feature/login-api
-```
+**Context**: The team is testing upcoming features. The users haven't seen this code yet.
+**Goal**: Fix it quickly so we can finish the release.
+**Branching**: Work off the **QA** branch.
 
-### 3. Open a Pull Request (PR)
-- Source: `feature/...`
-- Target: `development`
-- Ensure CI checks pass and get reviews.
+**Steps for Developer**:
 
-### 4. Merge to development
-After successful review and test validation.
+1.  **Get the Ticket**: Assign the Jira/Linear ticket to yourself.
+2.  **Switch to QA Code**:
+    ```bash
+    git checkout qa
+    git pull origin qa
+    # Make sure you have the latest code
+    ```
+3.  **Create a Fix Branch**:
+    *   Create a branch specifically for this bug.
+    ```bash
+    git checkout -b fix/qa-login-button
+    ```
+4.  **Fix & Test**:
+    *   Fix the bug in your code.
+    *   Run the app locally to confirm it works.
+5.  **Push**:
+    ```bash
+    git push origin fix/qa-login-button
+    ```
+6.  **Open Pull Request (PR)**:
+    *   Open a PR from `fix/qa-login-button` -> `qa`.
+    *   *Note: Do NOT merge to `dev` yet.*
+7.  **Merge & Verify**:
+    *   Once approved, merge into `qa`.
+    *   Tell the QA team: "Fix is deployed to QA, please verify."
 
-### 5. Promote to Preprod
-- PR from `development` → `preprod`.
-- Only `development` is allowed to merge into `preprod`.
-- Deployment to AWS App Runner is automated on `preprod` push.
+### Scenario 2: Bug Found in Production (Patch)
 
-## GitHub Enforcement
+**Context**: The bug is LIVE. Users are seeing it right now.
+**Goal**: Stop the bleeding immediately without releasing half-finished features from Dev/QA.
+**Branching**: Work off the **production** branch.
 
-### Branch Protection
-- `preprod` and `development` branches are protected.
-- Require pull requests
-- Block direct pushes
-- Require status checks
+**Steps for Developer**:
 
-### Merge Restrictions
-- PRs into `preprod` are only accepted if the source is `development`.
-- Enforced via GitHub Actions.
+1.  **Panic Check**: Confirm with your Lead/Manager: "Is this critical enough for a Hotfix?"
+2.  **Switch to Safe Code**:
+    ```bash
+    git checkout production
+    # Go to the live code
+    git pull origin production
+    ```
+3.  **Create Hotfix Branch**:
+    ```bash
+    git checkout -b hotfix/payment-crash
+    ```
+4.  **The Surgical Fix**:
+    *   Fix only the **bug**. Touch nothing else.
+    *   *Do not reformat code. Do not update libraries.*
+5.  **Push**:
+    ```bash
+    git push origin hotfix/payment-crash
+    ```
+6.  **Open Pull Request (PR)**:
+    *   Open a PR from `hotfix/payment-crash` -> `production`.
+    *   **Urgent**: Ask a senior developer to review it immediately.
+7.  **Release**:
+    *   Merge to `production`. (This triggers the release pipeline).
+8.  **The Critical Final Step (Sync Back)**:
+    *   You must now copy this fix to your other branches so the bug doesn't come back next month.
+    ```bash
+    git checkout dev
+    git cherry-pick <commit-hash-of-your-fix>
+    git push origin dev
+    ```
 
-### Branch Name Enforcement
-- PRs must originate from `feature/{short-description}`
-- Allowed exceptions:
-  - `development`
-  - `preprod`
+---
 
-## CI/CD Integration
+## 4. Code Commit Standard
 
-**Triggered On:**
-- Push to `preprod` → Automatically deploy to AWS App Runner
+We follow a standard way of adding commit messages whenever code is being pushed to any branch.
 
-**GitHub Actions Workflows Used:**
-1. `restrict-preprod-merges.yml`: Ensures only `development` → `preprod` merges
-2. `enforce-branch-name.yml`: Validates branch name format for all PRs
-3. `deploy-to-apprunner.yml`: Builds Docker image & deploys to App Runner on `preprod` push
+The syntax: `<type>(<scope>): <subject>`
 
-## Automated Deployment Triggers
+*   **`<type>`**: Tells the system *what kind* of change this is (feature, fix etc).
+*   **`(<scope>)`**: (compulsory) Tells the system *where* the change is (e.g., `(login)`, `(payment-api)`).
+*   **`<subject>`**: A short, imperative description of the change.
 
-Our CI/CD pipeline is configured so that **any time a feature, hotfix, or bugfix branch is merged into the `development` branch**, an automated deployment is triggered for the development environment.
+### Types and Examples
 
-- **Trigger:** Merge to `development` from `feature/*`, `hotfix/*`, or `bugfix/*`
-- **Repository:** [swasthx_Backend](https://github.com/Swasthx/swasthx_Backend)
-- **Deployment Target:** Development environment (dev server)
-- **CI/CD Tool:** GitHub Actions
+| Type | Meaning | Version Bump | Example |
+| :--- | :--- | :--- | :--- |
+| **feat** | A new feature for the user. | **Minor** (1.1.0 -> 1.2.0) | `feat(cart): add 'buy now' button` |
+| **fix** | A bug fix for the user. | **Patch** (1.1.0 -> 1.1.1) | `fix(login): resolve crash on bad password` |
+| **refactor** | Restructuring code without changing behavior. | **None** | `refactor: simplify auth middleware logic` |
 
-### Deployment Flow
-1. Developer creates a feature, hotfix, or bugfix branch from `development`.
-2. Work is completed and a pull request (PR) is opened to merge into `development`.
-3. After code review and approval, the PR is merged.
-4. **On merge, the CI/CD pipeline automatically builds and deploys the latest code to the development environment.**
-5. Developers can immediately test their changes on the dev server.
-
-### Example Branches That Trigger Deployment
-- `feature/login-api`
-- `bugfix/appointment-timezone`
-- `hotfix/payment-crash`
-
-### Notes
-- Direct pushes to `development` are blocked; all changes must go through PRs.
-- Only merges from `feature/*`, `bugfix/*`, or `hotfix/*` branches will trigger deployment.
-- The same process applies for other environments (e.g., merging to `preprod` or `main` for staging/production deployments), but this section focuses on the development environment.
-
-## Contributor Tips
-- Always branch from `development`
-- Keep branches focused and short-lived
-- Use kebab-case for clarity in branch names
-- Don't push to `preprod` or `development` directly
-- Always use PRs with reviews
-
-- `main` - Production-ready code
-- `develop` - Integration branch for features
-
-## Supporting Branches
-
-- `feature/` - New features being developed
-- `bugfix/` - Bug fixes
-- `release/` - Release preparation
-- `hotfix/` - Critical production fixes
-
-## Workflow
-
-1. Create a feature branch from `develop`
-2. Work on your feature
-3. Create a pull request to `develop`
-4. After review and testing, merge to `develop`
-5. When ready for release, create a release branch
-6. After final testing, merge to `main` and tag the release
+For more information regarding versioning, please refer to the [PHR App Release Guidelines]({{ site.baseurl }}/docs/release/phr-app-release.html).
