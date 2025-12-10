@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +9,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   {% seo %}
 </head>
+
 <body>
   <div class="container">
     <div class="sidebar">
       <nav>
         <ul>
           {% for item in site.navigation %}
-            {% if item.children %}
-              <li class="section"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
-              <ul class="sidebar-sub">
-                {% for child in item.children %}
-                  <li><a href="{{ child.url | relative_url }}"><i class="{{ child.icon }}"></i> {{ child.title }}</a></li>
-                {% endfor %}
-              </ul>
+          {% if item.children %}
+          <li class="section"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
+          <ul class="sidebar-sub">
+            {% for child in item.children %}
+            {% if child.children %}
+            <li class="sub-section"><i class="{{ child.icon }}"></i> {{ child.title }}</li>
+            <ul class="sidebar-sub-sub">
+              {% for grandchild in child.children %}
+              <li><a href="{{ grandchild.url | relative_url }}"><i class="{{ grandchild.icon }}"></i> {{
+                  grandchild.title }}</a></li>
+              {% endfor %}
+            </ul>
             {% else %}
-              <li><a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> {{ item.title }}</a></li>
+            <li><a href="{{ child.url | relative_url }}"><i class="{{ child.icon }}"></i> {{ child.title }}</a></li>
             {% endif %}
+            {% endfor %}
+          </ul>
+          {% else %}
+          <li><a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> {{ item.title }}</a></li>
+          {% endif %}
           {% endfor %}
         </ul>
       </nav>
@@ -42,4 +54,5 @@
 
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
+
 </html>

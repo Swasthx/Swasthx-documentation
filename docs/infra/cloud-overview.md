@@ -8,6 +8,14 @@ parent: Infrastructure
 
 This document provides a comprehensive overview of all AWS resources used in the Swasthx infrastructure.
 
+## Infrastructure Visuals
+
+### PHR Mobile App Cloud Architecture
+![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
+
+### Website & Portals Cloud Architecture
+![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
+
 | Service | Category | Description |
 | :--- | :--- | :--- |
 | **AWS Amplify** | Frontend / Hosting | Hosts the React.js website and portals; handles CI/CD and domain mapping. |
