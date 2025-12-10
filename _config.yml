@@ -130,9 +130,16 @@ navigation:
       - title: "DB Guidelines"
         url: "/docs/database/guidelines.html"
         icon: fas fa-check-circle
-      - title: "DB Documentations"
-        url: "/docs/database/documentation.html"
-        icon: fas fa-file-alt
+      - title: "DB Documentation"
+        url: "#"
+        icon: fas fa-folder-open
+        children:
+          - title: "PHR Database"
+            url: "/docs/database/phr-database.html"
+            icon: fas fa-file-medical-alt
+          - title: "Website Database"
+            url: "/docs/database/website-database.html"
+            icon: fas fa-laptop-medical
 
 
   - title: "Infrastructure"
@@ -142,10 +149,28 @@ navigation:
       - title: "Cloud Overview"
         url: "/docs/infra/cloud-overview.html"
         icon: fab fa-aws
-
-      - title: "Cloud Documentations"
-        url: "/docs/infra/documentation.html"
-        icon: fas fa-file-contract
+      - title: "Cloud Documentation"
+        url: "#"
+        icon: fas fa-server
+        children:
+          - title: "Amazon S3"
+            url: "/docs/infra/s3.html"
+            icon: fas fa-cube
+          - title: "AWS Amplify"
+            url: "/docs/infra/amplify.html"
+            icon: fas fa-mobile-alt
+          - title: "AWS App Runner"
+            url: "/docs/infra/app-runner.html"
+            icon: fas fa-database
+          - title: "Google Gemini"
+            url: "/docs/infra/gemini.html"
+            icon: fas fa-brain
+          - title: "Amazon SNS"
+            url: "/docs/infra/sns.html"
+            icon: fas fa-envelope
+          - title: "Amazon Route 53"
+            url: "/docs/infra/route53.html"
+            icon: fas fa-route
 
   - title: "Workflows & Processes"
     url: "#"
@@ -154,9 +179,19 @@ navigation:
       - title: "Branching Strategy"
         url: "/docs/workflows/branching-strategy.html"
         icon: fas fa-code-branch
-      - title: "Development Workflows"
-        url: "/docs/workflows/development-workflows.html"
-        icon: fas fa-stream
+      - title: "Frontend Workflows"
+        url: "/docs/workflows/frontend-workflows.html"
+        icon: fas fa-desktop
+      - title: "Backend"
+        url: "#"
+        icon: fas fa-server
+        children:
+          - title: "PHR Backend"
+            url: "/docs/workflows/phr-backend.html"
+            icon: fas fa-file-code
+          - title: "Website Backend"
+            url: "/docs/workflows/website-backend.html"
+            icon: fas fa-laptop-code
 
   - title: "Resources"
     url: "#"
