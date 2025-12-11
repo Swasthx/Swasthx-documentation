@@ -13,6 +13,9 @@ This database stores all data focused on the Personal Health Record (PHR) applic
 In all environments (Dev, QA, Prod), the database name is consistent:
 *   `testingdb`
 
+## Database Diagram
+<a href="https://drive.google.com/file/d/1cSDfYB7I0MHtp0uRbxSP5lCsTej6B19H/view?usp=sharing" target="_blank">View PHR Database Diagram</a>
+
 ## Collections
 The PHR DB contains the following collections:
 

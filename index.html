@@ -1,15 +1,163 @@
----
-layout: null
----
 <!DOCTYPE html>
-<html lang="en-US">
-<meta charset="utf-8">
-<title>Redirecting&hellip;</title>
-<link rel="canonical" href="{{ '/overview' | relative_url }}">
-<script>location = "{{ '/overview' | relative_url }}"</script>
-<meta http-equiv="refresh" content="0; url={{ '/overview' | relative_url }}">
-<meta name="robots" content="noindex">
-<h1>Redirecting&hellip;</h1>
-<a href="{{ '/overview' | relative_url }}">Click here if you are not redirected.</a>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SwasthX Documentation Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .portal-container {
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .portal-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+
+        .cards-wrapper {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .doc-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #3b82f6;
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: #eff6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            font-size: 2.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .card-description {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .phr-card:hover .card-icon {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .phr-card:hover {
+            border-color: #10b981;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="portal-container">
+        <h1 class="portal-title">SwasthX Documentation</h1>
+        <p class="portal-subtitle">Select the platform documentation you wish to view</p>
+
+        <div class="cards-wrapper">
+            <!-- PHR Card -->
+            <a href="#" onclick="selectContext('phr')" class="doc-card phr-card">
+                <div class="card-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="card-title">PHR App</div>
+                <div class="card-description">
+                    Documentation, Database schemas, and Workflows for the Personal Health Record mobile application.
+                </div>
+            </a>
+
+            <!-- Website Card -->
+            <a href="#" onclick="selectContext('website')" class="doc-card website-card">
+                <div class="card-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="card-title">Website & HMIS</div>
+                <div class="card-description">
+                    Documentation for the SwasthX Website, Doctor Portal, and backend administration systems.
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function selectContext(context) {
+            // Save context
+            localStorage.setItem('swasthx_doc_context', context);
+
+            // Redirect to the Overview page (or the first common page)
+            // Assuming 'overview.html' exists at root or documents.
+            // Config says url: "/overview" -> likely overview.html at root?
+            // Or docs/database/overview.html?
+            // Based on config: - title: "Overview" url: "/overview"
+            // Let's assume relative to baseurl.
+
+            const baseUrl = window.location.pathname.replace('/index.html', '').replace(/\/$/, '');
+            // Simplest approach: Go to /overview.html relative to current location
+
+            // We need to handle baseurl correctly.
+            // If deployed at /Swasthx-documentation/, then we need to go to /Swasthx-documentation/overview.html
+
+            // Let's try to construct it.
+            // If we are at .../Swasthx-documentation/
+            window.location.href = 'overview';
+        }
+    </script>
+</body>
 
 </html>

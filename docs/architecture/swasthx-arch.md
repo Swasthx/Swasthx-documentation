@@ -24,6 +24,8 @@ To help you understand the architecture diagrams given in this section, please r
 
 ---
 
+<div data-context="phr" markdown="1">
+
 ## 1. PHR App Architecture
 
 The Personal Health Record (PHR) application enables patients to manage their health data.
@@ -98,9 +100,11 @@ graph TD
 ### Cloud Infrastructure Diagram (Mobile App)
 ![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
 
-
+</div>
 
 ---
+
+<div data-context="website" markdown="1">
 
 ## 2. Website & Portals Architecture
 
@@ -159,7 +163,7 @@ graph TD
 ### Cloud Infrastructure Diagram (Website)
 ![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
 
-
+</div>
 
 ---
 

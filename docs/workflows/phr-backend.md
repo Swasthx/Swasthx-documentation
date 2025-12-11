@@ -7,7 +7,7 @@ grand_parent: Workflows & Processes
 
 # PHR Backend
 
-The PHR Backend follows the exact same deployment process as the Website Backend.
+The PHR Backend follows a standard automated deployment process.
 
 *   **Deployment Pipeline**: GitHub Actions
 *   **Triggers**: Pushing commits to `development`, `qa`, or `production`.

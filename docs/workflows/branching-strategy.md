@@ -12,6 +12,8 @@ This document outlines our Git workflow structure, naming conventions, and CI/CD
 
 We maintain specific branching structures for our different application components:
 
+<div data-context="phr" markdown="1">
+
 ### App Frontend
 *   **development**: For day-to-day development work.
 *   **qa**: For quality assurance testing.
@@ -22,6 +24,10 @@ We maintain specific branching structures for our different application componen
 *   **qa**: For quality assurance testing.
 *   **production**: For the live application.
 
+</div>
+
+<div data-context="website" markdown="1">
+
 ### Website Frontend
 *   **development-new**: For day-to-day development work.
 *   **qa**: For quality assurance testing.
@@ -31,6 +37,8 @@ We maintain specific branching structures for our different application componen
 *   **development**: For day-to-day development work.
 *   **qa**: For quality assurance testing.
 *   **production**: For the live application.
+
+</div>
 
 ---
 

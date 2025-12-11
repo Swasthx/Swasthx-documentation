@@ -8,7 +8,11 @@ parent: Resources
 
 This page provides a consolidated list of important links, environment URLs, and repository details for the Swasthx ecosystem.
 
+
+
 ## 1. Git Repositories & Branches
+
+<div data-context="phr" markdown="1">
 
 ### PHR Backend
 *   **Repository**: [Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend)
@@ -16,6 +20,10 @@ This page provides a consolidated list of important links, environment URLs, and
 *   **QA**: [`QA` branch](https://github.com/Swasthx/swasthx_Backend/tree/QA)
 *   **Production**: [`production` branch](https://github.com/Swasthx/swasthx_Backend/tree/production)
     *   *Note: QA and Production branches are created from the development branch.*
+
+</div>
+
+<div data-context="website" markdown="1">
 
 ### Website Frontend
 *   **Repository**: [Swasthx/Swasthx_HIP_Frontend](https://github.com/Swasthx/Swasthx_HIP_Frontend)
@@ -29,9 +37,13 @@ This page provides a consolidated list of important links, environment URLs, and
 *   **QA**: [`QA` branch](https://github.com/Swasthx/swasthx_backend_website/tree/QA)
 *   **Production**: [`production` branch](https://github.com/Swasthx/swasthx_backend_website/tree/production)
 
+</div>
+
 ---
 
 ## 2. Application URLs
+
+<div data-context="website" markdown="1">
 
 ### Website Frontend (Doctor Portal)
 *   **Development**: [https://dev-doctor.swasthx.com/](https://dev-doctor.swasthx.com/)
@@ -46,6 +58,10 @@ This page provides a consolidated list of important links, environment URLs, and
 *   **Production**: `websiteproduction.api.swasthx.com`
     *   App Runner: [https://2vmdwmdstc.ap-south-1.awsapprunner.com](https://2vmdwmdstc.ap-south-1.awsapprunner.com)
 
+</div>
+
+<div data-context="phr" markdown="1">
+
 ### PHR Backend API
 *   **Development**: `new-swasthxapp.api.swasthx.com`
     *   App Runner: [https://muwj3h3fcg.ap-south-1.awsapprunner.com](https://muwj3h3fcg.ap-south-1.awsapprunner.com)
@@ -53,4 +69,6 @@ This page provides a consolidated list of important links, environment URLs, and
     *   App Runner: [https://xx22sbt2bz.ap-south-1.awsapprunner.com](https://xx22sbt2bz.ap-south-1.awsapprunner.com)
 *   **Production**: `phrproduction.api.swasthx.com`
     *   App Runner: [https://mj2baxemvj.ap-south-1.awsapprunner.com](https://mj2baxemvj.ap-south-1.awsapprunner.com)
+
+</div>
 

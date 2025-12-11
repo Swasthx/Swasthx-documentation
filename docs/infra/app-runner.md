@@ -9,24 +9,52 @@ parent: Infrastructure
 ## Overview
 AWS App Runner is used to deploy and scale containerized web applications and APIs with minimal configuration.
 
+## Global Configuration
+
+The following configuration settings apply to all deployed App Runner services:
+
+**Service Configuration**
+- **Port**: `3000`
+- **Compute**: 1 vCPU & 2 GB Memory
+
+**Auto Scaling**
+- **Configuration**: `DefaultConfiguration`
+- **Concurrency**: 100 requests per instance
+- **Instances**: Min 1, Max 25
+
+**Health Check**
+- **Protocol**: HTTP
+- **Path**: `/api`
+- **Interval**: 10 seconds
+- **Timeout**: 5 seconds
+- **Thresholds**: Unhealthy (5), Healthy (1)
+
+**Security**
+- **Instance Role**: `arn:aws:iam::515966508772:role/AppRunnerInstanceRole`
+- **Encryption**: AWS KMS encryption key (AWS managed)
+
+**Networking**
+- **Incoming**: Public endpoint (IPv4)
+- **Outgoing**: Custom VPC
+- **VPC**: `vpc-044cab9c0bd2a8751` (10.10.0.0/16)
+- **Subnets**: `subnet-0d5e3b3fdf01302b6` (ap-south-1a)
+- **Security Groups**:
+  - `sg-0f448f0b7d8cf17a0` (default)
+  - `sg-0df6a17ebee5c9cb0` (swasthx-website-api-dev-apprunner-sg)
+
 ## Deployed Services
 
 ### 1. website-production-service
+
+**Overview**
 - **Connected API Gateway**: `website_production`
-- **API Services**:
-  - Containerized Backend APIs (Nest.js)
-  - Auto-scaling and Load Balancing enabled
-- **Authentication**:
-  - JWT token validation
-  - IAM integration
-- **Configuration**:
-  - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
-- **Integration**:
-  - VPC Connector for DB access
-  - Secrets Manager for credentials
-  - CloudWatch Logs
+- **Description**: Containerized Backend APIs (Nest.js)
+
+**Source & Deployment**
+- **Repository**: Amazon ECR
+- **Image URI**: `515966508772.dkr.ecr.ap-south-1.amazonaws.com/hmis_production:latest`
+- **Deployment Method**: Automatic
+- **ECR Access Role**: `arn:aws:iam::515966508772:role/service-role/AppRunnerECRAccessRole`
 
 ### 2. website-qa-service
 - **Connected API Gateway**: `website_qa`
@@ -38,8 +66,8 @@ AWS App Runner is used to deploy and scale containerized web applications and AP
   - IAM integration
 - **Configuration**:
   - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+  - **Scaling**: *See Global Configuration*
+  - **Health Checks**: *See Global Configuration*
 - **Integration**:
   - VPC Connector for DB access
   - Secrets Manager for credentials
@@ -55,8 +83,8 @@ AWS App Runner is used to deploy and scale containerized web applications and AP
   - IAM integration
 - **Configuration**:
   - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+  - **Scaling**: *See Global Configuration*
+  - **Health Checks**: *See Global Configuration*
 - **Integration**:
   - VPC Connector for DB access
   - Secrets Manager for credentials
@@ -72,8 +100,8 @@ AWS App Runner is used to deploy and scale containerized web applications and AP
   - IAM integration
 - **Configuration**:
   - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+  - **Scaling**: *See Global Configuration*
+  - **Health Checks**: *See Global Configuration*
 - **Integration**:
   - VPC Connector for DB access
   - CloudWatch Logs
@@ -88,8 +116,8 @@ AWS App Runner is used to deploy and scale containerized web applications and AP
   - IAM integration
 - **Configuration**:
   - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+  - **Scaling**: *See Global Configuration*
+  - **Health Checks**: *See Global Configuration*
 - **Integration**:
   - VPC Connector for DB access
   - CloudWatch Logs
@@ -104,8 +132,8 @@ AWS App Runner is used to deploy and scale containerized web applications and AP
   - IAM integration
 - **Configuration**:
   - **Source**: ECR Container Registry
-  - **Scaling**: Automatic (1-25 instances)
-  - **Health Checks**: HTTP `/health` (Interval: 5s, Timeout: 2s)
+  - **Scaling**: *See Global Configuration*
+  - **Health Checks**: *See Global Configuration*
 - **Integration**:
   - VPC Connector for DB access
   - CloudWatch Logs

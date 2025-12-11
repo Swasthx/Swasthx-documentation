@@ -8,6 +8,49 @@ parent: Infrastructure
 
 AWS Amplify is a set of tools and services that enables mobile and front-end web developers to build secure, scalable full stack applications, powered by AWS. We use it primarily for hosting and CI/CD of our frontend applications.
 
+## Global Configuration
+
+The following configuration settings apply to all deployed Amplify apps:
+
+### Build Settings
+The build process is defined in `amplify.yml`:
+
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .npm/**/*
+```
+
+### Firewall
+- **Amplify-recommended Firewall protection**: Enabled (WAF)
+  - Protects against common vulnerabilities
+  - Blocks malicious actors
+  - Blocks bad IP addresses
+- **IP address protection**: Disabled
+- **Country protection**: Disabled
+
+### Rewrites and Redirects
+Single Page Application (SPA) routing configuration:
+
+| Source Address | Target Address | Type |
+| :--- | :--- | :--- |
+| `/<*>` | `/index.html` | 404 (Rewrite) |
+
+## Deployed Services
+
 ### 1. Swasthx_LandingPage_Frontend
 - **URL**: [https://swasthx.com/](https://swasthx.com/)
 - **Branch**: main
