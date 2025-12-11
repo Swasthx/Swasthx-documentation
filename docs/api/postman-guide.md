@@ -13,7 +13,15 @@ This guide details how to use the Swasthx Postman collections for robust API tes
 
 ## 📂 Collection Structure
 
-We have categorized our APIs into two main collections based on the client application: **PHR App** and **Website (HMIS)**.
+<div data-context="phr" markdown="1">
+We have categorized our APIs into a main collection based on the client application: **PHR App**.
+</div>
+
+<div data-context="website" markdown="1">
+We have categorized our APIs into a main collection based on the client application: **Website (HMIS)**.
+</div>
+
+<div data-context="phr" markdown="1">
 
 ### 1. PHR App Collection
 Focused on patient-facing features (Mobile App).
@@ -83,7 +91,11 @@ Focused on patient-facing features (Mobile App).
   </div>
 </div>
 
+</div>
+
 ---
+
+<div data-context="website" markdown="1">
 
 ### 2. Website (HMIS) Collection
 Focused on provider and web portal features.
@@ -136,6 +148,8 @@ Focused on provider and web portal features.
       </ul>
     </div>
   </div>
+</div>
+
 </div>
 
 ---

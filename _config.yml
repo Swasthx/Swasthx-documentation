@@ -64,139 +64,199 @@ navigation:
   - title: "Overview"
     url: "/overview"
     icon: fas fa-home
+    contexts: [phr, website]
 
   - title: "Getting Started"
     url: "#"
     icon: fas fa-flag
+    contexts: [phr, website]
     children:
       - title: "Onboarding Guide"
         url: "/docs/getting-started/onboarding-guide.html"
         icon: fas fa-users
+        contexts: [phr, website]
 
   - title: "Release"
     url: "#"
     icon: fas fa-rocket
+    contexts: [phr]
     children:
       - title: "PHR App Release Guidelines"
         url: "/docs/release/phr-app-release.html"
         icon: fas fa-mobile-alt
+        contexts: [phr]
+
 
   - title: "Architecture & Design"
     url: "#"
     icon: fas fa-sitemap
+    contexts: [phr, website]
     children:
       - title: "Swasthx Arch"
         url: "/architecture"
         icon: fas fa-project-diagram
+        contexts: [phr, website]
+      - title: "Cross API Documentation"
+        url: "/docs/architecture/phr-cross-api.html"
+        icon: fas fa-exchange-alt
+        contexts: [phr]
+      - title: "Cross API Documentation"
+        url: "/docs/architecture/website-cross-api.html"
+        icon: fas fa-exchange-alt
+        contexts: [website]
+
 
 
   - title: "Development"
     url: "#"
     icon: fas fa-code
+    contexts: [phr, website]
     children:
       - title: "Development Overview"
         url: "/docs/development/overview.html"
         icon: fas fa-info-circle
+        contexts: [phr, website]
       - title: "Frontend Guidelines"
         url: "/docs/development/frontend-guidelines.html"
         icon: fas fa-desktop
+        contexts: [phr, website]
       - title: "Backend Guidelines"
         url: "/docs/development/backend-guidelines.html"
         icon: fas fa-server
+        contexts: [phr, website]
 
 
   - title: "API & Integration"
     url: "#"
     icon: fas fa-plug
+    contexts: [phr, website]
     children:
       - title: "Overview"
         url: "/docs/api/overview.html"
         icon: fas fa-info
+        contexts: [phr, website]
       - title: "API Guidelines"
         url: "/docs/api/api-guidelines.html"
         icon: fas fa-list-ul
+        contexts: [phr, website]
       - title: "Postman Guide"
         url: "/postman-collection-guide"
         icon: fas fa-envelope-open-text
+        contexts: [phr, website]
 
 
   - title: "Database"
     url: "#"
     icon: fas fa-database
+    contexts: [phr, website]
     children:
       - title: "DB Overview"
         url: "/docs/database/overview.html"
         icon: fas fa-info
+        contexts: [phr, website]
       - title: "DB Guidelines"
         url: "/docs/database/guidelines.html"
         icon: fas fa-check-circle
+        contexts: [phr, website]
       - title: "DB Documentation"
         url: "#"
         icon: fas fa-folder-open
+        contexts: [phr, website]
         children:
           - title: "PHR Database"
             url: "/docs/database/phr-database.html"
             icon: fas fa-file-medical-alt
+            contexts: [phr]
           - title: "Website Database"
             url: "/docs/database/website-database.html"
             icon: fas fa-laptop-medical
+            contexts: [website]
 
 
   - title: "Infrastructure"
     url: "#"
     icon: fas fa-cloud
+    contexts: [phr, website]
     children:
       - title: "Cloud Overview"
         url: "/docs/infra/cloud-overview.html"
         icon: fab fa-aws
+        contexts: [phr, website]
       - title: "Cloud Documentation"
         url: "#"
         icon: fas fa-server
+        contexts: [phr, website]
         children:
           - title: "Amazon S3"
             url: "/docs/infra/s3.html"
             icon: fas fa-cube
+            contexts: [phr, website]
           - title: "AWS Amplify"
             url: "/docs/infra/amplify.html"
             icon: fas fa-mobile-alt
+            contexts: [website]
           - title: "AWS App Runner"
             url: "/docs/infra/app-runner.html"
             icon: fas fa-database
+            contexts: [phr, website]
           - title: "Google Gemini"
             url: "/docs/infra/gemini.html"
             icon: fas fa-brain
+            contexts: [phr, website]
           - title: "Amazon SNS"
             url: "/docs/infra/sns.html"
             icon: fas fa-envelope
+            contexts: [phr, website]
           - title: "Amazon Route 53"
             url: "/docs/infra/route53.html"
             icon: fas fa-route
+            contexts: [phr, website]
+          - title: "Amazon DocumentDB"
+            url: "/docs/infra/phr-documentdb.html"
+            icon: fas fa-leaf
+            contexts: [phr]
+          - title: "Amazon DocumentDB"
+            url: "/docs/infra/website-documentdb.html"
+            icon: fas fa-leaf
+            contexts: [website]
 
   - title: "Workflows & Processes"
     url: "#"
     icon: fas fa-tasks
+    contexts: [phr, website]
     children:
       - title: "Branching Strategy"
         url: "/docs/workflows/branching-strategy.html"
         icon: fas fa-code-branch
+        contexts: [phr, website]
       - title: "Frontend Workflows"
         url: "/docs/workflows/frontend-workflows.html"
         icon: fas fa-desktop
+        contexts: [website]
       - title: "Backend"
         url: "#"
         icon: fas fa-server
+        contexts: [phr, website]
         children:
           - title: "PHR Backend"
             url: "/docs/workflows/phr-backend.html"
             icon: fas fa-file-code
+            contexts: [phr]
           - title: "Website Backend"
             url: "/docs/workflows/website-backend.html"
             icon: fas fa-laptop-code
+            contexts: [website]
 
   - title: "Resources"
     url: "#"
     icon: fas fa-tools
+    contexts: [phr, website]
     children:
+      - title: "Quick Access"
+        url: "/docs/tools/quick-access.html"
+        icon: fas fa-bolt
+        contexts: [phr, website]
       - title: "Resources"
         url: "/docs/tools/resources.html"
         icon: fas fa-wrench
+        contexts: [phr, website]

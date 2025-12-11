@@ -8,6 +8,18 @@ parent: Infrastructure
 
 Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service.
 
+## Hosted Zone Details
+
+### swasthx.com
+- **Hosted Zone ID**: `Z0268486170B5RZ06J016`
+- **Type**: Public Hosted Zone
+- **Record Count**: 52
+- **Name Servers**:
+  - `ns-1485.awsdns-57.org`
+  - `ns-699.awsdns-23.net`
+  - `ns-1835.awsdns-37.co.uk`
+  - `ns-204.awsdns-25.com`
+
 ## Domain Management
 - **Primary Domain**: swasthx.com
 - **Subdomains**:

@@ -10,11 +10,19 @@ This document provides a comprehensive overview of all AWS resources used in the
 
 ## Infrastructure Visuals
 
+<div data-context="phr" markdown="1">
+
 ### PHR Mobile App Cloud Architecture
 ![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
 
+</div>
+
+<div data-context="website" markdown="1">
+
 ### Website & Portals Cloud Architecture
 ![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
+
+</div>
 
 | Service | Category | Description |
 | :--- | :--- | :--- |

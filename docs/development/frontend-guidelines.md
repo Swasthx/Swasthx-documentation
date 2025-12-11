@@ -56,10 +56,14 @@ Before pushing your code:
 3.  **Clean Code**: Remove any unused imports, variables, and `console.log` statements.
 4.  **Local Testing**: Verify that your changes work locally and don't break existing functionality.
 
+<div data-context="website" markdown="1">
+
 ## 3. Deployment
 
 The frontend deployment is automated using **AWS Amplify**:
 -   **Hosting**: Amplify hosts the React.js application and manages the CI/CD pipeline.
 -   **API Integration**: The frontend connects to the backend via **AWS API Gateway**.
+
+</div>
 
 For a detailed breakdown of the system flow and infrastructure, refer to the [System Architecture]({{ '/architecture' | relative_url }}) page.

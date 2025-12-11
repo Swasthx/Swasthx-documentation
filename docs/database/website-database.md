@@ -13,6 +13,9 @@ This database serves the Website and HMIS portals, managing doctor profiles, app
 In all environments (Dev, QA, Prod), the database name is consistent:
 *   `testingdb`
 
+## Database Diagram
+<a href="https://drive.google.com/file/d/15h5ZTn9r5croaOG1JWdIsKgp-1HzZiqY/view?usp=sharing" target="_blank">View Website Database Diagram</a>
+
 ## Collections
 The Website DB contains the following collections:
 

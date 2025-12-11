@@ -11,14 +11,22 @@ Swasthx is a comprehensive healthcare technology platform designed to bridge the
 
 ## Types of Platforms
 
+<div data-context="phr" markdown="1">
+
 ### 1. PHR App (Personal Health Record)
 A mobile-first application for patients to manage their health journey.
 - **Key Features**: Appointment booking, health records, medicine ordering.
+
+</div>
+
+<div data-context="website" markdown="1">
 
 ### 2. Website & Portals
 Web-based solutions for marketing and provider management.
 - **Landing Page**: Public information and marketing.
 - **Doctor Portal (HMIS)**: Professional tool for doctors and clinics.
+
+</div>
 
 ## System Architecture
 For a deep dive into how these components connect, scalable infrastructure, and data flow, verify the [System Architecture]({{ '/architecture' | relative_url }}) page.
