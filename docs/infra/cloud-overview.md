@@ -34,7 +34,7 @@ This document provides a comprehensive overview of all AWS resources used in the
 | **API Gateway** | Networking | Fully managed service that acts as the "front door" for the backend APIs, handling Auth and Routing. |
 | **Route 53** | Networking | scalable DNS and Domain Name System web service. |
 | **AWS Secrets Manager** | Security | Securely stores and manages sensitive credentials (e.g., API keys, DB passwords). |
-| **EC2** | Compute | Used as a Bastion Host for secure access to the private DocumentDB cluster. |
+| **EC2** | Compute | [EC2]({{ site.baseurl }}/docs/infra/ec2.html) - Used as a Bastion Host and Snomed Server. |
 
 ---
 
