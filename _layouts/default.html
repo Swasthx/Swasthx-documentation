@@ -84,6 +84,18 @@
             // Database (Visible) -> PHR DB (Visible), Website DB (Hidden).
             // Result: Database -> PHR DB. This is correct.
           }
+
+          if (context) {
+            const overviewLink = Array.from(document.querySelectorAll('.sidebar a')).find(a => a.textContent.trim() === 'Overview');
+            if (overviewLink) {
+              const iconHtml = overviewLink.querySelector('i') ? overviewLink.querySelector('i').outerHTML : '';
+              if (context === 'phr') {
+                overviewLink.innerHTML = `${iconHtml} PHR Overview`;
+              } else if (context === 'website') {
+                overviewLink.innerHTML = `${iconHtml} Website Overview`;
+              }
+            }
+          }
         });
       </script>
 
