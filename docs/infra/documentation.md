@@ -16,3 +16,4 @@ This section contains detailed documentation of the cloud infrastructure, includ
 *   [Google Gemini]({{ site.baseurl }}/docs/infra/gemini.html)
 *   [Amazon SNS]({{ site.baseurl }}/docs/infra/sns.html)
 *   [Amazon Route 53]({{ site.baseurl }}/docs/infra/route53.html)
+*   [Amazon EC2]({{ site.baseurl }}/docs/infra/ec2.html)

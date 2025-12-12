@@ -171,6 +171,10 @@ navigation:
             url: "/docs/database/website-database.html"
             icon: fas fa-laptop-medical
             contexts: [website]
+          - title: "DB Access"
+            url: "/docs/database/db-access.html"
+            icon: fas fa-key
+            contexts: [phr, website]
 
 
   - title: "Infrastructure"
@@ -211,6 +215,10 @@ navigation:
             url: "/docs/infra/route53.html"
             icon: fas fa-route
             contexts: [phr, website]
+          - title: "Amazon EC2"
+            url: "/docs/infra/ec2.html"
+            icon: fas fa-server
+            contexts: [phr, website]
           - title: "Amazon DocumentDB"
             url: "/docs/infra/phr-documentdb.html"
             icon: fas fa-leaf
@@ -219,6 +227,8 @@ navigation:
             url: "/docs/infra/website-documentdb.html"
             icon: fas fa-leaf
             contexts: [website]
+
+
 
   - title: "Workflows & Processes"
     url: "#"
