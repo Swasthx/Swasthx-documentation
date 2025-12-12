@@ -17,7 +17,25 @@
         <ul>
           {% for item in site.navigation %}
           {% assign context_str = item.contexts | join: ',' %}
-          {% if item.children %}
+
+          {% if item.title == 'Overview' %}
+          <li class="section overview-dropdown-container" data-context="{{ context_str }}">
+            <div class="overview-dropdown-toggle" onclick="toggleOverviewDropdown()">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <i class="{{ item.icon }}"></i> <span>Overview</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <ul class="overview-dropdown-menu" id="overviewDropdown">
+              <li onclick="switchContext('website')" class="dropdown-option" data-value="website">
+                <i class="fas fa-home"></i> Website
+              </li>
+              <li onclick="switchContext('phr')" class="dropdown-option" data-value="phr">
+                <i class="fas fa-home"></i> PHR
+              </li>
+            </ul>
+          </li>
+          {% elsif item.children %}
           <li class="section" data-context="{{ context_str }}"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
           <ul class="sidebar-sub" data-context="{{ context_str }}">
             {% for child in item.children %}
@@ -50,19 +68,33 @@
 
       <!-- Client-side Navigation Filtering -->
       <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          // 1. Check current URL. If it's the landing page (baseurl/ or baseurl/index.html), do NOT filter (or hide sidebar completely?).
-          // Based on request, landing page is special. Sidebar usually exists on 'default' layout.
-          // If we are on landing page, we might want to hide sidebar or just let it accept 'all'.
+        function toggleOverviewDropdown() {
+          const dropdown = document.getElementById('overviewDropdown');
+          const arrow = document.querySelector('.dropdown-arrow');
+          if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+            arrow.style.transform = 'rotate(0deg)';
+          } else {
+            dropdown.style.display = 'block';
+            arrow.style.transform = 'rotate(180deg)';
+          }
+        }
 
-          // 2. Get context
+        function switchContext(newContext) {
+          const currentContext = localStorage.getItem('swasthx_doc_context');
+          if (currentContext === newContext) {
+            return; // Do nothing if clicking current context
+          }
+          localStorage.setItem('swasthx_doc_context', newContext);
+          window.location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          // 1. Get context
           const context = localStorage.getItem('swasthx_doc_context');
 
-          // If no context is set, and we are NOT on the landing page, redirect to landing?
-          // For now, let's assume if no context, show everything (developer mode) or redirect.
-          // But user said "first visits the link -> common page".
-
           if (context) {
+            // Filter Sidebar Items
             const items = document.querySelectorAll('[data-context]');
             items.forEach(el => {
               const allowedContexts = el.getAttribute('data-context').split(',');
@@ -71,30 +103,16 @@
               }
             });
 
-            // Optional: Hide parents if all children are hidden?
-            // This simple filter might leave empty headers. 
-            // Current structure: .section is a <li>, following is <ul>.
-            // If we hide the <ul> contents, we should likely hide the .section too.
-            // This requires a bit more logic, but let's see how it looks first.
-            // The .section itself has a context. If that context includes the current one, it shows.
-            // Since we tagged parents with "phr, website", they will show even if children are empty?
-            // Actually, in config I tagged "Release" as [phr] ONLY. So it will be hidden entirely for website.
-            // "Database" is [phr, website]. But "Website Database" is [website].
-            // So for PHR user:
-            // Database (Visible) -> PHR DB (Visible), Website DB (Hidden).
-            // Result: Database -> PHR DB. This is correct.
-          }
-
-          if (context) {
-            const overviewLink = Array.from(document.querySelectorAll('.sidebar a')).find(a => a.textContent.trim() === 'Overview');
-            if (overviewLink) {
-              const iconHtml = overviewLink.querySelector('i') ? overviewLink.querySelector('i').outerHTML : '';
-              if (context === 'phr') {
-                overviewLink.innerHTML = `${iconHtml} PHR Overview`;
-              } else if (context === 'website') {
-                overviewLink.innerHTML = `${iconHtml} Website Overview`;
+            // Update Dropdown Selection State
+            const options = document.querySelectorAll('.dropdown-option');
+            options.forEach(opt => {
+              if (opt.getAttribute('data-value') === context) {
+                opt.classList.add('selected');
+                // Optional: Update toggle text to show current context? 
+                // User requirement: "keep one single heading (with text - 'overview')"
+                // So we keep "Overview" text as is.
               }
-            }
+            });
           }
         });
       </script>
