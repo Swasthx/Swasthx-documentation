@@ -227,6 +227,14 @@ navigation:
             url: "/docs/infra/website-documentdb.html"
             icon: fas fa-leaf
             contexts: [website]
+          - title: "Security Groups"
+            url: "/docs/infra/security-groups.html"
+            icon: fas fa-shield-alt
+            contexts: [phr, website]
+          - title: "IAM Roles"
+            url: "/docs/infra/iam-roles.html"
+            icon: fas fa-user-lock
+            contexts: [phr, website]
 
 
 
