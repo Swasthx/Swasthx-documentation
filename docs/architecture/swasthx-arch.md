@@ -6,23 +6,7 @@ permalink: /architecture
 
 # Swasthx System Architecture
 
-This document provides a detailed technical overview of the Swasthx platform architecture, covering the PHR Mobile Application, Website/Portals, and the underlying cloud infrastructure on AWS.
-
----
-
-## 📖 How to Read Architecture Diagrams
-
-To help you understand the architecture diagrams given in this section, please refer to this legend:
-
-| Symbol | Representation | Description |
-| :--- | :--- | :--- |
-| **Rectangle** | `[Component]` | Represents a service, application, or AWS resource (e.g., API Gateway, App Runner). |
-| **Cylinder** | `[(Database)]` | Represents data storage systems (e.g., DocumentDB, S3 Buckets). |
-| **Solid Line** | `-->` | Synchronous request or direct data flow (e.g., API call). |
-| **Dotted Line** | `-.->` | Asynchronous communication or callback (e.g., Webhook). |
-| **Subgraph** | `Box` | Groups related components (e.g., "AWS Infrastructure", "Data Layer"). |
-
----
+This document provides a detailed technical overview of the Swasthx platform architecture, covering the PHR Mobile Application, Website, and the underlying cloud infrastructure on AWS.
 
 <div data-context="phr" markdown="1">
 
@@ -33,7 +17,8 @@ The Personal Health Record (PHR) application enables patients to manage their he
 ### Tech Stack
 -   **Frontend**: React Native (Android & iOS).
 -   **Backend**: Nest.js Framework.
--   **Infrastructure**: AWS Cloud (App Runner, API Gateway, etc.).
+-   **Cloud Platform**: AWS.
+-   **Database**: MongoDB (using AWS DocumentDB).
 
 ### System Flow
 1.  **Request Entry**: Use specific requests (HTTPS) initiated from the Android/iOS app.
@@ -50,54 +35,36 @@ The Personal Health Record (PHR) application enables patients to manage their he
     -   SMS notifications are sent using **AWS SNS**.
     -   Deep integration with **ABDM** (Ayushman Bharat Digital Mission).
 
-### ABDM Integration Flow
+![PHR System Flow Architecture]({{ site.baseurl }}/docs/images/phr_system_flow_architecture.png)
+
+### Partnership Integration
+
+Swasthx has integrated external APIs to provide additional facilities to the users. We have integrated ABDM APIs to allow users to create ABHA ID and 1MG APIs to allow users to order medicines/book labtest.
+
+#### ABDM Integration Flow
 -   **Outbound**: Backend makes calls to ABDM servers for discovery, linking, etc.
 -   **Inbound (Callbacks)**: ABDM sends asynchronous responses via webhooks.
     -   **API Gateway** intercepts these callbacks.
     -   Routes them to the specific backend handler in App Runner.
 
-### PHR Architecture Diagram
+![PHR System Flow]({{ site.baseurl }}/docs/images/phr_system_flow.png)
 
-```mermaid
-graph TD
-    subgraph "Client"
-        App[PHR Mobile App <br/> (React Native)]
-    end
+#### 1MG INTEGRATION
 
-    subgraph "AWS Infrastructure"
-        R53[Route 53 <br/> Domain Service]
-        Gw[AWS API Gateway <br/> (Auth & Routing)]
-        Runner[AWS App Runner <br/> (Nest.js Backend)]
-        
-        subgraph "Data & Storage"
-            DocDB[(AWS DocumentDB)]
-            S3[Amazon S3 <br/> (Images/Docs)]
-        end
-        
-        subgraph "Services"
-            SNS[AWS SNS <br/> (SMS Service)]
-        end
-    end
+Swasthx phr app is integrated with 1mg APIs to provide facility of ordering medicines and book labtest.
 
-    subgraph "External"
-        ABDM[ABDM Network]
-    end
+**Ordering medicine flow is like this:**
+Search medicine -> Select medicine -> Call drug/otc info based on medicine type -> create/add to cart -> upload prescription -> initiate payment -> confirm order.
 
-    App -->|HTTPS| R53
-    R53 --> Gw
-    Gw -->|1. Token Auth| Gw
-    Gw -->|2. Forward Request| Runner
-    
-    Runner -->|Read/Write| DocDB
-    Runner -->|Store/Retrieve| S3
-    Runner -->|Send SMS| SNS
-    
-    %% ABDM Flow
-    Runner -->|API Call| ABDM
-    ABDM -.->|Callback Webhook| Gw
-```
+![Medicine Ordering Flow]({{ site.baseurl }}/docs/images/medicine_order_flow.png)
 
-### Cloud Infrastructure Diagram (Mobile App)
+**Booking lab test flow is like this:**
+Search lab test -> Check lab test is available at user location -> Get the labs providing test and get slots from 1mg API -> initiate payment -> confirm order.
+
+![Lab Test Booking Flow]({{ site.baseurl }}/docs/images/booking_lab_test_flow.png)
+
+### Architecture Diagram
+
 ![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
 
 </div>
@@ -106,14 +73,16 @@ graph TD
 
 <div data-context="website" markdown="1">
 
-## 2. Website & Portals Architecture
+## 1. Website Architecture
 
-The Swasthx Website and Doctor Portals provide interfaces for patients and providers via web browsers.
+The Swasthx Website provides interfaces for patients and providers via web browsers.
 
 ### Tech Stack
 -   **Frontend**: React.js.
 -   **Hosting**: AWS Amplify.
 -   **Backend**: Nest.js Framework.
+-   **Cloud Platform**: AWS.
+-   **Database**: MongoDB (using AWS DocumentDB).
 
 ### System Flow
 1.  **Frontend Delivery**: The React application is hosted and served via **AWS Amplify**.
@@ -121,46 +90,29 @@ The Swasthx Website and Doctor Portals provide interfaces for patients and provi
 3.  **Backend Processing**:
     -   Similar to the PHR app, the backend runs on **AWS App Runner**.
     -   **Configuration**: Environment variables are managed in App Runner + **AWS Secrets Manager** for sensitive credentials.
-4.  **Database & Storage**:
-    -   Shares the same **AWS DocumentDB** cluster for data.
-    -   Uses **Amazon S3** for file storage.
-5.  **ABDM Integration**: Same flow as PHR, handling callbacks via API Gateway.
+4.  **Data Persistence**:
+    -   Shares the same **AWS DocumentDB** cluster for core data.
+    -   Uses **Amazon S3** for file and media storage.
+5.  **External Communication**:
+    -   Web-triggered SMS/e-mail flows are handled through **AWS SNS** or other notification services.
+    -   Maintains the same deep integration with **ABDM** as the PHR app.
 
-### Website Architecture Diagram
+![Website System Flow Architecture]({{ site.baseurl }}/docs/images/website_system_flow_architecture.png)
 
-```mermaid
-graph TD
-    subgraph "Client Browser"
-        Web[React.js Website]
-    end
+### Partnership Integration
 
-    subgraph "AWS Frontend"
-        Amplify[AWS Amplify <br/> (Hosting & CD)]
-    end
+Swasthx has integrated external APIs to provide additional facilities to the users. We have integrated ABDM APIs to allow users to create ABHA ID and 1MG APIs to allow users to order medicines/book labtest.
 
-    subgraph "AWS Backend Infrastructure"
-        R53[Route 53]
-        Gw[AWS API Gateway]
-        Runner[AWS App Runner <br/> (Nest.js)]
-        Secret[AWS Secrets Manager]
-        
-        subgraph "Data"
-            DocDB[(AWS DocumentDB)]
-            S3[Amazon S3]
-        end
-    end
+#### ABDM Integration Flow
+-   **Outbound**: Website backend makes calls to ABDM servers for discovery, linking, etc.
+-   **Inbound (Callbacks)**: ABDM sends asynchronous responses via webhooks.
+    -   **API Gateway** intercepts these callbacks.
+    -   Routes them to the specific backend handler in App Runner.
 
-    Web -->|Load Assets| Amplify
-    Web -->|API Calls| R53
-    R53 --> Gw
-    Gw --> Runner
-    
-    Runner -->|Get Config| Secret
-    Runner --> DocDB
-    Runner --> S3
-```
+![Website System Flow]({{ site.baseurl }}/docs/images/website_system_flow.png)
 
-### Cloud Infrastructure Diagram (Website)
+### Architecture Diagram
+
 ![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
 
 </div>
@@ -182,23 +134,7 @@ To ensure security and low latency, critical components are isolated within the 
 
 ### Network Diagram
 
-```mermaid
-graph LR
-    subgraph "AWS VPC"
-        subgraph "Private Subnet"
-            DocDB[(AWS DocumentDB)]
-        end
-        
-        subgraph "Public/App Subnet"
-            EC2[EC2 Bastion Host]
-            Runner[AWS App Runner]
-        end
-    end
-
-    Dev[Developer / Compass] -->|SSH Tunnel| EC2
-    EC2 -->|Connect| DocDB
-    Runner -->|VPC Connection| DocDB
-```
+![Network Diagram]({{ site.baseurl }}/docs/images/network_diagram.png)
 
 ---
 

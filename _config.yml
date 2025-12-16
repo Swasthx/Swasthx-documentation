@@ -61,9 +61,9 @@ sitemap:
 
 # Navigation
 navigation:
-  - title: "Overview"
-    url: "/overview"
-    icon: fas fa-home
+  - title: "Home"
+    url: "/"
+    icon: fas fa-house
     contexts: [phr, website]
 
   - title: "Getting Started"
@@ -71,6 +71,13 @@ navigation:
     icon: fas fa-flag
     contexts: [phr, website]
     children:
+      - title: "Overview"
+        url: "/overview"
+        icon: fas fa-home
+        contexts: [phr, website]
+        dynamic_label: true
+        label_phr: "PHR"
+        label_website: "Website"
       - title: "Onboarding Guide"
         url: "/docs/getting-started/onboarding-guide.html"
         icon: fas fa-users

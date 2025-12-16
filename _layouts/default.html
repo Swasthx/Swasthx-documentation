@@ -13,29 +13,18 @@
 <body>
   <div class="container">
     <div class="sidebar">
+      <button class="mobile-nav-toggle" type="button" onclick="toggleMobileSidebar()">
+        <i class="fas fa-bars"></i>
+        <span>Menu</span>
+        <i class="fas fa-chevron-down toggle-arrow"></i>
+      </button>
+      <div class="sidebar-content">
       <nav>
         <ul>
           {% for item in site.navigation %}
           {% assign context_str = item.contexts | join: ',' %}
 
-          {% if item.title == 'Overview' %}
-          <li class="section overview-dropdown-container" data-context="{{ context_str }}">
-            <div class="overview-dropdown-toggle" onclick="toggleOverviewDropdown()">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <i class="{{ item.icon }}"></i> <span>Overview</span>
-              </div>
-              <i class="fas fa-chevron-down dropdown-arrow"></i>
-            </div>
-            <ul class="overview-dropdown-menu" id="overviewDropdown">
-              <li onclick="switchContext('website')" class="dropdown-option" data-value="website">
-                <i class="fas fa-home"></i> Website
-              </li>
-              <li onclick="switchContext('phr')" class="dropdown-option" data-value="phr">
-                <i class="fas fa-home"></i> PHR
-              </li>
-            </ul>
-          </li>
-          {% elsif item.children %}
+          {% if item.children %}
           <li class="section" data-context="{{ context_str }}"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
           <ul class="sidebar-sub" data-context="{{ context_str }}">
             {% for child in item.children %}
@@ -47,19 +36,22 @@
               {% for grandchild in child.children %}
               {% assign grandchild_context_str = grandchild.contexts | join: ',' %}
               <li data-context="{{ grandchild_context_str }}"><a href="{{ grandchild.url | relative_url }}"><i
-                    class="{{ grandchild.icon }}"></i> {{
-                  grandchild.title }}</a></li>
+                    class="{{ grandchild.icon }}"></i> <span class="nav-text">{{ grandchild.title }}</span></a></li>
               {% endfor %}
             </ul>
             {% else %}
-            <li data-context="{{ child_context_str }}"><a href="{{ child.url | relative_url }}"><i
-                  class="{{ child.icon }}"></i> {{ child.title }}</a></li>
+            {% assign is_dynamic_label = child.dynamic_label | default: false %}
+            <li data-context="{{ child_context_str }}"><a href="{{ child.url | relative_url }}"
+                {% if is_dynamic_label %}data-dynamic-label="true" data-label-phr="{{ child.label_phr | default: child.title }}"
+                data-label-website="{{ child.label_website | default: child.title }}"
+                data-default-label="{{ child.title }}"{% endif %}><i
+                  class="{{ child.icon }}"></i> <span class="nav-text">{{ child.title }}</span></a></li>
             {% endif %}
             {% endfor %}
           </ul>
           {% else %}
-          <li class="section" data-context="{{ context_str }}">
-            <a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> {{ item.title }}</a>
+          <li class="section section-link" data-context="{{ context_str }}">
+            <a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> <span class="nav-text">{{ item.title }}</span></a>
           </li>
           {% endif %}
           {% endfor %}
@@ -68,25 +60,28 @@
 
       <!-- Client-side Navigation Filtering -->
       <script>
-        function toggleOverviewDropdown() {
-          const dropdown = document.getElementById('overviewDropdown');
-          const arrow = document.querySelector('.dropdown-arrow');
-          if (dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-            arrow.style.transform = 'rotate(0deg)';
-          } else {
-            dropdown.style.display = 'block';
-            arrow.style.transform = 'rotate(180deg)';
-          }
+        function toggleMobileSidebar() {
+          const sidebar = document.querySelector('.sidebar');
+          if (!sidebar) return;
+          sidebar.classList.toggle('mobile-nav-open');
+          updateMobileToggleState();
         }
 
-        function switchContext(newContext) {
-          const currentContext = localStorage.getItem('swasthx_doc_context');
-          if (currentContext === newContext) {
-            return; // Do nothing if clicking current context
+        function enforceDesktopSidebarState() {
+          const sidebar = document.querySelector('.sidebar');
+          if (!sidebar) return;
+          if (window.innerWidth > 768) {
+            sidebar.classList.add('mobile-nav-open');
           }
-          localStorage.setItem('swasthx_doc_context', newContext);
-          window.location.reload();
+          updateMobileToggleState();
+        }
+
+        function updateMobileToggleState() {
+          const sidebar = document.querySelector('.sidebar');
+          const toggle = document.querySelector('.mobile-nav-toggle');
+          if (!sidebar || !toggle) return;
+          const isOpen = sidebar.classList.contains('mobile-nav-open');
+          toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -103,20 +98,31 @@
               }
             });
 
-            // Update Dropdown Selection State
-            const options = document.querySelectorAll('.dropdown-option');
-            options.forEach(opt => {
-              if (opt.getAttribute('data-value') === context) {
-                opt.classList.add('selected');
-                // Optional: Update toggle text to show current context? 
-                // User requirement: "keep one single heading (with text - 'overview')"
-                // So we keep "Overview" text as is.
-              }
-            });
           }
+
+          updateDynamicLabels(context);
+          enforceDesktopSidebarState();
         });
+
+        window.addEventListener('resize', enforceDesktopSidebarState);
+
+        function updateDynamicLabels(context) {
+          const links = document.querySelectorAll('a[data-dynamic-label="true"]');
+          links.forEach(link => {
+            const labelContainer = link.querySelector('.nav-text') || link;
+            const defaultLabel = link.getAttribute('data-default-label') || labelContainer.textContent;
+            if (context === 'phr') {
+              labelContainer.textContent = link.getAttribute('data-label-phr') || defaultLabel;
+            } else if (context === 'website') {
+              labelContainer.textContent = link.getAttribute('data-label-website') || defaultLabel;
+            } else {
+              labelContainer.textContent = defaultLabel;
+            }
+          });
+        }
       </script>
 
+    </div>
     </div>
 
     <main>
@@ -125,7 +131,7 @@
   </div>
 
   <footer>
-    <div class="container">
+    <div class="footer-content">
       <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. All rights reserved.</p>
     </div>
   </footer>
