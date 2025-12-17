@@ -122,7 +122,7 @@
 
 /* Base Styles */
 :root {
-  --primary-color: #2563eb;
+  --primary-color: #00B2FF;
   --secondary-color: #1e40af;
   --text-color: #1f2937;
   --light-text: #6b7280;
@@ -151,10 +151,16 @@ body {
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   min-height: 100vh;
 }
@@ -192,6 +198,10 @@ header p {
   height: 100vh;
   overflow-y: auto;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-content {
+  width: 100%;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -258,6 +268,56 @@ header p {
   border-left: 3px solid var(--primary-color);
 }
 
+.mobile-header {
+  display: none;
+}
+
+.mobile-nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.mobile-nav-toggle .toggle-arrow {
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-toggle i {
+  font-size: 0.9rem;
+}
+
+.sidebar .section.section-link {
+  margin: 1rem 0 0.5rem 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.sidebar .section.section-link a {
+  width: 100%;
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.sidebar .section.section-link a:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--border-color);
+  box-shadow: none;
+  transform: none;
+}
+
 .sidebar .section i {
   font-size: 0.9rem;
 }
@@ -301,8 +361,16 @@ header p {
 /* Main Content */
 main {
   flex: 1;
-  padding: 2rem;
-  max-width: 900px;
+  width: 100%;
+  padding: 2rem 3rem;
+}
+
+main>*:first-child {
+  margin-top: 0;
+}
+
+.quick-links-heading {
+  color: #111 !important;
 }
 
 h1,
@@ -434,12 +502,18 @@ blockquote {
 /* Footer */
 footer {
   text-align: center;
-  padding: 2rem 0;
+  padding: 0;
   color: var(--light-text);
   font-size: 0.875rem;
   border-top: 1px solid var(--border-color);
-  margin-top: 3rem;
-  background-color: var(--sidebar-bg);
+  margin-top: 1.5rem;
+  background-color: #fff;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
 }
 
 /* Responsive Design */
@@ -464,19 +538,55 @@ footer {
     position: static;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem;
+    padding: 0.75rem 1rem 1rem 1rem;
+    box-shadow: none;
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-branding {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .sidebar-content {
+    display: none;
+  }
+
+  .sidebar.mobile-nav-open .sidebar-content {
+    display: block;
+  }
+
+  .sidebar.mobile-nav-open .toggle-arrow {
+    transform: rotate(180deg);
   }
 
   .sidebar nav a {
-    padding: 0.5rem 0.75rem;
+    padding: 0.65rem 0.75rem;
   }
 
   .sidebar .section {
-    margin: 1.5rem 0 0.5rem 0;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  .sidebar .section.section-link a {
+    padding: 0.75rem 1rem;
   }
 
   main {
-    padding: 1.5rem;
+    padding: 0.75rem 1rem 1.25rem 1rem;
+    max-width: 100%;
   }
 
   header h1 {
@@ -610,85 +720,4 @@ footer {
     width: 100%;
     max-width: 100%;
   }
-}
-/* Overview Dropdown Styles */
-.overview-dropdown-container {
-  padding: 0 !important;
-  background-color: transparent !important;
-  border: none !important;
-  border-left: none !important;
-  display: block !important;
-  margin: 2rem 0 0.75rem 1rem !important;
-}
-
-.overview-dropdown-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background-color: var(--primary-color); /* Use primary color directly for the toggle */
-  color: white; /* Force white text */
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: background-color 0.2s;
-}
-
-.overview-dropdown-toggle:hover {
-  background-color: var(--secondary-color);
-}
-
-.overview-dropdown-toggle i:not(.dropdown-arrow) {
-  width: 16px;
-  text-align: center;
-}
-
-.dropdown-arrow {
-  font-size: 0.8rem;
-  transition: transform 0.3s ease;
-}
-
-.overview-dropdown-menu {
-  display: none;
-  list-style: none;
-  margin-top: 0.5rem;
-  padding-left: 0;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-.dropdown-option {
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 0.9rem;
-  color: var(--text-color);
-  margin-bottom: 0;
-}
-
-.dropdown-option:hover {
-  background-color: var(--hover-bg);
-  color: var(--primary-color);
-}
-
-.dropdown-option.selected {
-  background-color: #eff6ff;
-  color: var(--primary-color);
-  font-weight: 600;
-  border-left: 3px solid var(--primary-color);
-}
-
-.dropdown-option i {
-  width: 16px;
-  text-align: center;
-  color: var(--primary-color);
 }
