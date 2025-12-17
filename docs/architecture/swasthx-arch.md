@@ -6,7 +6,13 @@ permalink: /architecture
 
 # Swasthx System Architecture
 
-This document provides a detailed technical overview of the Swasthx platform architecture, covering the PHR Mobile Application, Website, and the underlying cloud infrastructure on AWS.
+<div data-context="phr" markdown="1">
+This document provides a detailed technical overview of the Swasthx platform architecture, covering the PHR Mobile Application and the underlying cloud infrastructure on AWS.
+</div>
+
+<div data-context="website" markdown="1">
+This document provides a detailed technical overview of the Swasthx platform architecture, covering the website and the underlying cloud infrastructure on AWS.
+</div>
 
 <div data-context="phr" markdown="1">
 
@@ -52,6 +58,11 @@ Swasthx has integrated external APIs to provide additional facilities to the use
 #### 1MG INTEGRATION
 
 Swasthx phr app is integrated with 1mg APIs to provide facility of ordering medicines and book labtest.
+
+**1MG Sandbox Documentation:**
+
+*   <a href="https://onedoc.ekdosis.com/docs/pharma_docs/" target="_blank">1MG documentation for medicine APIs</a>
+*   <a href="https://onedoc.ekdosis.com/docs/labs_docs/" target="_blank">1MG documentaion for lab test APIs</a>
 
 **Ordering medicine flow is like this:**
 Search medicine -> Select medicine -> Call drug/otc info based on medicine type -> create/add to cart -> upload prescription -> initiate payment -> confirm order.

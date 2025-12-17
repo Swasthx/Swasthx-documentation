@@ -16,9 +16,6 @@ There are specific scenarios where the PHR App needs to access data or perform a
 
 The cross-api communication follows this sequence:
 
-![PHR Cross API Architecture]({{ site.baseurl }}/docs/images/phr-cross-api-arch.png)
-
-
 1.  **PHR App Request**: The PHR App initiates a request to the PHR Backend.
 2.  **PHR Backend Processing**: The PHR Backend receives the request and identifies the need to call the Website Backend.
 3.  **Forwarding**: The PHR Backend makes an HTTP request to the Website Backend API.
@@ -27,21 +24,13 @@ The cross-api communication follows this sequence:
 5.  **Website Backend**: On successful authentication, the request reaches the Website Backend logic.
 6.  **Response**: The Website Backend processes the request and sends the response back to the PHR Backend, which then relays it to the PHR App.
 
-```mermaid
-sequenceDiagram
-    participant App as PHR App
-    participant PHR as PHR Backend
-    participant GW as Website Gateway
-    participant Web as Website Backend
+![PHR Cross API Architecture]({{ site.baseurl }}/docs/images/website-cross-api-arch.png)
 
-    App->>PHR: API Call
-    PHR->>GW: Cross API Call (Headers: Session Token)
-    GW->>GW: Lambda Auth Verification
-    GW->>Web: Forward Request
-    Web-->>GW: Response
-    GW-->>PHR: Response
-    PHR-->>App: Response
-```
+### PHR backend cross-api sequence diagram
+
+The sequence diagram below details the interaction flow initiated by the PHR App. It shows how the PHR Backend acts as a client to the Website Backend, passing a session token which is verified by a Lambda function at the Website Gateway before the request is allowed to reach the Website Backend services.
+
+![PHR backend cross-api sequence diagram]({{ site.baseurl }}/docs/images/phr-cross-api-sequence.png)
 
 ## Involved Collections
 
@@ -75,3 +64,7 @@ The following APIs are called from the PHR Backend to the Website Backend:
 *   `/doctor-profile/searchDocName`
 *   `/doctor-profile/getDoctorFaq`
 *   `/getAllAppointments`
+
+## module to module cross api communication diagram
+
+*tech team will add the diagrams soon....*

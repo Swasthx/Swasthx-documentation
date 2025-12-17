@@ -13,116 +13,119 @@
 <body>
   <div class="container">
     <div class="sidebar">
-      <button class="mobile-nav-toggle" type="button" onclick="toggleMobileSidebar()">
-        <i class="fas fa-bars"></i>
-        <span>Menu</span>
-        <i class="fas fa-chevron-down toggle-arrow"></i>
-      </button>
+      <div class="mobile-header">
+        <div class="mobile-branding">{{ site.title }}</div>
+        <button class="mobile-nav-toggle" type="button" onclick="toggleMobileSidebar()">
+          <span class="menu-text">Menu</span>
+          <i class="fas fa-chevron-down toggle-arrow"></i>
+        </button>
+      </div>
       <div class="sidebar-content">
-      <nav>
-        <ul>
-          {% for item in site.navigation %}
-          {% assign context_str = item.contexts | join: ',' %}
+        <nav>
+          <ul>
+            {% for item in site.navigation %}
+            {% assign context_str = item.contexts | join: ',' %}
 
-          {% if item.children %}
-          <li class="section" data-context="{{ context_str }}"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
-          <ul class="sidebar-sub" data-context="{{ context_str }}">
-            {% for child in item.children %}
-            {% assign child_context_str = child.contexts | join: ',' %}
-            {% if child.children %}
-            <li class="sub-section" data-context="{{ child_context_str }}"><i class="{{ child.icon }}"></i> {{
-              child.title }}</li>
-            <ul class="sidebar-sub-sub" data-context="{{ child_context_str }}">
-              {% for grandchild in child.children %}
-              {% assign grandchild_context_str = grandchild.contexts | join: ',' %}
-              <li data-context="{{ grandchild_context_str }}"><a href="{{ grandchild.url | relative_url }}"><i
-                    class="{{ grandchild.icon }}"></i> <span class="nav-text">{{ grandchild.title }}</span></a></li>
+            {% if item.children %}
+            <li class="section" data-context="{{ context_str }}"><i class="{{ item.icon }}"></i> {{ item.title }}</li>
+            <ul class="sidebar-sub" data-context="{{ context_str }}">
+              {% for child in item.children %}
+              {% assign child_context_str = child.contexts | join: ',' %}
+              {% if child.children %}
+              <li class="sub-section" data-context="{{ child_context_str }}"><i class="{{ child.icon }}"></i> {{
+                child.title }}</li>
+              <ul class="sidebar-sub-sub" data-context="{{ child_context_str }}">
+                {% for grandchild in child.children %}
+                {% assign grandchild_context_str = grandchild.contexts | join: ',' %}
+                <li data-context="{{ grandchild_context_str }}"><a href="{{ grandchild.url | relative_url }}"><i
+                      class="{{ grandchild.icon }}"></i> <span class="nav-text">{{ grandchild.title }}</span></a></li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              {% assign is_dynamic_label = child.dynamic_label | default: false %}
+              <li data-context="{{ child_context_str }}"><a href="{{ child.url | relative_url }}" {% if is_dynamic_label
+                  %}data-dynamic-label="true" data-label-phr="{{ child.label_phr | default: child.title }}"
+                  data-label-website="{{ child.label_website | default: child.title }}"
+                  data-default-label="{{ child.title }}" {% endif %}><i class="{{ child.icon }}"></i> <span
+                    class="nav-text">{{ child.title }}</span></a></li>
+              {% endif %}
               {% endfor %}
             </ul>
             {% else %}
-            {% assign is_dynamic_label = child.dynamic_label | default: false %}
-            <li data-context="{{ child_context_str }}"><a href="{{ child.url | relative_url }}"
-                {% if is_dynamic_label %}data-dynamic-label="true" data-label-phr="{{ child.label_phr | default: child.title }}"
-                data-label-website="{{ child.label_website | default: child.title }}"
-                data-default-label="{{ child.title }}"{% endif %}><i
-                  class="{{ child.icon }}"></i> <span class="nav-text">{{ child.title }}</span></a></li>
+            <li class="section section-link" data-context="{{ context_str }}">
+              <a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> <span class="nav-text">{{
+                  item.title }}</span></a>
+            </li>
             {% endif %}
             {% endfor %}
           </ul>
-          {% else %}
-          <li class="section section-link" data-context="{{ context_str }}">
-            <a href="{{ item.url | relative_url }}"><i class="{{ item.icon }}"></i> <span class="nav-text">{{ item.title }}</span></a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </nav>
+        </nav>
 
-      <!-- Client-side Navigation Filtering -->
-      <script>
-        function toggleMobileSidebar() {
-          const sidebar = document.querySelector('.sidebar');
-          if (!sidebar) return;
-          sidebar.classList.toggle('mobile-nav-open');
-          updateMobileToggleState();
-        }
-
-        function enforceDesktopSidebarState() {
-          const sidebar = document.querySelector('.sidebar');
-          if (!sidebar) return;
-          if (window.innerWidth > 768) {
-            sidebar.classList.add('mobile-nav-open');
+        <!-- Client-side Navigation Filtering -->
+        <script>
+          function toggleMobileSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            sidebar.classList.toggle('mobile-nav-open');
+            updateMobileToggleState();
           }
-          updateMobileToggleState();
-        }
 
-        function updateMobileToggleState() {
-          const sidebar = document.querySelector('.sidebar');
-          const toggle = document.querySelector('.mobile-nav-toggle');
-          if (!sidebar || !toggle) return;
-          const isOpen = sidebar.classList.contains('mobile-nav-open');
-          toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        }
+          function enforceDesktopSidebarState() {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar) return;
+            if (window.innerWidth > 768) {
+              sidebar.classList.add('mobile-nav-open');
+            }
+            updateMobileToggleState();
+          }
 
-        document.addEventListener('DOMContentLoaded', function () {
-          // 1. Get context
-          const context = localStorage.getItem('swasthx_doc_context');
+          function updateMobileToggleState() {
+            const sidebar = document.querySelector('.sidebar');
+            const toggle = document.querySelector('.mobile-nav-toggle');
+            if (!sidebar || !toggle) return;
+            const isOpen = sidebar.classList.contains('mobile-nav-open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          }
 
-          if (context) {
-            // Filter Sidebar Items
-            const items = document.querySelectorAll('[data-context]');
-            items.forEach(el => {
-              const allowedContexts = el.getAttribute('data-context').split(',');
-              if (!allowedContexts.includes(context)) {
-                el.style.display = 'none';
+          document.addEventListener('DOMContentLoaded', function () {
+            // 1. Get context
+            const context = localStorage.getItem('swasthx_doc_context');
+
+            if (context) {
+              // Filter Sidebar Items
+              const items = document.querySelectorAll('[data-context]');
+              items.forEach(el => {
+                const allowedContexts = el.getAttribute('data-context').split(',');
+                if (!allowedContexts.includes(context)) {
+                  el.style.display = 'none';
+                }
+              });
+
+            }
+
+            updateDynamicLabels(context);
+            enforceDesktopSidebarState();
+          });
+
+          window.addEventListener('resize', enforceDesktopSidebarState);
+
+          function updateDynamicLabels(context) {
+            const links = document.querySelectorAll('a[data-dynamic-label="true"]');
+            links.forEach(link => {
+              const labelContainer = link.querySelector('.nav-text') || link;
+              const defaultLabel = link.getAttribute('data-default-label') || labelContainer.textContent;
+              if (context === 'phr') {
+                labelContainer.textContent = link.getAttribute('data-label-phr') || defaultLabel;
+              } else if (context === 'website') {
+                labelContainer.textContent = link.getAttribute('data-label-website') || defaultLabel;
+              } else {
+                labelContainer.textContent = defaultLabel;
               }
             });
-
           }
+        </script>
 
-          updateDynamicLabels(context);
-          enforceDesktopSidebarState();
-        });
-
-        window.addEventListener('resize', enforceDesktopSidebarState);
-
-        function updateDynamicLabels(context) {
-          const links = document.querySelectorAll('a[data-dynamic-label="true"]');
-          links.forEach(link => {
-            const labelContainer = link.querySelector('.nav-text') || link;
-            const defaultLabel = link.getAttribute('data-default-label') || labelContainer.textContent;
-            if (context === 'phr') {
-              labelContainer.textContent = link.getAttribute('data-label-phr') || defaultLabel;
-            } else if (context === 'website') {
-              labelContainer.textContent = link.getAttribute('data-label-website') || defaultLabel;
-            } else {
-              labelContainer.textContent = defaultLabel;
-            }
-          });
-        }
-      </script>
-
-    </div>
+      </div>
     </div>
 
     <main>

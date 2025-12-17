@@ -28,7 +28,9 @@ Use this guide to quickly understand what platforms and resources exist across t
   - Learn which ABDM APIs are integrated into the website and PHR app.
   - Review the flows supported in each milestone.
 - **1mg Sandbox** – Test environment for medicine and lab test integrations. Coordinate with the integrations team for credentials.
-  - See the APIs we use to fetch medicine and lab test data.
+
+  - <a href="https://onedoc.ekdosis.com/docs/pharma_docs/" target="_blank">1MG documentation for medicine APIs</a>
+  - <a href="https://onedoc.ekdosis.com/docs/labs_docs/" target="_blank">1MG documentaion for lab test APIs</a>
 - **Google Play Console** – Used to publish Android builds. Access the console at [play.google.com/console](https://play.google.com/console/u/3/developers/7322562159725037649/app-list) once the admin shares permissions.
 - **App Store Connect** – Used for iOS releases. Sign in at [appstoreconnect.apple.com](https://appstoreconnect.apple.com/login) after being added to the Swasthx account.
 

@@ -15,7 +15,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add search functionality
     addSearchFunctionality();
+
+    // Add mobile navigation behavior
+    addMobileNavBehavior();
 });
+
+// Auto-close sidebar on mobile when link is clicked
+function addMobileNavBehavior() {
+    const sidebarLinks = document.querySelectorAll('.sidebar nav a');
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.querySelector('.mobile-nav-toggle');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('mobile-nav-open');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+    });
+}
 
 // Highlight the current page in the sidebar
 function highlightActivePage() {
@@ -313,30 +334,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Add animation keyframes
-const animationStyles = `
-<style>
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.sidebar.mobile-open {
-    transform: translateX(0);
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-}
-</style>
-`;
-
-document.head.insertAdjacentHTML('beforeend', animationStyles); 

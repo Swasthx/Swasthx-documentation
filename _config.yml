@@ -86,12 +86,16 @@ navigation:
   - title: "Release"
     url: "#"
     icon: fas fa-rocket
-    contexts: [phr]
+    contexts: [phr, website]
     children:
       - title: "PHR App Release Guidelines"
         url: "/docs/release/phr-app-release.html"
         icon: fas fa-mobile-alt
         contexts: [phr]
+      - title: "Website Release Guidelines"
+        url: "/docs/release/website-release.html"
+        icon: fas fa-desktop
+        contexts: [website]
 
 
   - title: "Architecture & Design"
@@ -99,7 +103,7 @@ navigation:
     icon: fas fa-sitemap
     contexts: [phr, website]
     children:
-      - title: "Swasthx Arch"
+      - title: "Swasthx Architecture"
         url: "/architecture"
         icon: fas fa-project-diagram
         contexts: [phr, website]
