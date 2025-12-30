@@ -9,3 +9,5 @@ node_modules/
 *.log
 
 .bundle/
+Gemfile.lock
+Gemfile
