@@ -97,7 +97,6 @@ navigation:
         icon: fas fa-desktop
         contexts: [website]
 
-
   - title: "Architecture & Design"
     url: "#"
     icon: fas fa-sitemap
@@ -115,8 +114,6 @@ navigation:
         url: "/docs/architecture/website-cross-api.html"
         icon: fas fa-exchange-alt
         contexts: [website]
-
-
 
   - title: "Development"
     url: "#"
@@ -136,7 +133,6 @@ navigation:
         icon: fas fa-server
         contexts: [phr, website]
 
-
   - title: "API & Integration"
     url: "#"
     icon: fas fa-plug
@@ -154,7 +150,6 @@ navigation:
         url: "/postman-collection-guide"
         icon: fas fa-envelope-open-text
         contexts: [phr, website]
-
 
   - title: "Database"
     url: "#"
@@ -186,7 +181,6 @@ navigation:
             url: "/docs/database/db-access.html"
             icon: fas fa-key
             contexts: [phr, website]
-
 
   - title: "Infrastructure"
     url: "#"
@@ -247,8 +241,6 @@ navigation:
             icon: fas fa-user-lock
             contexts: [phr, website]
 
-
-
   - title: "Workflows & Processes"
     url: "#"
     icon: fas fa-tasks
@@ -273,6 +265,10 @@ navigation:
             contexts: [phr]
           - title: "Website Backend"
             url: "/docs/workflows/website-backend.html"
+            icon: fas fa-laptop-code
+            contexts: [website]
+          - title: "WB More Info"
+            url: "/docs/workflows/website-backend-more.html"
             icon: fas fa-laptop-code
             contexts: [website]
 
