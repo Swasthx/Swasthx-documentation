@@ -223,6 +223,7 @@ header p {
 
 .sidebar nav ul {
   list-style: none;
+  padding-left: 0.5rem;
 }
 
 .sidebar nav a {
@@ -258,7 +259,7 @@ header p {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--primary-color);
-  margin: 2rem 0 0.75rem 1rem;
+  margin: 2rem 0 0.75rem 0.5rem;
   padding: 0.5rem 1rem;
   background-color: var(--section-bg);
   border-radius: 0.5rem;
@@ -719,5 +720,64 @@ footer {
   .doc-card {
     width: 100%;
     max-width: 100%;
+  }
+}
+
+/* Sidebar Toggle Styles */
+.sidebar {
+  transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: none;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: transparent;
+  color: #555;
+  border: 1px solid var(--border-color);
+  background: white;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.sidebar-toggle-wrapper {
+  position: sticky;
+  top: 1rem;
+  z-index: 90;
+  height: 0;
+  /* Don't take up vertical space */
+  width: 0;
+  /* Don't take up horiz space */
+  overflow: visible;
+  /* Allowing button to show */
+  margin-bottom: 0;
+}
+
+/* Hide toggle on mobile as mobile-nav handles it */
+@media (max-width: 768px) {
+  .sidebar-toggle-btn {
+    display: none;
   }
 }
