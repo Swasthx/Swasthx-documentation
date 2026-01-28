@@ -18,6 +18,7 @@ parent: Resources
 | **Delete ABHA** | <a href="https://abhasbx.abdm.gov.in/abha/v3/" target="_blank">ABHA Portal</a> | Delete ABHA Details Portal |
 | **PHR Web App** | <a href="https://phrsbx.abdm.gov.in/phr/v3/" target="_blank">Launch App</a> | PHR Sandbox Web Application |
 | **Sandbox APK** | <a href="https://sandbox.abdm.gov.in/sandbox/v3/new-documentation?doc=SandboxABHAapp" target="_blank">Download</a> | Latest Sandbox APK |
+| **Test Cases Sheet** | <a href="https://docs.google.com/spreadsheets/d/1__5012qP0k6p3gTRGfz5x0RpIZd21WXQ/edit?usp=sharing&ouid=116326917410947996324&rtpof=true&sd=true" target="_blank">View Sheet</a> | Contains the PHR test cases with current status |
 
 </div>
 

@@ -191,6 +191,23 @@ navigation:
         url: "/docs/infra/cloud-overview.html"
         icon: fab fa-aws
         contexts: [phr, website]
+      - title: "Key Management"
+        url: "#"
+        icon: fas fa-key
+        contexts: [phr, website]
+        children:
+          - title: "Overview"
+            url: "/docs/infra/key-management-overview-phr.html"
+            icon: fas fa-info-circle
+            contexts: [phr]
+          - title: "Overview"
+            url: "/docs/infra/key-management-overview-website.html"
+            icon: fas fa-info-circle
+            contexts: [website]
+          - title: "Update AWS Keys"
+            url: "/docs/infra/update-aws-keys.html"
+            icon: fas fa-sync
+            contexts: [phr, website]
       - title: "Cloud Documentation"
         url: "#"
         icon: fas fa-server

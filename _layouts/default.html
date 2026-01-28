@@ -70,6 +70,22 @@
             updateMobileToggleState();
           }
 
+          function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const icon = document.getElementById('sidebarToggleIcon');
+            if (!sidebar) return;
+            sidebar.classList.toggle('collapsed');
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebar_collapsed', isCollapsed);
+
+            // Update icon
+            if (isCollapsed) {
+              if (icon) icon.className = 'fas fa-angle-double-right';
+            } else {
+              if (icon) icon.className = 'fas fa-angle-double-left';
+            }
+          }
+
           function enforceDesktopSidebarState() {
             const sidebar = document.querySelector('.sidebar');
             if (!sidebar) return;
@@ -105,6 +121,17 @@
 
             updateDynamicLabels(context);
             enforceDesktopSidebarState();
+
+            // Restore collapsed state
+            const savedCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+            const icon = document.getElementById('sidebarToggleIcon');
+            if (savedCollapsed) {
+              const sidebar = document.querySelector('.sidebar');
+              if (sidebar) sidebar.classList.add('collapsed');
+              if (icon) icon.className = 'fas fa-angle-double-right';
+            } else {
+              if (icon) icon.className = 'fas fa-angle-double-left';
+            }
           });
 
           window.addEventListener('resize', enforceDesktopSidebarState);
@@ -129,6 +156,11 @@
     </div>
 
     <main>
+      <div class="sidebar-toggle-wrapper">
+        <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar" id="sidebarToggle">
+          <i class="fas fa-angle-double-left" id="sidebarToggleIcon"></i>
+        </button>
+      </div>
       {{ content }}
     </main>
   </div>
