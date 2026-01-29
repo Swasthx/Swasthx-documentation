@@ -32,6 +32,7 @@ exclude:
   - .gitignore
   - .nojekyll
   - .github
+  - "assets/openapi/**/temp_*"
 
 # Defaults
 defaults:
@@ -150,6 +151,7 @@ navigation:
         url: "/postman-collection-guide"
         icon: fas fa-envelope-open-text
         contexts: [phr, website]
+
 
   - title: "Database"
     url: "#"
