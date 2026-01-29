@@ -1,0 +1,2003 @@
+{
+    "info": {
+        "_postman_id": "2928fe68-bbb5-4287-a105-9204a3b56ac5",
+        "name": "cross api(wb-to-phr)",
+        "description": "Cross-API overview\n\n- The Website backend (WB) and the PHR backend communicate bidirectionally.\n    \n- The PHR Mobile app calls the PHR backend, which then coordinates with the Website backend to fulfill requests.\n    \n- Example: For “Find nearby doctor,” the primary API resides in the Website backend. The PHR app sends the request to the PHR backend, which forwards it to the Website backend and returns the Website backend’s response to the app.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "46178638",
+        "_collection_link": "https://swasthx.postman.co/workspace/Swasthx-HIMS-APIs~9ee10cd3-d955-4bc3-b9e2-43b9b7af1259/collection/46178638-2928fe68-bbb5-4287-a105-9204a3b56ac5?action=share&source=collection_link&creator=46178638"
+    },
+    "item": [
+        {
+            "name": "Get All Doctor by ids",
+            "item": [
+                {
+                    "name": "Get Doc by Ids",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"doctorIds\": [\r\n    \"6677\"\r\n  ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/getAllDoctorsByIds",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "getAllDoctorsByIds"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "## Get Doc by Ids\n\nThis endpoint retrieves detailed information for one or more doctors based on their unique IDs. It is typically used when you need to fetch doctor profiles in bulk by specifying their IDs.\n\n### Request\n\n- **HTTP Req - POST**\n    \n- **Content-Type:** `application/json`\n    \n- { \"doctorIds\": \\[\"string\"\\] }\n    \n- **Fields:**\n    \n    - `doctorIds` (array of strings, required):\n        \n        - List of doctor IDs for which information is requested.\n            \n        - Example: `[\"6677\", \"1234\"]`\n            \n\n### Required Variables\n\n- `baseUrl`\n    \n- `wb-auth-token`\n    \n\nTo get the auth token you Login first."
+        },
+        {
+            "name": "Popular Doctors",
+            "item": [
+                {
+                    "name": "Get Popular Doctor",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctor-profile/popularDoctors",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "doctor-profile",
+                                "popularDoctors"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "**Purpose:**  \nThis GET request retrieves a list of popular doctors from the system.\n\n**Usage:**\n\n- Endpoint: `{{baseUrl}}/doctor-profile/popularDoctors`\n    \n- Method: `GET`\n    \n- Authentication: Requires the `wb-auth-token`\n    \n- The `baseUrl` variable should be set to the appropriate API base URL for your environment.\n    \n- No request body is required.\n    \n- To get the auth token you Login first."
+        },
+        {
+            "name": "Doctor profile filters(Single)",
+            "item": [
+                {
+                    "name": "Doctor Filter",
+                    "item": [
+                        {
+                            "name": "doctor filters",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{wb-auth-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/getAllDoctor?speciality=Cardiologist",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "getAllDoctor"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "speciality",
+                                            "value": "Cardiologist"
+                                        },
+                                        {
+                                            "key": "page",
+                                            "value": "1",
+                                            "disabled": true
+                                        },
+                                        {
+                                            "key": "limit",
+                                            "value": "100",
+                                            "disabled": true
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "description": "**Description:**  \nRetrieves a list of all doctors filtered by the specified speciality.\n\n- **Query Parameter:**\n    \n    - `speciality` (string, required): The medical speciality to filter doctors by (e.g., Cardiologist).\n        \n- **Authentication:**\n    \n    - Requires `wb-auth-token` in the request headers.\n        \n- **Usage:**  \n    Use this endpoint to fetch all doctors matching a particular speciality for display or further filtering."
+                },
+                {
+                    "name": "Doctor Filter by ID",
+                    "item": [
+                        {
+                            "name": "get single doctor by ID",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "auth": {
+                                    "type": "noauth"
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/123456",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "123456"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "description": "**Description:**  \nFetches doctors filtered by a specific speciality.\n\n- **Query Parameter:**\n    \n    - `speciality` (string, required): The speciality to filter doctors by.\n        \n- **Authentication:**\n    \n    - Requires `wb-auth-token` in the request headers.\n        \n- **Usage:**  \n    Use this endpoint to retrieve doctors for a given speciality, useful for speciality-based search features."
+                },
+                {
+                    "name": "Doctor Single Filter",
+                    "item": [
+                        {
+                            "name": "get single filters",
+                            "request": {
+                                "auth": {
+                                    "type": "noauth"
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/filteredbyDoctorSpeciality?speciality=Cardiologist",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "filteredbyDoctorSpeciality"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "speciality",
+                                            "value": "Cardiologist"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "description": "**Description:**  \nRetrieves the profile details of a single doctor by their unique Doctor ID.\n\n- **Path Parameter:**\n    \n    - Doctor ID (string, required): The unique identifier for the doctor.\n        \n- **Authentication:**\n    \n    - Requires `wb-auth-token` in the request headers.\n        \n- **Usage:**  \n    Use this endpoint to get detailed information about a specific doctor, such as for profile views or appointment booking."
+                }
+            ],
+            "description": "This is Doctor profile api which are help to find doctor following multiple level filters\n\n- All Doctor\n    \n- Speciality filters\n    \n- Fee level filters\n    \n- Mulitple doctor filters\n    \n- Area level filters\n    \n- Signgle doctor profile filters by Doctor ID\n    \n- **Authentication:**\n    \n    - Requires `wb-auth-token` in the request headers.\n        \n- _Use this endpoint to get detailed information about a specific doctor, such as for profile views or appointment booking._"
+        },
+        {
+            "name": "Get All Appointmetns By Ids",
+            "item": [
+                {
+                    "name": "appointmentsbyIds",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"appointmentIds\": [\r\n    \"68bc1b38239f407ed3b84f7b\"\r\n  ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/getAppointmentsByIds",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "getAppointmentsByIds"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Following thie Endpoint from the UI will send the array of doctors IDs\n\n- Must need Auth token first login and keep the right appointment IDs.\n    \n- example -\n    \n    - {  \"appointmentIds\": \\[    \"68bc1b38239f407ed3b84f7b\"  \\]}"
+        },
+        {
+            "name": "Doctor Filters By Specialities,  locations,",
+            "item": [
+                {
+                    "name": "Get Filters",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctor-profile/newFilters?field=locations",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "doctor-profile",
+                                "newFilters"
+                            ],
+                            "query": [
+                                {
+                                    "key": "field",
+                                    "value": "specialities",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "field",
+                                    "value": "locations"
+                                }
+                            ]
+                        },
+                        "description": "Retrieves available location filters for doctor profiles.\n\n**Purpose:**  \nUse this endpoint to fetch a list of locations that can be used as filters when searching or displaying doctor profiles in the system.\n\n**Usage:**\n\n- Method: GET\n    \n- Endpoint: `{{baseUrl}}/doctor-profile/newFilters?field=locations`\n    \n- Requires a valid `wb-auth-token` header for authentication.\n    \n- The `field` query parameter should be set to `locations` to retrieve location-based filter options.\n    \n\n**Response:**  \nReturns a list of location filter values that can be applied to doctor profile queries.\n\n**Typical Use Case:**  \nPopulate dropdowns or filter menus in UI for users to select locations when searching for doctors."
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Retrieves available location filters for doctor profiles.\n\n**Purpose:**  \nUse this endpoint to fetch a list of locations that can be used as filters when searching or displaying doctor profiles in the system.\n\n**Usage:**\n\n- Method: GET\n    \n- Endpoint: `{{baseUrl}}/doctor-profile/newFilters?field=locations`\n    \n- Requires a valid `wb-auth-token` header for authentication.\n    \n- The `field` query parameter should be set to `locations` to retrieve location-based filter options.\n    \n\n**Response:**  \nReturns a list of location filter values that can be applied to doctor profile queries.\n\n**Typical Use Case:**  \nPopulate dropdowns or filter menus in UI for users to select locations when searching for doctors."
+        },
+        {
+            "name": "Scan & Get All Doctors under hospital",
+            "item": [
+                {
+                    "name": "All Doctors list",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"hospitalID\": \"123456\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/doctor-profile/getDoctorsByHospital",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "doctor-profile",
+                                "getDoctorsByHospital"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "  \nRetrieves a list of doctors associated with a specified hospital ID, when user will scan the QR code he will get all the doctor list following the hostpital IDs..\n\n**Usage Notes:**\n\n- Ensure `hospitalID` is provided in the request body as a string.\n    \n- The endpoint returns a list of doctor profiles for the specified hospital.\n    \n- authenthication must required"
+        },
+        {
+            "name": "Geo Location Search",
+            "item": [
+                {
+                    "name": "Doctor search by geoLocation",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctor-profile/nearbyDoctors?latitude=28.6189&longitude=77.078&maxDistance=9000",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "doctor-profile",
+                                "nearbyDoctors"
+                            ],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "28.6189"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "77.078"
+                                },
+                                {
+                                    "key": "maxDistance",
+                                    "value": "9000"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "In this Endpoint Use to get Location wise doctor search, within the 5km of Hospital user will find the Doctor considering the Location.\n\nTo get the Geo Locational search user must need to Selete thier Map location."
+        },
+        {
+            "name": "Patient app appointment",
+            "item": [
+                {
+                    "name": "cancelUserSlot",
+                    "item": [
+                        {
+                            "name": "cancel User Slot",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"doctorID\": \"<string>\",\n  \"patientAppappointmentID\": \"<string>\",\n  \"doctorWebAppointmentID\": \"<string>\",\n  \"status\": \"<string>\",\n  \"time\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/cancelUserSlot",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "cancelUserSlot"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"doctorID\": \"<string>\",\n  \"patientAppappointmentID\": \"<string>\",\n  \"doctorWebAppointmentID\": \"<string>\",\n  \"status\": \"<string>\",\n  \"time\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/cancelUserSlot",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "cancelUserSlot"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "Purpose of this api --  \nCancels a previously booked user slot (appointment) for a specific doctor.\n\nAuthentication\n\n- If your API requires auth, inherit from the parent or add the relevant token header (for example, Authorization: Bearer ). This request uses variables, so ensure your environment provides any required auth values.\n    \n\nNotes\n\n- Ensure {{baseUrl}} is set in the active environment (wb-dev-env) before sending.\n    \n- Keep Content-Type: application/json.\n    \n- If the API relies on additional headers (e.g., Authorization), configure them at the folder/collection level and inherit here."
+                },
+                {
+                    "name": "userSlotBook",
+                    "item": [
+                        {
+                            "name": "user Slot Book",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/userSlotBook",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "userSlotBook"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/userSlotBook",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "userSlotBook"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "User Slot Booking:\n\n- Reserve an available timeslot for a user with a provider, validate availability, create the booking, and return a booking/appointment ID.\n    \n- Handles conflicts (slot taken), validation errors, and auth via environment variables (e.g., {{baseUrl}} and token)."
+                },
+                {
+                    "name": "userVitalAssessment",
+                    "item": [
+                        {
+                            "name": "user Vital Assessment",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"symptom\": \"<string>\",\n  \"question\": [\n    {\n      \"question\": \"<string>\",\n      \"options\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"question\": \"<string>\",\n      \"options\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/userVitalAssessment",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "userVitalAssessment"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"symptom\": \"<string>\",\n  \"question\": [\n    {\n      \"question\": \"<string>\",\n      \"options\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"question\": \"<string>\",\n      \"options\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/userVitalAssessment",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "userVitalAssessment"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "User Slot Booking overview:\n\n- Purpose: Book an available timeslot for a user with a provider, ensuring the slot is still free and the user is eligible.\n    \n- Process: Validate inputs and auth, check schedule availability and rules, create the reservation, and return a booking/appointment ID with status.\n    \n- Behaviors: Prevent duplicate bookings for the same user/slot, handle conflicts if the slot is already taken, and support cancellations/reschedules in follow-up flows.\n    \n- Inputs/Variables: Use environment variables for configuration and auth (e.g., {{baseUrl}} and token).\n    \n- Outcomes: On success, return booking details and confirmation; on failure, return clear errors for validation, conflict, or authorization issues.\n    \n\nI can add this as a description to your relevant folder or request—just tell me where you want it."
+                },
+                {
+                    "name": "submitUserVitalAssessment",
+                    "item": [
+                        {
+                            "name": "submit User Vital Assessment",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"date\": \"<string>\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"symptom\": \"<string>\",\n  \"questions\": [\n    {\n      \"questions\": \"<string>\",\n      \"answer\": \"<string>\"\n    },\n    {\n      \"questions\": \"<string>\",\n      \"answer\": \"<string>\"\n    }\n  ]\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/submitUserVitalAssessment",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "submitUserVitalAssessment"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"date\": \"<string>\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"symptom\": \"<string>\",\n  \"questions\": [\n    {\n      \"questions\": \"<string>\",\n      \"answer\": \"<string>\"\n    },\n    {\n      \"questions\": \"<string>\",\n      \"answer\": \"<string>\"\n    }\n  ]\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/submitUserVitalAssessment",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "submitUserVitalAssessment"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "Submits a patient’s vital assessment for a given doctor and date.\n\nAuthentication: Inherit or apply your API auth as configured in the parent folder/collection. If a bearer/JWT or API key is required, ensure it is set at the folder/collection level so this request inherits it."
+                },
+                {
+                    "name": "getAssessmentQuestions",
+                    "item": [
+                        {
+                            "name": "get Assessment Questions",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{wb-auth-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/getAssessmentQuestions?symptomType=<string>",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "getAssessmentQuestions"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "symptomType",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/getAssessmentQuestions?symptomType=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "getAssessmentQuestions"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "symptomType",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "Retrieve assessment questions for a given symptom type. Useful for building dynamic triage or intake flows.\n\n- Method: GET\n    \n- Endpoint: `https://websitedevelopment.api.swasthx.com/getAssessmentQuestions`\n    \n- Query param: `symptomType` (string, required)\n    \n\n## Authorization\n\nYou must be authenticated to get the response\n\n## Usage Notes\n\n- Use environment variables for tokens and base URL to simplify switching between wb-dev-env, wb-qa-env, and wb-prod-env.\n    \n- You can add additional saved examples to document different responses per `symptomType`.\n    \n- This request currently has no pre-request or test scripts; consider adding tests to validate response structure."
+                },
+                {
+                    "name": "getAllAppointments",
+                    "item": [
+                        {
+                            "name": "get All Appointments",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/getAllAppointments?mobileNumber=<string>",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "getAllAppointments"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "mobileNumber",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/getAllAppointments?mobileNumber=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "getAllAppointments"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "mobileNumber",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "Get All Appointments by Mobile Number  \nFetches all appointment records associated with a patient’s mobile number. Useful for listing upcoming and past appointments for patient or admin portals.\n\n## Usage Notes\n\n- Use environment variables for tokens and base URL to simplify switching between wb-dev-env, wb-qa-env, and wb-prod-env.\n    \n- You can add additional saved examples to document different responses per `symptomType`.\n    \n- This request currently has no pre-request or test scripts; consider adding tests to validate response structure."
+                },
+                {
+                    "name": "rescheduleAppointment",
+                    "item": [
+                        {
+                            "name": "reschedule Appointment",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "username",
+                                        "value": "AarogyaIDPatientAppUser",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "password",
+                                        "value": "AarogyaIDPatientAppPassword",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"mobileNumber\": \"8897497435\",\n  \"doctorID\": \"965874\",\n  \"patientAppappointmentID\": \"\",\n  \"doctorWebAppointmentID\": \"68aee78911315459c936a0a4\",\n  \"Oldtime\": \"2025-08-28T06:00:00.000Z\",\n  \"BookedSlot\": {\n    \"status\": \"Confirmed\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"2025-08-28T06:00:00.000Z\",\n    \"duration\": \"15\",\n    \"typeOfSlot\": \"teleConsultation\",\n    \"whichSlot\": \"morningSlot\",\n    \"whichDay\": \"Thursday\"\n  }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/rescheduleAppointment",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "rescheduleAppointment"
+                                    ]
+                                },
+                                "description": "## Reschedule Appointment\n\nReschedules an existing appointment for a patient with a specific doctor. This endpoint updates the booked slot to a new time while preserving appointment context.\n\n- Method: PATCH\n    \n- URL: `{{baseUrl}}/rescheduleAppointment`\n    \n- Folder: This request is inside the relevant appointments folder in the cross api(wb-to-phr) collection.\n    \n\n### Headers\n\n- `Content-Type: application/json`\n    \n- `username`: AarogyaIDPatientAppUser\n    \n- `password`: AarogyaIDPatientAppPassword\n    \n\nNote: If your API uses environment or vault variables for credentials, replace static values with variables.\n\n### Authentication\n\nThe request currently passes credentials via headers as shown above. If a bearer token is required in your deployment, set it in the Authorization tab or add an `Authorization: Bearer {{wb-auth-token}}` header and keep `{{wb-auth-token}}` updated in your environment or vault.\n\n### Request Body (JSON)\n\nProvide the appointment information to reschedule.\n\nFields:\n\n- `mobileNumber` (string, required): Patient's mobile number associated with the appointment.\n    \n- `doctorID` (string, required): Unique identifier of the doctor.\n    \n- `patientAppappointmentID` (string, optional): Appointment ID from the patient app. If unavailable, leave empty and use `doctorWebAppointmentID`.\n    \n- `doctorWebAppointmentID` (string, optional): Appointment ID from the doctor's web portal. Provide either this or `patientAppappointmentID`.\n    \n- `Oldtime` (ISO 8601 string, required): Previously booked appointment time (UTC or timezone-aware).\n    \n- `BookedSlot` (object, required): Details of the new slot to book.\n    - `status` (string): Status of the booking (e.g., `Confirmed`).\n        \n    - `paymentStatus` (string): Payment status (e.g., `PAID`, `UNPAID`).\n        \n    - `time` (ISO 8601 string): New appointment start time.\n        \n    - `duration` (string|number): Duration of the slot in minutes.\n        \n    - `typeOfSlot` (string): Slot type (e.g., `teleConsultation`, `inPerson`).\n        \n    - `whichSlot` (string): Time-of-day grouping (e.g., `morningSlot`, `eveningSlot`).\n        \n    - `whichDay` (string): Day of week of the new slot.\n        \n\nExample:\n\n``` json\n{\n  \"mobileNumber\": \"8897497435\",\n  \"doctorID\": \"965874\",\n  \"patientAppappointmentID\": \"\",\n  \"doctorWebAppointmentID\": \"68aee78911315459c936a0a4\",\n  \"Oldtime\": \"2025-08-28T06:00:00.000Z\",\n  \"BookedSlot\": {\n    \"status\": \"Confirmed\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"2025-08-28T06:00:00.000Z\",\n    \"duration\": \"15\",\n    \"typeOfSlot\": \"teleConsultation\",\n    \"whichSlot\": \"morningSlot\",\n    \"whichDay\": \"Thursday\"\n  }\n}\n\n ```\n\n### Responses\n\n- `201 Created` or `200 OK`: Appointment successfully rescheduled. Response may include updated appointment details.\n    \n- `400 Bad Request`: Missing or invalid fields (e.g., invalid time, missing IDs).\n    \n- `401/403 Unauthorized/Forbidden`: Authentication or permission issues.\n    \n- `404 Not Found`: Appointment or doctor not found.\n    \n- `409 Conflict`: Slot no longer available; choose a different time.\n    \n- `5xx Server Error`: Unexpected error on the server.\n    \n\n### Notes\n\n- Ensure `BookedSlot.time` is a valid future time and aligns with the doctor's availability.\n    \n- Provide either `patientAppappointmentID` or `doctorWebAppointmentID`.\n    \n- Time values should use ISO 8601 format.\n    \n\n### Testing Tips\n\n- Parameterize the base URL using the active environment variable `{{baseUrl}}`.\n    \n- Store sensitive tokens in the environment or vault (e.g., `{{wb-auth-token}}`).\n    \n- Add tests to assert status code, response time, and presence of key fields in the response."
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"doctorID\": \"<string>\",\n  \"patientAppappointmentID\": \"<string>\",\n  \"doctorWebAppointmentID\": \"<string>\",\n  \"Oldtime\": \"<string>\",\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/rescheduleAppointment",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "rescheduleAppointment"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## Reschedule Appointment\n\nReschedules an existing appointment for a patient with a specific doctor. This endpoint updates the booked slot to a new time while preserving appointment context.\n\n- Method: PATCH\n    \n- URL: `https://websitedevelopment.api.swasthx.com/rescheduleAppointment`\n    \n- Folder: This request is inside the relevant appointments folder in the cross api(wb-to-phr) collection.\n    \n\n### Headers\n\n- `Content-Type: application/json`\n    \n- `username`: AarogyaIDPatientAppUser\n    \n- `password`: AarogyaIDPatientAppPassword\n    \n\nNote: If your API uses environment or vault variables for credentials, replace static values with variables.\n\n### Authentication\n\nYou must authentication to get response\n\n### Notes\n\n- Ensure `BookedSlot.time` is a valid future time and aligns with the doctor's availability.\n    \n- Provide either `patientAppappointmentID` or `doctorWebAppointmentID`."
+                },
+                {
+                    "name": "updatePatientInfo",
+                    "item": [
+                        {
+                            "name": "upate Patient Info",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"name\": \"<string>\",\n  \"abhaAddress\": \"<string>\",\n  \"abhaNumber\": \"<string>\",\n  \"UHID\": \"<string>\",\n  \"age\": \"<string>\",\n  \"dob\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"mobileNumber\": \"<string>\",\n  \"address\": {\n    \"streetName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"country\": \"<string>\",\n    \"pincode\": \"<string>\"\n  }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/updatePatientInfo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "updatePatientInfo"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"name\": \"<string>\",\n  \"abhaAddress\": \"<string>\",\n  \"abhaNumber\": \"<string>\",\n  \"UHID\": \"<string>\",\n  \"age\": \"<string>\",\n  \"dob\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"mobileNumber\": \"<string>\",\n  \"address\": {\n    \"streetName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"country\": \"<string>\",\n    \"pincode\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/updatePatientInfo",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "updatePatientInfo"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## Update Patient Info (PATCH)\n\nUpdates a patient's demographic profile and identifiers. Partial updates are supported; include only fields that need to change.\n\n### Authentication\n\n- Uses workspace auth if configured. If required by your API, include a bearer token or session auth in this request’s Authorization tab.\n    \n\n### Path and Variables\n\n- `{{baseUrl}}` comes from the active environment (wb-dev-env)."
+                },
+                {
+                    "name": "getPatientAppointmentInfo",
+                    "item": [
+                        {
+                            "name": "get Patient Appointment Info",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{wb-auth-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/getPatientAppointmentInfo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "getPatientAppointmentInfo"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/getPatientAppointmentInfo",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "getPatientAppointmentInfo"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "### Get Patient Appointment Info\n\nRetrieves appointment details for a patient from the WB service. Use this endpoint to fetch current status and metadata for a patient’s appointment.\n\n- Method: `GET`\n    \n- Auth: Token need to hit this api"
+                },
+                {
+                    "name": "Get OP doctor Data",
+                    "item": [
+                        {
+                            "name": "doctor OP Ddata",
+                            "request": {
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{wb-auth-token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorOPDdata?doctorID=<string>&status=<string>",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorOPDdata"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "doctorID",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        },
+                                        {
+                                            "key": "status",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                },
+                                "description": "Overview  \nRetrieves OPD (Out‑Patient Department) data for a specific doctor.\n\nHTTP  \nGET {{baseUrl}}/doctor-profile/doctorOPDdata\n\nQuery parameters\n\n- doctorID (string, required): Unique identifier of the doctor.  \n    • Example: doctorID=DR-12345\n    \n- status (string, optional): Filter OPD data by status (e.g., active, inactive, all). If omitted, the service may return default/active records depending on server behavior.  \n    • Example: status=active\n    \n\nVariables\n\n- {{baseUrl}}: Comes from the active environment (wb-dev-env). Ensure this environment is selected so the variable resolves at runtime.\n    \n\nAuthentication\n\n- This workspace exposes tokens/keys as globals (e.g., wb-auth-token). If this endpoint requires authentication, inherit it from the folder/collection or add a Bearer token in the request/collection using the available variable. No auth settings are changed by this description.\n    \n\nSaved example\n\n- Request Successful: See the saved example attached to this request for a typical successful response and request context.\n    \n\ncURL example  \ncurl --request GET \"{{baseUrl}}/doctor-profile/doctorOPDdata\"  \n\\--get  \n\\--data-urlencode \"doctorID=DR-12345\"  \n\\--data-urlencode \"status=active\"\n\nSuccess\n\n- 200 OK: Returns OPD data for the specified doctor. Shape matches the \"Request Successful\" example.\n    \n\nErrors\n\n- 400 Bad Request: Missing/invalid doctorID or unsupported status.\n    \n- 401 Unauthorized/403 Forbidden: Missing or invalid credentials if the API is protected.\n    \n- 404 Not Found: doctorID not found.\n    \n- 5xx: Server-side error."
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorOPDdata?doctorID=<string>&status=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorOPDdata"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "doctorID",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                },
+                                                {
+                                                    "key": "status",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "  \nThis is Retrieves OPD (Out‑Patient Department) data for a specific doctor Endpoint.\n\nHTTP - GET {{baseUrl}}[/doctor-profile/doctorOPDdata](https://websitedevelopment.api.swasthx.com/doctor-profile/doctorOPDdata)\n\nQuery parameters\n\n- doctorID=DR-12345\n    \n- status  \n    • Example: status=active\n    \n\nAuthentication\n\n- This workspace exposes tokens/keys as globals (e.g., wb-auth-token)."
+                }
+            ],
+            "description": "Purpose: Endpoints for patient appointment management in the app user application.\n\nCapabilities:\n\n- Book, reschedule, and cancel appointments\n    \n- Fetch user appointments and appointment details\n    \n- Get doctor profile/OPD data\n    \n- Retrieve and submit assessments (questions, vitals)\n    \n- Update patient info when needed\n    \n\nVariable usage: All requests use {{baseUrl}} to target the environment-specific API base.\n\nHow to use:\n\n1) Start with doctor OPD data to see availability and context  \n2) Proceed to booking; use reschedule/cancel as needed  \n3) View all appointments and get specific appointment info  \n4) Work with assessments: fetch questions, submit vitals/answers"
+        },
+        {
+            "name": "appointment booking",
+            "item": [
+                {
+                    "name": "doctorBookUserSlot",
+                    "item": [
+                        {
+                            "name": "doctor Book User Slot",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"DoctorID\": \"6677\",\n    \"PatientInfo\": {\n        \"name\": \"test \",\n        \"mobileNumber\": \"4567891234\",\n        \"age\": 0,\n        \"dob\": \"2025-12-05\",\n        \"gender\": \"M\",\n        \"tag\": \"Regular\",\n        \"abhaNumber\": \"\",\n        \"abhaAddress\": \"\",\n        \"AID\": \"SW-6677-3\",\n        \"UHID\": \"SW-6677-3\"\n    },\n    \"BookedSlot\": {\n        \"status\": \"Confirmed\",\n        \"tag\": \"BookedByDoctor\",\n        \"time\": \"2025-12-18T03:30:00.000Z\",\n        \"typeOfSlot\": \"in-clinic\",\n        \"whichSlot\": \"morningSlot\",\n        \"whichDay\": \"Wednesday\",\n        \"paymentStatus\": \"UNPAID\",\n        \"duration\": \"15\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorBookUserSlot",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorBookUserSlot"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorBookUserSlot",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorBookUserSlot"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## **Doctor Book User Slot**\n\nAllows a doctor or admin to book a slot for a patient.\n\n**Method:** POST  \n**URL:** {{baseUrl}}`/appointment/doctor/book-user-slot`\n\n**Headers:**\n\n- Authorization: `Bearer {{bearerToken}}`\n    \n- Accept: `application/json`\n    \n\n**Body (JSON):**\n\n{  \n\"doctorId\": \"string\",  \n\"patientId\": \"string\",  \n\"slotId\": \"string\"  \n}"
+                },
+                {
+                    "name": "patientSlotBook",
+                    "item": [
+                        {
+                            "name": "patient Slot Book",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/patientSlotBook",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "patientSlotBook"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/patientSlotBook",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "patientSlotBook"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## **Patient Slot Book**\n\nPatient books their own appointment slot.\n\n**Method:** POST  \n**URL:** `//HPR/appointment/patient/book-slot`\n\n**Headers:**\n\n- Authorization: `Bearer {{bearerToken}}`\n    \n- Accept: `application/json`"
+                },
+                {
+                    "name": "doctorCancelUserSlot",
+                    "item": [
+                        {
+                            "name": "doctor Cancel User Slot",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "username",
+                                        "value": "AarogyaIDPatientAppUser",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "password",
+                                        "value": "AarogyaIDPatientAppPassword",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n     \"status\": \"cancelled\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorCancelUserSlot?id=68aef2c511315459c936a15c",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorCancelUserSlot"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "id",
+                                            "value": "68aef2c511315459c936a15c",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorCancelUserSlot?id=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorCancelUserSlot"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "id",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## **Doctor Cancel User Slot**\n\nDoctor/admin cancels a previously booked patient slot.\n\n**Method:** PATCH  \n**URL:** {{baseUrl}}`/d`octor-profile/doctorCancelUserSlot?id=68aef2c511315459c936a15c\n\n**Headers:**\n\n- Authorization: `Bearer {{wb-auth-token}}`\n    \n- Accept: `application/json`"
+                },
+                {
+                    "name": "doctorRescheduleUserSlot",
+                    "item": [
+                        {
+                            "name": "doctor Reschedule User Slot",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"status\": \"<string>\",\n  \"oldTime\": \"<string>\",\n  \"patientAppAppointmentID\": \"<string>\",\n  \"doctorwebappointmentID\": \"<string>\",\n  \"time\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorRescheduleUserSlot",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorRescheduleUserSlot"
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"status\": \"<string>\",\n  \"oldTime\": \"<string>\",\n  \"patientAppAppointmentID\": \"<string>\",\n  \"doctorwebappointmentID\": \"<string>\",\n  \"time\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorRescheduleUserSlot",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorRescheduleUserSlot"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## **Doctor Resechedule User Slot**\n\nMarks the patient as **arrived/resechedule** for their appointment. Doctor and Admin can **resechedule**\\- in patient Appointment\n\n**Method:** PATCH  \n**URL:** {{baseUrl}}`/`doctor-profile/doctorRescheduleUserSlot  \n  \n\n**Headers:**\n\n- Authorization: `Bearer {{wb-auth-token}}`\n    \n- Accept: `application/json`"
+                },
+                {
+                    "name": "doctorCheckinUserSlot",
+                    "item": [
+                        {
+                            "name": "doctor Checkin User Slot",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"doctorID\": \"<string>\",\n  \"status\": \"<string>\",\n  \"time\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorCheckinUserSlot",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorCheckinUserSlot"
+                                    ]
+                                },
+                                "description": "Purpose\nPATCH endpoint to check in a user for a specific doctor’s slot in the HIMS system. Use it to mark a patient’s presence/attendance for a time-bound slot, optionally tagging the action.\n\nMethod and URL\n- Method: PATCH\n- URL: {{baseUrl}}/doctor-profile/doctorCheckinUserSlot\n\nHeaders\n- Content-Type: application/json\n\nAuthentication and Variables\n- Base URL is provided via the {{baseUrl}} variable (configure it in your active environment or collection variables).\n- If your deployment requires auth, inherit or set it at the folder/collection level. This request does not set auth explicitly.\n\nRequest Body\n- Body type: raw (application/json)\n- JSON schema and fields:\n  {\n    \"mobileNumber\": \"string\",  // Patient’s mobile number used to identify the user\n    \"doctorID\": \"string\",      // Unique identifier of the doctor\n    \"status\": \"string\",        // Check-in state (e.g., \"checked_in\", \"arrived\", etc.)\n    \"time\": \"string\",          // Target slot time (ISO 8601 or server-accepted format)\n    \"tag\": \"string\"            // Optional tag/remark for this check-in\n  }\n\nExample Payloads\n- Minimal:\n  {\n    \"mobileNumber\": \"9876543210\",\n    \"doctorID\": \"DOC-123\",\n    \"status\": \"checked_in\",\n    \"time\": \"2025-01-01T10:30:00Z\"\n  }\n- With tag:\n  {\n    \"mobileNumber\": \"9876543210\",\n    \"doctorID\": \"DOC-123\",\n    \"status\": \"arrived\",\n    \"time\": \"2025-01-01T10:30:00Z\",\n    \"tag\": \"front-desk\"\n  }\n\nExpected Responses\n- 201 Created / Success: The check-in was recorded successfully. See the saved example: \"Request Successful\" for an illustrative response.\n- 4xx: Validation or business rule errors (e.g., missing fields, invalid slot, user not found).\n- 5xx: Server error.\n\nUsage Notes\n- Ensure {{baseUrl}} points to the correct environment (dev/stage/prod).\n- Keep Content-Type as application/json.\n- status and time should match what the backend expects; consult service rules if custom statuses or time formats are required.\n- This request has no pre-request or test scripts and will inherit any auth defined at higher scopes.\n\nReferences\n- Saved example: Request Successful"
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"mobileNumber\": \"<string>\",\n  \"doctorID\": \"<string>\",\n  \"status\": \"<string>\",\n  \"time\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorCheckinUserSlot",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorCheckinUserSlot"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "PATCH endpoint to check in a user for a specific doctor’s slot in the HIMS system. Use it to mark a patient’s presence/attendance for a time-bound slot, optionally tagging the action.\n\nMethod and URL\n\n- Method: PATCH\n    \n- URL: //doctor-profile/doctorCheckinUserSlot\n    \n\nHeaders\n\n- Content-Type: application/json\n    \n\nAuthentication and Variables\n\n- Base URL is provided via the / variable (configure it in your active environment or collection variables).\n    \n- If your deployment requires auth, inherit or set it at the folder/collection level. This request does not set auth explicitly."
+                },
+                {
+                    "name": "doctorOPDdata",
+                    "item": []
+                },
+                {
+                    "name": "ackPatient",
+                    "item": [
+                        {
+                            "name": "ack Patient",
+                            "request": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/ackPatient?appointmentID=<string>",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "ackPatient"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "appointmentID",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                },
+                                "description": "## Acknowledge Patient\n\nThis endpoint allows a doctor to acknowledge a patient for a scheduled appointment. When called, it confirms that the doctor has recognized and accepted the patient for their appointment slot.\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| `appointmentID` | string | Yes | The unique identifier of the appointment to acknowledge |\n\n### Response\n\n| Status Code | Description |\n|-------------|-------------|\n| `201 Created` | Patient successfully acknowledged for the appointment |"
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/ackPatient?appointmentID=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "ackPatient"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "appointmentID",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## Acknowledge Patient\n\nThis endpoint allows a doctor to acknowledge a patient for a scheduled appointment. When called, it confirms that the doctor has recognized and accepted the patient for their appointment slot."
+                },
+                {
+                    "name": "getPatientAssessmentData",
+                    "item": [
+                        {
+                            "name": "get Patient Assessment Data",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/getPatientAssessmentData?doctorID=<string>&patientNumber=<string>",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "getPatientAssessmentData"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "doctorID",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        },
+                                        {
+                                            "key": "patientNumber",
+                                            "value": "<string>",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                },
+                                "description": "## get Patient Assessment Data\n\nRetrieve assessment data for a patient for a given doctor. This endpoint returns the patient’s assessment details associated with the specified doctor.\n\n- Method: `GET`\n- Endpoint: `{{baseUrl}}/doctor-profile/getPatientAssessmentData`\n- Request Type: HTTP\n\n### Query Parameters\n- `doctorID` (string, required) — Unique identifier of the doctor.\n  - Example: `D-12345`\n- `patientNumber` (string, required) — Unique identifier/number of the patient.\n  - Example: `P-67890`\n\nThe above parameter keys and types are based on existing usages in the workspace requests named “get Patient Assessment Data”.\n\n### Variables\n- `{{baseUrl}}` — Base URL for the HMIS API. Ensure the active environment defines this value.\n\n### Authentication\nUse your workspace’s configured auth (if required by your backend). Common patterns include a bearer token or API key set at the collection/environment level. If set at a higher scope, this request will inherit it.\n\n### Success Response\n- Status: `200 OK` (typical)\n- Body: JSON object containing patient assessment data.\n\nThis request also has a saved example named “Request Successful” which can be referenced for a sample successful response.\n\n### Error Responses\n- `400 Bad Request` — Missing or invalid query parameters.\n- `401/403` — Authentication/authorization failure.\n- `404 Not Found` — No assessment data found for the given identifiers.\n- `5xx` — Server-side error.\n\n### Notes\n- No request body is required.\n- Ensure `doctorID` and `patientNumber` are URL-encoded when necessary.\n- You can run this request as part of the Swasthx HMIS collection workflows or monitors.\n"
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/getPatientAssessmentData?doctorID=<string>&patientNumber=<string>",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "getPatientAssessmentData"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "doctorID",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                },
+                                                {
+                                                    "key": "patientNumber",
+                                                    "value": "<string>",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## get Patient Assessment Data\n\nRetrieve assessment data for a patient for a given doctor. This endpoint returns the patient’s assessment details associated with the specified doctor.\n\n- Method: `GET`\n    \n- Endpoint: `//doctor-profile/getPatientAssessmentData`\n    \n- Request Type: HTTP\n    \n\n### Query Parameters\n\n- `doctorID` (string, required) — Unique identifier of the doctor.\n    \n    - Example: `D-12345`\n        \n- `patientNumber` (string, required) — Unique identifier/number of the patient.\n    \n    - Example: `P-67890`\n        \n\nThe above parameter keys and types are based on existing usages in the workspace requests named “get Patient Assessment Data”.\n\n### Variables\n\n- `/` — Base URL for the HMIS API. Ensure the active environment defines this value.\n    \n\n### Authentication\n\nUse your workspace’s configured auth (if required by your backend). Common patterns include a bearer token or API key set at the collection/environment level. If set at a higher scope, this request will inherit it."
+                },
+                {
+                    "name": "doctorBookUserSlotFromWeb",
+                    "item": [
+                        {
+                            "name": "doctor Book User Slot From Web",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/doctorBookUserSlotFromWeb",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "doctorBookUserSlotFromWeb"
+                                    ]
+                                },
+                                "description": "## Overview\nBooks a patient appointment slot from the web on behalf of a doctor. This operation creates or confirms an appointment in the doctor’s schedule.\n\n- Endpoint: `POST {{baseUrl}}/doctor-profile/doctorBookUserSlotFromWeb`\n- Content type: `application/json`\n- Auth: Provide your workspace-appropriate auth (e.g., bearer token or API key) via collection/environment settings if required by your backend.\n\n## Variables\n- `{{baseUrl}}`: Base URL for your deployment (set this in an environment).\n\n## Headers\n- `Content-Type: application/json`\n\n## Request Body\nJSON object with the following fields:\n\n```json\n{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}\n```\n\n### Field notes\n- `DoctorID` (string): Identifier of the doctor for whom the slot is being booked.\n- `orderID` (string): Client-side order or transaction reference, if applicable.\n- `appointmentID` (string): Use if updating/confirming an existing provisional appointment; otherwise optional per backend rules.\n- `tag` (string): Recommended value `BookedByDoctor`.\n- `PatientInfo` (object): Patient demographics and identifiers.\n  - `abhaAddress`, `abhaNumber` (string): National health ID details (optional if not applicable).\n  - `UHID` (string): Facility-specific patient ID.\n  - `dob` (string): Date of birth; format expected by backend (e.g., YYYY-MM-DD).\n  - `gender` (string): One of your system’s accepted values (e.g., Male/Female/Other).\n  - `mobileNumber` (string): Contact number with country code if required.\n  - `address` (object): Postal address.\n- `BookedSlot` (object): Details of the slot to book.\n  - `status` (string): Booking state (e.g., requested/confirmed), per backend.\n  - `paymentStatus` (string): Defaults to `UNPAID` unless your flow marks it paid.\n  - `time` (string): Start time of the appointment (e.g., 2025-01-31T10:30:00Z or HH:mm).\n  - `duration` (string): Duration (e.g., `15m`, `30m`).\n  - `typeOfSlot` (string): Virtual/In-person/etc., as supported.\n  - `whichSlot` (string): Slot identifier within the schedule.\n  - `whichDay` (string): Day reference if required by scheduling logic.\n\n## Example\nThis request has a saved example demonstrating a successful creation flow. See: [Request Successful](example/46178638-0b6b88b6-306e-4550-8019-197b417...) under the parent request [doctor Book User Slot From Web](request/46178638-0935cb9c-4904-4d48-8a6b-b548bbcce85b).\n\n## Responses\n- 201 Created: Slot booked successfully (see saved example).\n- 400 Bad Request: Missing or invalid fields.\n- 401/403 Unauthorized/Forbidden: Authentication/authorization issues.\n- 404 Not Found: Doctor or slot not found.\n- 409 Conflict: Slot already booked.\n- 500 Server Error: Unexpected error on server.\n\n## Notes\n- Ensure your active environment supplies a valid `{{baseUrl}}`.\n- If your API requires auth, configure it at the collection or folder level so this request inherits it.\n\n---\nReferences for this request’s structure were derived from existing items in your workspace: [doctor Book User Slot From Web](request/46178638-0935cb9c-4904-4d48-8a6b-b548bbcce85b) and a related request variant [doctor Book User Slot From Web](request/46178638-a767fc2b-3e6a-4821-88ca-e77be66feb79)."
+                            },
+                            "response": [
+                                {
+                                    "name": "Request Successful",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"DoctorID\": \"<string>\",\n  \"orderID\": \"<string>\",\n  \"appointmentID\": \"<string>\",\n  \"tag\": \"BookedByDoctor\",\n  \"PatientInfo\": {\n    \"name\": \"<string>\",\n    \"abhaAddress\": \"<string>\",\n    \"abhaNumber\": \"<string>\",\n    \"UHID\": \"<string>\",\n    \"age\": \"<string>\",\n    \"dob\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"mobileNumber\": \"<string>\",\n    \"address\": {\n      \"streetName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"pincode\": \"<string>\"\n    }\n  },\n  \"BookedSlot\": {\n    \"status\": \"<string>\",\n    \"paymentStatus\": \"UNPAID\",\n    \"time\": \"<string>\",\n    \"duration\": \"<string>\",\n    \"typeOfSlot\": \"<string>\",\n    \"whichSlot\": \"<string>\",\n    \"whichDay\": \"<string>\"\n  }\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/doctor-profile/doctorBookUserSlotFromWeb",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "doctor-profile",
+                                                "doctorBookUserSlotFromWeb"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [],
+                                    "cookie": [],
+                                    "body": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "description": "## Overview\n\nBooks a patient appointment slot from the web on behalf of a doctor. This operation creates or confirms an appointment in the doctor’s schedule.\n\n- Endpoint: `POST //doctor-profile/doctorBookUserSlotFromWeb`\n    \n- Content type: `application/json`\n    \n- Auth: Provide your workspace-appropriate auth (e.g., bearer token or API key) via collection/environment settings if required by your backend.\n    \n\n## Variables\n\n- `/`: Base URL for your deployment (set this in an environment).\n    \n\n## Headers\n\n- `Content-Type: application/json`"
+                },
+                {
+                    "name": "follow ups",
+                    "item": [
+                        {
+                            "name": "followUpInformation",
+                            "item": [
+                                {
+                                    "name": "Get follow-up information",
+                                    "request": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{bearerToken}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/followUpInformation",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "followUpInformation"
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "name": "Request Successful",
+                                            "originalRequest": {
+                                                "method": "GET",
+                                                "header": [
+                                                    {
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>",
+                                                        "description": "Added as a part of security scheme: bearer"
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/followUpInformation",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "followUpInformation"
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Created",
+                                            "code": 201,
+                                            "_postman_previewlanguage": "text",
+                                            "header": [],
+                                            "cookie": [],
+                                            "body": ""
+                                        }
+                                    ]
+                                }
+                            ],
+                            "description": "In this Get end point following the Authentication token users will get response"
+                        },
+                        {
+                            "name": "createFollowUpInformation",
+                            "item": [
+                                {
+                                    "name": "Create follow-up information",
+                                    "request": {
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{wb-auth-token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        },
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/createFollowUpInformation",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "createFollowUpInformation"
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "name": "Request Successful",
+                                            "originalRequest": {
+                                                "method": "POST",
+                                                "header": [
+                                                    {
+                                                        "key": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>",
+                                                        "description": "Added as a part of security scheme: bearer"
+                                                    }
+                                                ],
+                                                "body": {
+                                                    "mode": "raw",
+                                                    "raw": "{}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                },
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/createFollowUpInformation",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "createFollowUpInformation"
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Created",
+                                            "code": 201,
+                                            "_postman_previewlanguage": "text",
+                                            "header": [],
+                                            "cookie": [],
+                                            "body": ""
+                                        }
+                                    ]
+                                }
+                            ],
+                            "description": "Admin can create the follow up information\n\nfollowing the token, user can create the follow up data in Website backend"
+                        }
+                    ],
+                    "description": "This folder have two apis follow up information and create follow up information\n\n- Get Follow up information\n    \n- Create Follow up information"
+                },
+                {
+                    "name": "cancel appointment",
+                    "item": [
+                        {
+                            "name": "Cancel appointment by OrderID",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"status\": \"cancelled\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/cancelAppointment/YRHN1DD",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "cancelAppointment",
+                                        "YRHN1DD"
+                                    ]
+                                }
+                            },
+                            "response": []
+                        }
+                    ],
+                    "description": "## **Cancel Appointment**\n\nCancels an existing appointment using the unique `orderID`.  \n  \nThis API is typically used when a doctor, admin, or system needs to cancel a booked appointment due to unavailability, patient request, or operational reasons. Once cancelled, the appointment status is updated and the slot becomes available again (if applicable).\n\n**Request:**\n\n- **Method:** **PATCH**\n    \n- {{baseUrl}}/appointment/cancel/{{orderID}}\n    \n\n**Path Parameter:**\n\n- `orderID` – Unique identifier of the appointment/order to be cancelled\n    \n\n**Headers:**\n\n- `Authorization: Bearer {{wb-auth-token}}`\n    \n- `Content-Type: application/json`\n    \n\n**Request Body (Optional):**\n\n```\n{\n  \"cancelReason\": \"Doctor unavailable\",\n  \"cancelledBy\": \"doctor\"\n}\n\n ```\n\n**Authentication:**\n\n- Bearer token required\n    \n\n**Expected Behavior:**\n\n- Updates appointment status to **CANCELLED**\n    \n- Frees up the booked time slot\n    \n- Prevents further check-in or reschedule actions for this order"
+                }
+            ],
+            "description": "In this Folder doctor appointment booking flow doctor/admin can booking patient appointment\n\n- Doctor Book user Slot - POST\n    \n- Patient Slot Book - POST\n    \n- doctor cancel user slot - PATCH\n    \n- doctor check in user slot - PATCH\n    \n- doctor reschedule user slot - patch\n    \n- doctor OPD data -\n    \n- ack patient - post\n    \n- Get patient Assessment data - Get\n    \n- get patient Access Data - Get\n    \n- doctor book user slot from web - post\n    \n- follow us - GET/POST"
+        },
+        {
+            "name": "Get All Doctor Profiles",
+            "item": [
+                {
+                    "name": "Fetch All  Doctor Profile",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{wb-auth-token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctor-profile/fethcAllProfile",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "doctor-profile",
+                                "fethcAllProfile"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Request Successful",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/doctor-profile/fethcAllProfile",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "doctor-profile",
+                                        "fethcAllProfile"
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "text",
+                            "header": [],
+                            "cookie": [],
+                            "body": ""
+                        }
+                    ]
+                }
+            ],
+            "description": "Fetches all doctor profiles to use in Mobile app, this is general api to get all doctor Under the hospital.\n\nEndpoint Details\n\n- Method: GET\n    \n- Path: /doctor-profile/fethcAllProfile\n    \n- Full URL: {{baseUrl}}/doctor-profile/fethcAllProfile\n    \n\nAuthentication\n\n- Type: Bearer token\n    \n- Header: Authorization: Bearer {{wb-auth-token}}\n    \n- Token source: global variable wb-auth-token\n    \n\nNotes\n\n- Ensure {{wb-auth-token}} is set before sending the request.\n    \n- No request body is required for this endpoint."
+        }
+    ]
+}
