@@ -30,5 +30,6 @@ parent: Resources
 | **API Response Times** | <a href="https://docs.google.com/spreadsheets/d/1uLr8Yjij2yT_bwRlIIfCbHAXPlaBkD5v8LJKzNV3-4c/edit?usp=sharing" target="_blank">View Sheet</a> | API Performance Metrics |
 | **ABHA Documentation** | <a href="https://sandbox.abdm.gov.in/sandbox/v3/new-documentation" target="_blank">ABDM Sandbox</a> | Official ABHA Documentation |
 | **Delete ABHA** | <a href="https://abhasbx.abdm.gov.in/abha/v3/" target="_blank">ABHA Portal</a> | Delete ABHA Details Portal |
+| **BRD documentation** | <a href="https://docs.google.com/document/d/1U2EsiXpKwjm5lgMpG8Ny_OXLpzgy3e1Uj4MrUnAJzXc/edit?tab=t.ktwoe6l07vdi#heading=h.2rt6rzppd2gg" target="_blank">BRD Documentation</a> | Details for phase 2 features |
 
 </div>

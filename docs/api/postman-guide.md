@@ -137,7 +137,7 @@ You can access the Swasthx Postman workspace by:
 
 ## 📖 API Documentation (Swagger)
 
-For detailed API documentation and interactive testing, you can also view our Swagger UI:
+To get a glimpse or APIs and their structure you can view Swagger UI ( for testing use postman only):
 <a href="{{ site.baseurl }}/docs/api/phr-api.html" target="_blank">View PHR API Documentation</a>
 
 </div>
@@ -241,7 +241,7 @@ You can access the Swasthx Postman workspace by:
 
 ## 📖 API Documentation (Swagger)
 
-For detailed API documentation and interactive testing, you can also view our Swagger UI:
+To get a glimpse or APIs and their structure you can view Swagger UI ( for testing use postman only):
 <a href="{{ site.baseurl }}/docs/api/website-api.html" target="_blank">View Website API Documentation</a>
 
 </div>

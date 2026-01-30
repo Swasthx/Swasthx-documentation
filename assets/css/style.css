@@ -781,3 +781,142 @@ footer {
     display: none;
   }
 }
+
+/* Lightbox Styles */
+.thumbnail-zoom {
+  width: 600px;
+  max-width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.thumbnail-zoom:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.show {
+  opacity: 1;
+}
+
+.lightbox-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.lightbox-modal.show .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 2001;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+  .lightbox-content {
+    width: 100%;
+  }
+}
+
+/* Lightbox Content Zoomed State */
+/* Lightbox Content Zoom States */
+.lightbox-content[data-zoom="1"] {
+  max-width: none;
+  max-height: none;
+  width: 90vw;
+  /* Slightly wider than fit-to-screen usually */
+  cursor: zoom-in;
+  margin: 40px auto;
+}
+
+.lightbox-content[data-zoom="2"] {
+  max-width: none;
+  max-height: none;
+  width: 150vw;
+  /* Significant zoom */
+  cursor: zoom-in;
+  margin: 40px auto;
+}
+
+.lightbox-content[data-zoom="3"] {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  /* Native size */
+  min-width: 100vw;
+  /* Ensure it's at least screen width */
+  cursor: zoom-out;
+  margin: 40px auto;
+}
+
+.lightbox-content {
+  cursor: zoom-in;
+  transition: width 0.3s ease, margin 0.3s ease;
+  /* Smooth transition */
+}
+
+/* Zoom Button */
+.lightbox-zoom-btn {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  /* Positioned to the left of close button */
+  color: #f1f1f1;
+  font-size: 24px;
+  transition: 0.3s;
+  cursor: pointer;
+  z-index: 2001;
+  background: rgba(0, 0, 0, 0.3);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.lightbox-zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
