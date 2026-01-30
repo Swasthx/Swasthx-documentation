@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add mobile navigation behavior
     addMobileNavBehavior();
+
+    // Initialize lightbox
+    initLightbox();
 });
 
 // Auto-close sidebar on mobile when link is clicked
@@ -334,3 +337,107 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Add animation keyframes
+
+// Initialize lightbox functionality
+function initLightbox() {
+    // Create lightbox elements if they don't exist
+    if (!document.getElementById('imageLightbox')) {
+        const lightboxHTML = `
+            <div id="imageLightbox" class="lightbox-modal">
+                <span class="lightbox-zoom-btn"><i class="fas fa-search-plus"></i></span>
+                <span class="lightbox-close">&times;</span>
+                <img class="lightbox-content" id="lightboxImage">
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+    }
+
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const zoomBtn = document.querySelector('.lightbox-zoom-btn');
+    const zoomIcon = zoomBtn ? zoomBtn.querySelector('i') : null;
+
+    // Zoom Toggle Function
+    // 0: Fit, 1: 90vw, 2: 150vw, 3: Native
+    let currentZoomLevel = 0;
+
+    function toggleZoom(e) {
+        if (e) e.stopPropagation();
+
+        currentZoomLevel = (currentZoomLevel + 1) % 4;
+        lightboxImg.setAttribute('data-zoom', currentZoomLevel);
+
+        // Update Icon based on state (Plus for 0-2, Minus for 3)
+        if (zoomIcon) {
+            zoomIcon.className = currentZoomLevel === 3 ? 'fas fa-search-minus' : 'fas fa-search-plus';
+        }
+
+        // Alignment handling
+        if (currentZoomLevel > 0) {
+            lightbox.style.alignItems = 'flex-start';
+            lightbox.style.overflowY = 'auto';
+        } else {
+            lightbox.style.alignItems = 'center';
+            lightbox.style.overflowY = 'hidden';
+        }
+    }
+
+    // Add click event to all thumbnail images
+    const thumbnails = document.querySelectorAll('.thumbnail-zoom');
+    thumbnails.forEach(img => {
+        img.addEventListener('click', function () {
+            lightbox.style.display = 'flex';
+
+            // Reset state
+            currentZoomLevel = 0;
+            lightboxImg.setAttribute('data-zoom', '0');
+            if (zoomIcon) zoomIcon.className = 'fas fa-search-plus';
+            lightbox.style.alignItems = 'center';
+            lightbox.style.overflowY = 'hidden';
+
+            // slight delay to allow display:flex to apply before adding show class for transition
+            setTimeout(() => {
+                lightbox.classList.add('show');
+            }, 10);
+            lightboxImg.src = this.src;
+            lightboxImg.alt = this.alt;
+        });
+    });
+
+    // Close functionality
+    function closeLightbox() {
+        lightbox.classList.remove('show');
+        setTimeout(() => {
+            lightbox.style.display = 'none';
+            lightboxImg.setAttribute('data-zoom', '0');
+            currentZoomLevel = 0;
+            lightbox.style.alignItems = 'center';
+        }, 300);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
+
+    if (zoomBtn) {
+        zoomBtn.addEventListener('click', toggleZoom);
+    }
+
+    // Toggle zoom on image click
+    lightboxImg.addEventListener('click', toggleZoom);
+
+    // Close when clicking outside the image (background)
+    lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+            closeLightbox();
+        }
+    });
+}
