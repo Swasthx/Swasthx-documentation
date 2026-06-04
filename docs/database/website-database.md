@@ -102,3 +102,7 @@ The Website DB contains the following collections:
 ### 5. Doctor Appointment
 
 ![Doctor Appointment]({{ site.baseurl }}/assets/images/doctor_appointment.png)
+
+### 6. Pharmacy Order
+
+![Pharmacy Order]({{ site.baseurl }}/docs/images/pharmacyFlow.png)
