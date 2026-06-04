@@ -40,6 +40,7 @@ The Website DB contains the following collections:
 | :--------------------------------- | :----------------------------------------------------------------------------- |
 | **abdmtxnidstorages**              | Store ABDM transaction IDs                                                     |
 | **accesstokens**                   | Store ABDM session tokens                                                      |
+| **adminauditlogs**                 | Store admin audit logs for pharmacy operations and actions                     |
 | **advertisements**                 | Store advertisements created for the app by admins                             |
 | **authinitdbs**                    | Used as initial storage in user scan and share flow                            |
 | **billpaymentreceipts**            | Store bill receipts                                                            |
@@ -63,9 +64,13 @@ The Website DB contains the following collections:
 | **hiutxns**                        | Store the encryption, data push URL, and transaction shared with HIP           |
 | **invoicefhirs**                   | Store invoices in FHIR format                                                  |
 | **linktokens**                     | Store user-specific link token used for record linking                         |
+| **medicinelist**                   | Store the master list of medicines available for pharmacy orders               |
 | **patientinfos**                   | Store patient info for appointment                                             |
 | **patientregistrations**           | Store user registration details                                                |
 | **payments**                       | Store Razorpay payment data                                                    |
+| **pharmacyoperator**               | Store pharmacy operator profiles and access details                            |
+| **pharmacyorders**                 | Store pharmacy orders placed by users                                          |
+| **pharmacypayments**               | Store pharmacy order payment transactions                                      |
 | **scansharetrails**                | Store scan and share data if token expires                                     |
 | **sessionschemas**                 | Store user session data when user logs in                                      |
 | **storefacilityregistrationdatas** | Store HFR registration data                                                    |
