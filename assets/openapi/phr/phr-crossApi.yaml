@@ -1,0 +1,1496 @@
+openapi: 3.0.0
+info:
+  title: Cross APIs PHR <> HMIS
+  description: >-
+    Description:
+
+
+    - A set of secure integration APIs enabling seamless, bi-directional data
+    exchange between the Personal Health Record (PHR) system and the Hospital
+    Management Information System (HMIS), ensuring synchronized patient data,
+    clinical records, and operational workflows across platforms.
+  version: 1.0.0
+servers:
+  - url: undefined://{{baseurl}}
+tags:
+  - name: 'Admin: Manage Advertisements'
+  - name: 'Admin: Manage App Users'
+  - name: 'Admin: Manage Order Status'
+  - name: Coupons
+  - name: Lab Test
+  - name: Medicine
+  - name: 'SuperAdmin: Pricing Management'
+  - name: 'SuperAdmin: Rewards Config'
+paths:
+  /advertisement/create:
+    post:
+      tags:
+        - 'Admin: Manage Advertisements'
+      summary: ads_create
+      description: >-
+        Description:
+
+
+        - Creates a new advertisement entry with details like name, category,
+        and image URL.
+            
+        - Used by admins to publish new promotional banners or offers.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                adsDetails:
+                  adsName: Hello Offer
+                  adsCategory: HOME
+                  imageUrl: >-
+                    https://swasthx-bucket.s3.ap-south-1.amazonaws.com/067fd81cc0b9-4f36-bd9e-c45bfd57c744.jpeg
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /advertisement/getAll:
+    get:
+      tags:
+        - 'Admin: Manage Advertisements'
+      summary: ads_get_all
+      description: |-
+        Description:
+
+        - Fetches all advertisements stored in the system.
+            
+        - Ideal for listing ads on the admin dashboard or mobile app.
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /advertisement/update/{advertisementId}:
+    patch:
+      tags:
+        - 'Admin: Manage Advertisements'
+      summary: ads_update
+      description: |-
+        Description:
+
+        - Updates an advertisement’s details such as name, category, or image.
+            
+        - Allows modification without needing to recreate the ad.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                adsName: Medicine offer
+                adsCategory: HOME
+                imageUrl: >-
+                  https://swasthx-bucket.s3.ap-south-1.amazonaws.com/260598e78613-400c-bb6f-33375cf0f3a1.png
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+        - name: advertisementId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /advertisement/{advertisementId}:
+    get:
+      tags:
+        - 'Admin: Manage Advertisements'
+      summary: ads_get_by_id
+      description: |-
+        Description:
+
+        - Retrieves a single advertisement by its ID.
+            
+        - Useful when viewing or editing individual ad details.
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+        - name: advertisementId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /advertisement/delete/{advertisementId}:
+    delete:
+      tags:
+        - 'Admin: Manage Advertisements'
+      summary: ads_delete_by_id
+      description: |-
+        Description:
+
+        - Deletes a specific advertisement from the system.
+            
+        - Used to remove expired, outdated, or incorrect ads.
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+        - name: advertisementId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /userprofile/getAllUserDetails:
+    get:
+      tags:
+        - 'Admin: Manage App Users'
+      summary: admin_get_all_user_details
+      description: >-
+        Description:
+
+
+        - Fetches the complete profile details of the logged-in user.
+            
+        - Used to load user info such as demographics, ABHA details, and contact
+        information.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /userprofile/{mobileNumber}:
+    get:
+      tags:
+        - 'Admin: Manage App Users'
+      summary: admin_get_user_profile_by_mobile
+      description: |-
+        Description:
+
+        - Retrieves a user profile by mobile number.
+            
+        - Useful for searching or verifying user records in the system.
+      parameters:
+        - name: mobileNumber
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /userprofile/{appUserId}:
+    patch:
+      tags:
+        - 'Admin: Manage App Users'
+      summary: admin_update_user_profile
+      description: >-
+        Description:
+
+
+        - Updates user profile details including demographics, ABHA data,
+        contact info, and verification status.
+            
+        - Allows partial or full modification of a user’s stored profile record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                arid: ARID1
+                aid: AID1
+                mobileNumber: '7011090266'
+                abhaNumber: 91-5282-3146-1849
+                abhaAddress: 91528231461849@sbx
+                verified: true
+                userId: '7011090266'
+                demographicDetails:
+                  firstName: Sujal
+                  middleName: ''
+                  lastName: Bhatt
+                  mobile: '7011090266'
+                  gender: M
+                  dob: 15-9-2005
+                  address: >-
+                    D 303, Sg Grand, Raj Nagar Extension, Ghaziabad, Ghaziabad,
+                    Uttar Pradesh
+                  pinCode: '201017'
+                  stateName: UTTAR PRADESH
+                  districtName: GHAZIABAD
+                  stateCode: '9'
+                  districtCode: '145'
+                  age: 20
+                  profilePhoto: >-
+                    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
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer YOUR_ACCESS_TOKEN
+        - name: appUserId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 'Admin: Manage App Users'
+      summary: admin_delete_user_profile
+      parameters:
+        - name: appUserId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/order/{orderId}/status:
+    patch:
+      tags:
+        - 'Admin: Manage Order Status'
+      summary: admin_order_status
+      description: >-
+        Description:
+
+
+        - Updates the status of a specific order (e.g., OUT_FOR_DELIVERY,
+        DELIVERED).
+            
+        - Used by admins to manage and track the order fulfillment workflow.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 60IZQ0X
+                status: OUT_FOR_DELIVERY
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: orderId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/order/{orderId}:
+    get:
+      tags:
+        - 'Admin: Manage Order Status'
+      summary: admin_order_get_or_update_by_id
+      description: >-
+        Description:
+
+
+        - Fetches complete details of a specific order using its order ID.
+            
+        - Helpful for viewing order summary, items, customer info, and tracking
+        history.
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: orderId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/order:
+    get:
+      tags:
+        - 'Admin: Manage Order Status'
+      summary: admin_get_orders
+      description: >-
+        Description:
+
+
+        - Returns a paginated list of all orders in the system.
+            
+        - Useful for admin dashboards to browse, filter, and manage orders
+        efficiently.
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: contact
+          in: query
+          schema:
+            type: integer
+          example: '9876543210'
+        - name: abha
+          in: query
+          schema:
+            type: string
+          example: abha123
+        - name: provider
+          in: query
+          schema:
+            type: string
+          example: providerA
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: lab
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /coupons:
+    get:
+      tags:
+        - Coupons
+      summary: coupons_get
+      description: >-
+        Description:
+
+
+        - Fetches a list of all available coupons in the system.
+            
+        - Useful for displaying coupons to users or managing them in the admin
+        panel.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Coupons
+      summary: coupon_create
+      description: >-
+        Description:
+
+
+        - Creates a new coupon with a unique code, description, and discount
+        details.
+            
+        - Allows admins to introduce new promotional offers.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                code: abc1213
+                title: Get discount
+                description: Get discount
+                discountPercentage: 300
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /coupons/{couponId}:
+    get:
+      tags:
+        - Coupons
+      summary: coupon_get_by_id
+      description: |-
+        Description:
+
+        - Fetches the details of a specific coupon using its coupon ID.
+            
+        - Helps in viewing or verifying coupon information.
+      parameters:
+        - name: couponId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Coupons
+      summary: coupon_update
+      description: >-
+        Description:
+
+
+        - Updates an existing coupon’s code, title, description, or discount
+        percentage.
+            
+        - Used for correcting or modifying coupon configurations.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                code: abc1212
+                title: Get discount
+                description: Get discount
+                discountPercentage: 20
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: couponId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Coupons
+      summary: coupon_delete
+      description: |-
+        Description:
+
+        - Deletes a coupon from the system using its ID.
+            
+        - Removes outdated or invalid promotional codes.
+      parameters:
+        - name: couponId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /lab-test/{adminLabTestId}:
+    delete:
+      tags:
+        - Lab Test
+      summary: admin_delete_lab_test
+      description: >-
+        Description:
+
+
+        - **Purpose**: Deletes an existing lab test in the admin context.
+            
+        - **Method & URL**: `DELETE /lab-test/{{adminLabTestId}}`
+            
+
+        ### Environment Variables
+
+
+        - `{{adminLabTestId}}` (path): Unique identifier of the lab test to be
+        deleted.
+            
+
+        ### Usage Notes
+
+
+        - Intended for admin workflows to remove lab tests that are obsolete or
+        created in error.
+            
+        - Ensure `{{adminLabTestId}}` refers to a valid, existing lab test ID.
+            
+        - This request typically follows lab‑test listing or detail APIs where
+        the ID is obtained (`GET /lab-test/fetch` or related admin lab-test
+        endpoints).
+      parameters:
+        - name: adminLabTestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Lab Test
+      summary: admin_update_lab_test
+      description: >-
+        ### Admin: Update Lab Test by ID
+
+
+        This request updates an existing lab test configuration in the system by
+        its admin lab test ID.
+
+
+        - **Method**: `PUT`
+            
+        - **URL**: `/lab-test/{{adminLabTestId}}`
+            
+
+        ---
+
+
+        ### Environment Variables
+
+
+        - `{{adminLabTestId}}` – Identifier of the existing lab test to update
+        (stored as a variable, typically obtained from a previous
+        admin_get_lab_tests call or lab test creation response).
+            
+
+        ---
+
+
+        ### Request Body (JSON)
+
+
+        The body updates metadata and configuration for a single lab
+        test/package.
+
+
+        **Top‑level fields:**
+
+
+        - `labName` _(string)_ – Display name of the lab or provider offering
+        the test/package.
+            
+        - `labIcon` _(string, URL)_ – Public URL of the lab’s logo/icon to show
+        in UI.
+            
+        - `category` _(string)_ – Clinical or product category for the test
+        (e.g., "Women's Health"). Used for grouping and search.
+            
+        - `nameOfTest` _(string)_ – Human‑readable name/title of the test or lab
+        package.
+            
+        - `sample` _(array of string)_ – List of sample types required (e.g.,
+        `"Urine"`, `"Blood"`).
+            
+        - `numberOfTests` _(string/number)_ – Count of individual tests or
+        parameters included in the package.
+            
+        - `price` _(string/number)_ – Price for the lab test/package (typically
+        the final pay‑able amount).
+            
+        - `PackageIncludes` _(array of string)_ – List of included
+        tests/parameters (e.g., individual analytes, panels) for display to
+        users.
+            
+        - `requirements` _(array of string)_ – Patient preparation or special
+        instructions (e.g., fasting requirements, timing, notes). Use `"NA"` if
+        no specific requirements.
+            
+        - `aboutPackage` _(string)_ – Short description of what the package is,
+        what it screens for, and its clinical relevance.
+            
+        - `IdealFor` _(array of string)_ – Target or recommended patient groups
+        (e.g., recurrent UTIs, post‑surgical patients), used for UX copy and
+        guidance.
+            
+
+        > Note: Data types may be validated by the backend. Use consistent types
+        with what the API expects (e.g., keep numeric fields consistent across
+        create/update). 
+          
+
+        ---
+
+
+        ### Example Admin Workflow
+
+
+        1. **List existing lab tests** – Use the request **admin_get_lab_tests**
+        in the _Cross APIs PHR <> HMIS_ collection to retrieve available lab
+        tests and identify the target record. Copy the relevant lab test ID into
+        `{{adminLabTestId}}`.
+            
+        2. **Update the lab test** – Use **admin_update_lab_test** (this
+        request) to modify fields like price, included tests, or descriptive
+        content while keeping the same ID.
+            
+        3. **Optionally delete a test** – If a lab test should no longer be
+        available, use **admin_delete_lab_test** with the same ID to remove or
+        deactivate it.
+            
+
+        Use this endpoint only from admin tools or backend jobs; it is not
+        intended for end‑user clients directly.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                labName: DEF Lab 1
+                labIcon: >-
+                  https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/3-512.png
+                category: Women's Health
+                nameOfTest: UTI Basic Screening
+                sample:
+                  - Urine
+                numberOfTests: '3'
+                price: '899'
+                PackageIncludes:
+                  - Urine Routine and Microscopic Examination(23 tests)
+                  - Urea
+                  - BUN
+                  - Creatine
+                  - Uric Acid(4 test)
+                  - Urine culture and sensitivity (1 test)
+                requirements:
+                  - NA
+                aboutPackage: >-
+                  Urinay test infections are common infections that can affect
+                  any part of the urinary system. While often uncomfortable,
+                  UTIs can become severe if not addressed promptly
+                IdealFor:
+                  - >-
+                    Recurrent UTIs: individuals who have had multiple UTIs in
+                    the past and wish to monitor their urinary health
+                  - >-
+                    Post-surgical patients: Those who recently underwent
+                    urological surgeries or procedures
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: adminLabTestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /lab-test/fetch:
+    get:
+      tags:
+        - Lab Test
+      summary: admin_get_lab_tests
+      description: >-
+        ### admin_get_lab_tests
+
+
+        Fetches a paginated list of lab tests for administrative use.
+
+
+        This endpoint is intended for admin users to review and manage
+        configured lab tests in the system. It can be used to:
+
+
+        - View the current catalog of lab tests
+            
+        - Filter/search lab tests based on supported query parameters (for
+        example, by name, category, or status, depending on backend
+        implementation)
+            
+        - Power admin-facing UI screens that list or manage lab tests
+            
+
+        #### Request
+
+
+        - **Method:** `GET`
+            
+        - **URL:** `/lab-test/fetch`
+            
+
+        You may pass optional query parameters (if supported by the backend) to
+        narrow down results, such as:
+
+
+        - Pagination controls (e.g., `page`, `limit`)
+            
+        - Search filters (e.g., by test name, category, or other attributes)
+            
+
+        Refer to the saved examples in this request (and the related "fetch lab
+        test" endpoint used on the consumer side) for concrete combinations of
+        query parameters and sample responses.
+
+
+        #### Response
+
+
+        The response returns a list of lab tests and associated metadata
+        suitable for admin workflows, such as:
+
+
+        - Lab test identifiers
+            
+        - Display name and category
+            
+        - Pricing and configuration details
+            
+        - Any additional fields required to manage lab tests from an admin
+        panel.
+            
+
+        Use this endpoint when you need to fetch lab test data specifically for
+        admin-facing operations (e.g., dashboards, configuration tools), not for
+        patient or consumer search flows.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /lab-test/create:
+    post:
+      tags:
+        - Lab Test
+      summary: admin_create_lab_test
+      description: >-
+        Creates a new lab test configuration. This is an admin-only POST
+        endpoint.
+
+
+        **Endpoint**  
+
+        `POST /lab-test/create`
+
+
+        **Request body (JSON)**
+
+
+        - `labName` (string): Display name of the lab that offers this
+        test/package.
+            
+        - `labIcon` (string, URL): Icon or logo URL for the lab.
+            
+        - `category` (string): High-level category of the package (for example,
+        "Women's Health").
+            
+        - `nameOfTest` (string): Name/title of the lab test or package.
+            
+        - `sample` (array of string): One or more specimen types required (for
+        example, `"Urine"`).
+            
+        - `numberOfTests` (string/number): Count of individual tests included in
+        the package.
+            
+        - `price` (string/number): Package price.
+            
+        - `PackageIncludes` (array of string): List of tests included in the
+        package.
+            
+        - `requirements` (array of string): Pre-test requirements or special
+        instructions (for example, fasting, NA).
+            
+        - `aboutPackage` (string): Short description or clinical summary of the
+        package.
+            
+        - `IdealFor` (array of string): Target or recommended patient groups for
+        this package.
+            
+
+        Use this endpoint to onboard or update the catalog of available lab test
+        packages from the admin interface.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                labName: DEF Lab 1
+                labIcon: >-
+                  https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/3-512.png
+                category: Women's Health
+                nameOfTest: UTI Basic Screening
+                sample:
+                  - Urine
+                numberOfTests: '3'
+                price: '899'
+                PackageIncludes:
+                  - Urine Routine and Microscopic Examination(23 tests)
+                  - Urea
+                  - BUN
+                  - Creatine
+                  - Uric Acid(4 test)
+                  - Urine culture and sensitivity (1 test)
+                requirements:
+                  - NA
+                aboutPackage: >-
+                  Urinay test infections are common infections that can affect
+                  any part of the urinary system. While often uncomfortable,
+                  UTIs can become severe if not addressed promptly
+                IdealFor:
+                  - >-
+                    Recurrent UTIs: individuals who have had multiple UTIs in
+                    the past and wish to monitor their urinary health
+                  - >-
+                    Post-surgical patients: Those who recently underwent
+                    urological surgeries or procedures
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /medicines:
+    get:
+      tags:
+        - Medicine
+      summary: admin_get_medicine
+      description: >-
+        Fetches the catalog of medicines available in the system for
+        administrative use.
+
+
+        ### Purpose
+
+
+        Use this endpoint to retrieve a list of medicines configured in the
+        PHR/HMIS system so that admins can view, manage, or validate medicine
+        records.
+
+
+        ### Request
+
+
+        `GET /medicines`
+
+
+        Common query parameters for list-style endpoints in this collection may
+        include (if configured on the API):
+
+
+        - `page` / `limit` or `offset` – for pagination of results.
+            
+        - `search` / `name` – to search medicines by name or keyword.
+            
+        - `status` – to filter by active/inactive or other status fields.
+            
+
+        Check the API specification or other listing endpoints in this
+        collection for the exact parameter names and accepted values.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Medicine
+      summary: admin_create_medicine
+      description: >-
+        ### Overview
+
+
+        Admin-only endpoint to create a new medicine record in the catalog.
+
+
+        - **Method:** `POST`
+            
+        - **URL:** `/medicines`
+            
+
+        ### Request Body
+
+
+        Content-Type: `application/json`
+
+
+        ``` json
+
+        {
+          "medicineData": {
+            "name": "Paracetamol 500mg",
+            "category": "Painkillers",
+            "price": 45,
+            "prescriptionRequired": false,
+            "productForm": "tablet",
+            "brand": "Cipla"
+          }
+        }
+
+         ```
+
+        #### Field details
+
+
+        - `medicineData.name` (string, required): Human-readable medicine name
+        and strength.
+            
+        - `medicineData.category` (string, required): Category or therapeutic
+        class (e.g., `"Painkillers"`).
+            
+        - `medicineData.price` (number, required): Price of the medicine
+        (typically in the system's base currency).
+            
+        - `medicineData.prescriptionRequired` (boolean, required):
+            - `true` if a valid prescription is required to dispense this medicine.
+                
+            - `false` if it can be sold over the counter.
+                
+        - `medicineData.productForm` (string, required): Dosage form, for
+        example `"tablet"`, `"capsule"`, `"syrup"`.
+            
+        - `medicineData.brand` (string, required): Brand or manufacturer name.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                medicineData:
+                  name: Paracetamol 500mg
+                  category: Painkillers
+                  price: 45
+                  prescriptionRequired: false
+                  productForm: tablet
+                  brand: Cipla
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /medicines/categories:
+    get:
+      tags:
+        - Medicine
+      summary: admin_get_medicine_category
+      description: >-
+        ## Overview
+
+
+        Retrieves the list of medicine categories configured in the system for
+        administrative use.
+
+
+        Use this endpoint when you need to show or manage available medicine
+        categories in the PHR/HMIS admin flows (for example, for mapping
+        medicines to categories or populating admin dropdowns).
+
+
+        ---
+
+
+        ## Request
+
+
+        - **Method:** `GET`
+            
+        - **URL:** `/medicines/categories`
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /medicines/{adminMedicineId}:
+    get:
+      tags:
+        - Medicine
+      summary: admin_get_medicine_by_id
+      description: >-
+        ## Overview
+
+
+        Retrieve detailed information for a single medicine by its
+        admin-assigned ID.
+
+
+        ## HTTP Request
+
+
+        `GET /medicines/{{adminMedicineId}}`
+
+
+        ## Path Variables
+
+
+        - `{{adminMedicineId}}` (string) – Unique identifier of the medicine in
+        the admin catalog. This is required.
+            
+
+        ## Usage Notes
+
+
+        - Use this endpoint from admin tools or back-office workflows to fetch
+        details for an existing catalog entry.
+            
+        - Combine with list/search endpoints to first discover the correct
+        `adminMedicineId`, then call this endpoint to fetch full details.
+      parameters:
+        - name: adminMedicineId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Medicine
+      summary: admin_update_medicine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Paracetamol 650mg
+                price: 55
+                prescriptionRequired: false
+                brand: Sun Pharma
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: adminMedicineId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Medicine
+      summary: admin_delete_medicine
+      parameters:
+        - name: adminMedicineId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /medicines/category:
+    post:
+      tags:
+        - Medicine
+      summary: admin_create_cateogry
+      description: >-
+        Description:
+
+
+        - Creates a new medicine category in the system.
+            
+        - Typical use: allow an admin to define logical groupings for medicines
+        (for example, “Vitamins”, “Antibiotics”, etc.) that other endpoints can
+        reference.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                categoryData:
+                  name: Vitamins
+                  description: Vitamin supplements
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/pricing:
+    post:
+      tags:
+        - 'SuperAdmin: Pricing Management'
+      summary: admin_create_pricing
+      description: >-
+        Description:
+
+
+        - Creates a new pricing configuration for a test or service, including
+        buy/sell prices and third-party details.
+            
+        - Used to add new price entries into the admin pricing catalog.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: TEST
+                thirdPartyEntityId: '1773'
+                name: H1B1
+                buyPrice: 499
+                sellPrice: 799
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - 'SuperAdmin: Pricing Management'
+      summary: admin_get_pricing
+      description: |-
+        Description:
+
+        - Fetches all existing pricing records stored in the system.
+            
+        - Useful for listing or managing the full pricing catalog.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/pricing/{pricingId}:
+    get:
+      tags:
+        - 'SuperAdmin: Pricing Management'
+      summary: admin_get_pricing_by_id
+      description: |-
+        Description:
+
+        - Retrieves a single pricing entry by its unique ID.
+            
+        - Allows admins to view detailed pricing info for a specific item.
+      parameters:
+        - name: pricingId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - 'SuperAdmin: Pricing Management'
+      summary: admin_update_pricing
+      description: >-
+        Description:
+
+
+        - Updates fields of an existing pricing record, such as name, type, or
+        price values.
+            
+        - Provides partial editing without recreating the entry.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: TEST
+                thirdPartyEntityId: '1773'
+                name: H1B1
+                buyPrice: 499
+                sellPrice: 699
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: pricingId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - 'SuperAdmin: Pricing Management'
+      summary: admin_delete_pricing
+      description: |-
+        Description:
+
+        - Deletes a specific pricing record from the system.
+            
+        - Used when a price entry is outdated or no longer valid.
+      parameters:
+        - name: pricingId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /rewards-admin/config:
+    post:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: reward_config_add
+      description: >-
+        Description:
+
+
+        - Creates a new reward configuration entry that defines how many points
+        a user earns for a specific engagement type.
+            
+        - Used to set up new reward rules for vitals, actions, or events.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: engagement
+                subType: BLOOD_PRESSURE
+                points: 2
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: reward_config_get
+      description: >-
+        Description:
+
+
+        - Fetches the full list of reward configurations currently active in the
+        system.
+            
+        - Helps admins review or manage all engagement-based reward rules.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /rewards-admin/config/{rewardConfigId}:
+    put:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: reward_config_update
+      description: >-
+        Description:
+
+
+        - Updates an existing reward configuration by modifying its type,
+        subtype, or points.
+            
+        - Useful when adjusting reward values or correcting configuration
+        settings.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: engagement
+                subType: BLOOD_PRESSURE
+                points: 1
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: rewardConfigId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /rewards-admin:
+    get:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: rewards_history
+      description: >-
+        Description:
+
+
+        - Retrieves the entire rewards history for all users or administrative
+        reward events.
+            
+        - Useful for audits, tracking reward distribution, or reviewing activity
+        logs.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: admin_add_rewards_to_user
+      description: >-
+        Description:
+
+
+        - Creates a manual reward entry for a user with category, points, and
+        metadata.
+            
+        - Used by admins to award points directly when needed.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userMobile: '8790447915'
+                category: HEART_RATE
+                points: 4
+                type: engagement
+                metadata:
+                  createdfrom: admin
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /rewards-faq:
+    get:
+      tags:
+        - 'SuperAdmin: Rewards Config'
+      summary: rewards_faq
+      description: >-
+        Description:
+
+
+        - Returns the FAQ content related to the rewards program.
+            
+        - Helps users understand how rewards work, point rules, and general
+        guidelines.
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

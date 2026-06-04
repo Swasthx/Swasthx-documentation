@@ -1,0 +1,683 @@
+openapi: 3.0.0
+info:
+  title: 1 MG APIs for Dev, QA & Prod.
+  version: 1.0.0
+servers:
+  - url: undefined://{{baseurl}}
+  - url: undefined://{{1mgurl}}
+  - url: https://jupiterapi.1mg.com
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: 1mg token
+  - name: Lab Tests
+  - name: Medicine
+paths:
+  /provider-order/get/pharm-token:
+    get:
+      tags:
+        - 1mg token
+      summary: 1mg_generate_pharma_token
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /provider-order/get/labtest-token:
+    get:
+      tags:
+        - 1mg token
+      summary: 1mg_generate_labtest_token
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: number
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjU1MjQxNTcsImV4cCI6MTc2NTYxMDU1N30.3SmOsvCPzat42XlXFB7yvWz9r-_fGjsEaULWLJyGMz6XQrfUFQSLulnOhuhBgJAZroQ0dWLAbvdqczAO9sLfLLRGfbeMtMmr9Rf7-71EwkQ8MhvPF9lXBB4KyjwnLX_z3FNBgP4j8Erm42kY5jEiPScnDbnyooR8e4nxraSEvYyCQAsE675x_nVgcA_xOEomj4V8lroGS6a7BiBVjVgHqy_rrPhA4i4mLtY4LlvK05KkQms8hMVdq7T6DufGbtcOeuM0VdzMDQKdLheeRqZRWP-XWPNG_zRrL1iGTBXf7jivR_C8lPXMAAzIuj-jKPmJYYCn_4paccKKJVhbOP2gkA
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v2/external/:merchant_id/city:
+    get:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_get_cities
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v1/external/:merchant_id/city/serviceable:
+    get:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_serviceability_check
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+        - name: city
+          in: query
+          schema:
+            type: string
+          example: noida
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v1/external/{merchantId}/tests:
+    get:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_search
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+        - name: page_number
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: city
+          in: query
+          schema:
+            type: string
+          example: gurgaon
+        - name: search_text
+          in: query
+          schema:
+            type: string
+          example: complete
+        - name: remove_radiology
+          in: query
+          schema:
+            type: string
+          example: 'True'
+        - name: remove_unavailable
+          in: query
+          schema:
+            type: string
+          example: 'True'
+        - name: merchantId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v1/external/{merchantId}/inventory:
+    get:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_check_inventory
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+        - name: city
+          in: query
+          schema:
+            type: string
+          example: gurgaon
+        - name: pincode
+          in: query
+          schema:
+            type: integer
+          example: '122001'
+        - name: test[]
+          in: query
+          schema:
+            type: integer
+          example: '1772'
+        - name: page_number
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: merchantId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v2/external/{merchantId}/date-time-slots:
+    post:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_timeslots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                city: Gurgaon
+                lab_id: 95
+                patients:
+                  - age: 22
+                    name: jag
+                    gender: m
+                    date_of_birth: '2000-08-08'
+                pin_code: '{{pincode}}'
+                test_ids:
+                  - 1717
+                address_data:
+                  city: Gurgaon
+                  state: Haryana
+                  street1: Test
+                  landmark: Test
+                  locality: test
+                patient_type: ''
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+        - name: merchantId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v1/external/{merchantId}/bookings:
+    post:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_createorder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                cart:
+                  - lab_id: 95
+                    test_id: 1717
+                city: Gurgaon
+                state: Haryana
+                street: Temple street
+                locality: ''
+                landmark: ''
+                patient_name: SanapathiMaheswara SaiSuhaas
+                mobile_number: '8790447915'
+                email: test@gmail.com
+                gender: male
+                age: 28
+                slot_id: |
+                  VnwxNTJ8MjAyNTEyMTJ8OTYwLjB8cmVndWxhcnwzMHwxbWd8WzE1Ml0=
+                pin_code: '{{pincode}}'
+                merchant_id: swasthx_api
+                user_paid: 69
+                merchant_paid: 250
+                collection_time: '1765535400'
+                policy_id: VCUA81L-1763537129139Z
+                referrence_id: VCUA81L-1763537129139Z
+                referral: ''
+                payment_mode: CASH
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+        - name: merchantId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cerberus/dexter_third_party_service/v1/external/swasthx_api/group_order_cancellation/SO3657135469-568:
+    put:
+      tags:
+        - Lab Tests
+      summary: 1mg_labtest_cancel_group_order
+      requestBody:
+        content: {}
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-access-key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_public_access_key
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/merchants/swasthx/orders:
+    post:
+      tags:
+        - Medicine
+      summary: 1mg_create_medicine_order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                skus:
+                  '{{medicine}}': 10
+                user:
+                  email: '{{emailId}}'
+                  mobile: '{{mobileNumber}}'
+                  last_name: Suhaas
+                  first_name: Sanapathi
+                address:
+                  name: SanapathiMaheswara SaiSuhaas
+                  type: home
+                  pincode: '{{pincode}}'
+                  street1: Temple street
+                  contact_number: '{{mobileNumber}}'
+                prescriptions: []
+                payable_amount: '15.0'
+                payment_method: COD
+                merchant_order_id: 1MG_ORDER_5
+                merchant: swasthx
+      parameters:
+        - name: merchant_id
+          in: header
+          schema:
+            type: string
+          example: swasthx
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v5/cities:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_get_cities
+      parameters:
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/city-serviceable:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_check_serviceability
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+        - name: city
+          in: query
+          schema:
+            type: string
+          example: visakhapatnam
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/pincode/530051:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_get_city_by_pincode
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/search/all:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_search
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Platform
+          in: header
+          schema:
+            type: number
+          example: Android-13.2.0
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+        - name: X-City
+          in: header
+          schema:
+            type: string
+          example: noida
+        - name: source
+          in: header
+          schema:
+            type: string
+          example: ekincare
+        - name: q
+          in: query
+          schema:
+            type: string
+          example: para
+        - name: types
+          in: query
+          schema:
+            type: string
+          example: sku,allopathy
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+          example: '10'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v5/otc_skus/{medicine}/static:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_get_otc_info
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Platform
+          in: header
+          schema:
+            type: number
+          example: android-13.2.0
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+        - name: X-City
+          in: header
+          schema:
+            type: string
+          example: noida
+        - name: client
+          in: query
+          schema:
+            type: string
+          example: app
+        - name: locale
+          in: query
+          schema:
+            type: string
+          example: en
+        - name: medicine
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v6/drug_skus/{medicine}/static:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_get_drug_info
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Platform
+          in: header
+          schema:
+            type: number
+          example: android-13.2.0
+        - name: X-City
+          in: header
+          schema:
+            type: string
+          example: noida
+        - name: client
+          in: query
+          schema:
+            type: string
+          example: app
+        - name: locale
+          in: query
+          schema:
+            type: string
+          example: en
+        - name: medicine
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/swasthx/inventory:
+    post:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_check_inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                skus:
+                  '{{medicine}}': 10
+                user:
+                  email: '{{emailId}}'
+                  mobile: '{{mobileNumber}}'
+                  last_name: suhaas
+                  first_name: Sanapathi
+                pincode: '{{pincode}}'
+                coupon_code: ''
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjU1MjE3NzQsImV4cCI6MTc2NTYwODE3NH0.DalB6HyxrTPlzPHjg2hHYuVnySauGFZqb1aKJnReSFB-50IfVfJsMOkHUoPsciaYU8gBdxB7zTXTHKcVa4epOkTkh0A75qFfcXldddwyN6PrQz32Jjo7DZzIACwZC1dYRFvxg5qJnmx5eoTcdFbsxFQXLhfIuase3jkj0EXNFYAnlrQg2rzLmwq8tM_VkKAFlxsqFXkIgaTlgdRO16bk-o1ZC4-WjUDx3FZpbEIQiTf7Xu2Kj273d56u4ymzYARiPPIC3TMLieHqOlQlN_lT985bOdeDUuNAkEoyTQdHHePLpbGw2oZoB1nOHP_XVPALGTsu-2wUqfwPCUl214FHXQ
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/merchants/swasthx/order/{merchantOrderId}:
+    get:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_order_track
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NjU1MjMzMzUsImV4cCI6MTc2NTYwOTczNX0.foKl3WKsZgJ0X_tejrqZvGwVj3yaD8bcsp3tUgnyiXWtGuEPS3XiKR3M5WzetQZ9qelLcx09XgGcT2vvMvTSvWX1ry0BUe4duV99QziOhuN7ct7ORHVlpVbjnp6aKbinAXonNGMHrAg3W7RUhiuZgtk3lqyVtykfMmQYrLrPsdgK-WckgNm4Rxzrqe9X0tqH7s5MlHwfn9hBXu4bV2SwULV-54mDZnUCPNlqSOTvqUybL8hq_pM1VY7WY6w-o7jgNGr6JL9hs5AsIr5WuCOpsKa3OQ8EruZL2aky8VFX1VF4l-g1kgacdkNOnLxeZbH_NEH4p0SEtbxfh8R1bNP6nA
+        - name: merchantOrderId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v4/:merchant_name/order/cancel:
+    post:
+      tags:
+        - Medicine
+      summary: 1mg_medicine_cancel_order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                reason: CANCELLED REASON
+                agent_id: ''
+                merchant: swasthx
+                order_id: PO33525705010005
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: X-Access-Key
+          in: header
+          schema:
+            type: string
+          example: 1mg_client_access_key
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

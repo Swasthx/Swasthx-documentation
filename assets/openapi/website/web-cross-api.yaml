@@ -1,0 +1,1414 @@
+openapi: 3.0.0
+info:
+  title: cross api(wb-to-phr)
+  description: >-
+    Cross-API overview
+
+
+    - The Website backend (WB) and the PHR backend communicate bidirectionally.
+        
+    - The PHR Mobile app calls the PHR backend, which then coordinates with the
+    Website backend to fulfill requests.
+        
+    - Example: For “Find nearby doctor,” the primary API resides in the Website
+    backend. The PHR app sends the request to the PHR backend, which forwards it
+    to the Website backend and returns the Website backend’s response to the
+    app.
+  version: 1.0.0
+servers:
+  - url: undefined://{{baseUrl}}
+tags:
+  - name: appointment booking
+  - name: Doctor Filters By Specialities,  locations,
+  - name: Doctor profile filters(Single)
+  - name: follow ups
+  - name: Geo Location Search
+  - name: Get All Appointmetns By Ids
+  - name: Get All Doctor by ids
+  - name: Get All Doctor Profiles
+  - name: Patient app appointment
+  - name: Popular Doctors
+  - name: Scan & Get All Doctors under hospital
+paths:
+  /doctor-profile/doctorBookUserSlot:
+    post:
+      tags:
+        - appointment booking
+      summary: doctor Book User Slot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DoctorID: '6677'
+                PatientInfo:
+                  name: 'test '
+                  mobileNumber: '4567891234'
+                  age: 0
+                  dob: '2025-12-05'
+                  gender: M
+                  tag: Regular
+                  abhaNumber: ''
+                  abhaAddress: ''
+                  AID: SW-6677-3
+                  UHID: SW-6677-3
+                BookedSlot:
+                  status: Confirmed
+                  tag: BookedByDoctor
+                  time: '2025-12-18T03:30:00.000Z'
+                  typeOfSlot: in-clinic
+                  whichSlot: morningSlot
+                  whichDay: Wednesday
+                  paymentStatus: UNPAID
+                  duration: '15'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/patientSlotBook:
+    post:
+      tags:
+        - appointment booking
+      summary: patient Slot Book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DoctorID: <string>
+                orderID: <string>
+                appointmentID: <string>
+                tag: BookedByDoctor
+                PatientInfo:
+                  name: <string>
+                  abhaAddress: <string>
+                  abhaNumber: <string>
+                  UHID: <string>
+                  age: <string>
+                  dob: <string>
+                  gender: <string>
+                  mobileNumber: <string>
+                  address:
+                    streetName: <string>
+                    city: <string>
+                    state: <string>
+                    country: <string>
+                    pincode: <string>
+                BookedSlot:
+                  status: <string>
+                  paymentStatus: UNPAID
+                  time: <string>
+                  duration: <string>
+                  typeOfSlot: <string>
+                  whichSlot: <string>
+                  whichDay: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/doctorCancelUserSlot:
+    patch:
+      tags:
+        - appointment booking
+      summary: doctor Cancel User Slot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: cancelled
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: AarogyaIDPatientAppUser
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: AarogyaIDPatientAppPassword
+        - name: id
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: 68aef2c511315459c936a15c
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/doctorRescheduleUserSlot:
+    patch:
+      tags:
+        - appointment booking
+      summary: doctor Reschedule User Slot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mobileNumber: <string>
+                status: <string>
+                oldTime: <string>
+                patientAppAppointmentID: <string>
+                doctorwebappointmentID: <string>
+                time: <string>
+                tag: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/doctorCheckinUserSlot:
+    patch:
+      tags:
+        - appointment booking
+      summary: doctor Checkin User Slot
+      description: >-
+        Purpose
+
+        PATCH endpoint to check in a user for a specific doctor’s slot in the
+        HIMS system. Use it to mark a patient’s presence/attendance for a
+        time-bound slot, optionally tagging the action.
+
+
+        Method and URL
+
+        - Method: PATCH
+
+        - URL: {{baseUrl}}/doctor-profile/doctorCheckinUserSlot
+
+
+        Headers
+
+        - Content-Type: application/json
+
+
+        Authentication and Variables
+
+        - Base URL is provided via the {{baseUrl}} variable (configure it in
+        your active environment or collection variables).
+
+        - If your deployment requires auth, inherit or set it at the
+        folder/collection level. This request does not set auth explicitly.
+
+
+        Request Body
+
+        - Body type: raw (application/json)
+
+        - JSON schema and fields:
+          {
+            "mobileNumber": "string",  // Patient’s mobile number used to identify the user
+            "doctorID": "string",      // Unique identifier of the doctor
+            "status": "string",        // Check-in state (e.g., "checked_in", "arrived", etc.)
+            "time": "string",          // Target slot time (ISO 8601 or server-accepted format)
+            "tag": "string"            // Optional tag/remark for this check-in
+          }
+
+        Example Payloads
+
+        - Minimal:
+          {
+            "mobileNumber": "9876543210",
+            "doctorID": "DOC-123",
+            "status": "checked_in",
+            "time": "2025-01-01T10:30:00Z"
+          }
+        - With tag:
+          {
+            "mobileNumber": "9876543210",
+            "doctorID": "DOC-123",
+            "status": "arrived",
+            "time": "2025-01-01T10:30:00Z",
+            "tag": "front-desk"
+          }
+
+        Expected Responses
+
+        - 201 Created / Success: The check-in was recorded successfully. See the
+        saved example: "Request Successful" for an illustrative response.
+
+        - 4xx: Validation or business rule errors (e.g., missing fields, invalid
+        slot, user not found).
+
+        - 5xx: Server error.
+
+
+        Usage Notes
+
+        - Ensure {{baseUrl}} points to the correct environment (dev/stage/prod).
+
+        - Keep Content-Type as application/json.
+
+        - status and time should match what the backend expects; consult service
+        rules if custom statuses or time formats are required.
+
+        - This request has no pre-request or test scripts and will inherit any
+        auth defined at higher scopes.
+
+
+        References
+
+        - Saved example: Request Successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mobileNumber: <string>
+                doctorID: <string>
+                status: <string>
+                time: <string>
+                tag: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/ackPatient:
+    post:
+      tags:
+        - appointment booking
+      summary: ack Patient
+      description: >-
+        ## Acknowledge Patient
+
+
+        This endpoint allows a doctor to acknowledge a patient for a scheduled
+        appointment. When called, it confirms that the doctor has recognized and
+        accepted the patient for their appointment slot.
+
+
+        ### Query Parameters
+
+
+        | Parameter | Type | Required | Description |
+
+        |-----------|------|----------|-------------|
+
+        | `appointmentID` | string | Yes | The unique identifier of the
+        appointment to acknowledge |
+
+
+        ### Response
+
+
+        | Status Code | Description |
+
+        |-------------|-------------|
+
+        | `201 Created` | Patient successfully acknowledged for the appointment
+        |
+      requestBody:
+        content: {}
+      parameters:
+        - name: appointmentID
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/getPatientAssessmentData:
+    get:
+      tags:
+        - appointment booking
+      summary: get Patient Assessment Data
+      description: >
+        ## get Patient Assessment Data
+
+
+        Retrieve assessment data for a patient for a given doctor. This endpoint
+        returns the patient’s assessment details associated with the specified
+        doctor.
+
+
+        - Method: `GET`
+
+        - Endpoint: `{{baseUrl}}/doctor-profile/getPatientAssessmentData`
+
+        - Request Type: HTTP
+
+
+        ### Query Parameters
+
+        - `doctorID` (string, required) — Unique identifier of the doctor.
+          - Example: `D-12345`
+        - `patientNumber` (string, required) — Unique identifier/number of the
+        patient.
+          - Example: `P-67890`
+
+        The above parameter keys and types are based on existing usages in the
+        workspace requests named “get Patient Assessment Data”.
+
+
+        ### Variables
+
+        - `{{baseUrl}}` — Base URL for the HMIS API. Ensure the active
+        environment defines this value.
+
+
+        ### Authentication
+
+        Use your workspace’s configured auth (if required by your backend).
+        Common patterns include a bearer token or API key set at the
+        collection/environment level. If set at a higher scope, this request
+        will inherit it.
+
+
+        ### Success Response
+
+        - Status: `200 OK` (typical)
+
+        - Body: JSON object containing patient assessment data.
+
+
+        This request also has a saved example named “Request Successful” which
+        can be referenced for a sample successful response.
+
+
+        ### Error Responses
+
+        - `400 Bad Request` — Missing or invalid query parameters.
+
+        - `401/403` — Authentication/authorization failure.
+
+        - `404 Not Found` — No assessment data found for the given identifiers.
+
+        - `5xx` — Server-side error.
+
+
+        ### Notes
+
+        - No request body is required.
+
+        - Ensure `doctorID` and `patientNumber` are URL-encoded when necessary.
+
+        - You can run this request as part of the Swasthx HMIS collection
+        workflows or monitors.
+      parameters:
+        - name: doctorID
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+        - name: patientNumber
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/doctorBookUserSlotFromWeb:
+    post:
+      tags:
+        - appointment booking
+      summary: doctor Book User Slot From Web
+      description: >-
+        ## Overview
+
+        Books a patient appointment slot from the web on behalf of a doctor.
+        This operation creates or confirms an appointment in the doctor’s
+        schedule.
+
+
+        - Endpoint: `POST {{baseUrl}}/doctor-profile/doctorBookUserSlotFromWeb`
+
+        - Content type: `application/json`
+
+        - Auth: Provide your workspace-appropriate auth (e.g., bearer token or
+        API key) via collection/environment settings if required by your
+        backend.
+
+
+        ## Variables
+
+        - `{{baseUrl}}`: Base URL for your deployment (set this in an
+        environment).
+
+
+        ## Headers
+
+        - `Content-Type: application/json`
+
+
+        ## Request Body
+
+        JSON object with the following fields:
+
+
+        ```json
+
+        {
+          "DoctorID": "<string>",
+          "orderID": "<string>",
+          "appointmentID": "<string>",
+          "tag": "BookedByDoctor",
+          "PatientInfo": {
+            "name": "<string>",
+            "abhaAddress": "<string>",
+            "abhaNumber": "<string>",
+            "UHID": "<string>",
+            "age": "<string>",
+            "dob": "<string>",
+            "gender": "<string>",
+            "mobileNumber": "<string>",
+            "address": {
+              "streetName": "<string>",
+              "city": "<string>",
+              "state": "<string>",
+              "country": "<string>",
+              "pincode": "<string>"
+            }
+          },
+          "BookedSlot": {
+            "status": "<string>",
+            "paymentStatus": "UNPAID",
+            "time": "<string>",
+            "duration": "<string>",
+            "typeOfSlot": "<string>",
+            "whichSlot": "<string>",
+            "whichDay": "<string>"
+          }
+        }
+
+        ```
+
+
+        ### Field notes
+
+        - `DoctorID` (string): Identifier of the doctor for whom the slot is
+        being booked.
+
+        - `orderID` (string): Client-side order or transaction reference, if
+        applicable.
+
+        - `appointmentID` (string): Use if updating/confirming an existing
+        provisional appointment; otherwise optional per backend rules.
+
+        - `tag` (string): Recommended value `BookedByDoctor`.
+
+        - `PatientInfo` (object): Patient demographics and identifiers.
+          - `abhaAddress`, `abhaNumber` (string): National health ID details (optional if not applicable).
+          - `UHID` (string): Facility-specific patient ID.
+          - `dob` (string): Date of birth; format expected by backend (e.g., YYYY-MM-DD).
+          - `gender` (string): One of your system’s accepted values (e.g., Male/Female/Other).
+          - `mobileNumber` (string): Contact number with country code if required.
+          - `address` (object): Postal address.
+        - `BookedSlot` (object): Details of the slot to book.
+          - `status` (string): Booking state (e.g., requested/confirmed), per backend.
+          - `paymentStatus` (string): Defaults to `UNPAID` unless your flow marks it paid.
+          - `time` (string): Start time of the appointment (e.g., 2025-01-31T10:30:00Z or HH:mm).
+          - `duration` (string): Duration (e.g., `15m`, `30m`).
+          - `typeOfSlot` (string): Virtual/In-person/etc., as supported.
+          - `whichSlot` (string): Slot identifier within the schedule.
+          - `whichDay` (string): Day reference if required by scheduling logic.
+
+        ## Example
+
+        This request has a saved example demonstrating a successful creation
+        flow. See: [Request
+        Successful](example/46178638-0b6b88b6-306e-4550-8019-197b417...) under
+        the parent request [doctor Book User Slot From
+        Web](request/46178638-0935cb9c-4904-4d48-8a6b-b548bbcce85b).
+
+
+        ## Responses
+
+        - 201 Created: Slot booked successfully (see saved example).
+
+        - 400 Bad Request: Missing or invalid fields.
+
+        - 401/403 Unauthorized/Forbidden: Authentication/authorization issues.
+
+        - 404 Not Found: Doctor or slot not found.
+
+        - 409 Conflict: Slot already booked.
+
+        - 500 Server Error: Unexpected error on server.
+
+
+        ## Notes
+
+        - Ensure your active environment supplies a valid `{{baseUrl}}`.
+
+        - If your API requires auth, configure it at the collection or folder
+        level so this request inherits it.
+
+
+        ---
+
+        References for this request’s structure were derived from existing items
+        in your workspace: [doctor Book User Slot From
+        Web](request/46178638-0935cb9c-4904-4d48-8a6b-b548bbcce85b) and a
+        related request variant [doctor Book User Slot From
+        Web](request/46178638-a767fc2b-3e6a-4821-88ca-e77be66feb79).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DoctorID: <string>
+                orderID: <string>
+                appointmentID: <string>
+                tag: BookedByDoctor
+                PatientInfo:
+                  name: <string>
+                  abhaAddress: <string>
+                  abhaNumber: <string>
+                  UHID: <string>
+                  age: <string>
+                  dob: <string>
+                  gender: <string>
+                  mobileNumber: <string>
+                  address:
+                    streetName: <string>
+                    city: <string>
+                    state: <string>
+                    country: <string>
+                    pincode: <string>
+                BookedSlot:
+                  status: <string>
+                  paymentStatus: UNPAID
+                  time: <string>
+                  duration: <string>
+                  typeOfSlot: <string>
+                  whichSlot: <string>
+                  whichDay: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/cancelAppointment/YRHN1DD:
+    patch:
+      tags:
+        - appointment booking
+      summary: Cancel appointment by OrderID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: cancelled
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/newFilters:
+    get:
+      tags:
+        - Doctor Filters By Specialities,  locations,
+      summary: Get Filters
+      description: >-
+        Retrieves available location filters for doctor profiles.
+
+
+        **Purpose:**  
+
+        Use this endpoint to fetch a list of locations that can be used as
+        filters when searching or displaying doctor profiles in the system.
+
+
+        **Usage:**
+
+
+        - Method: GET
+            
+        - Endpoint: `{{baseUrl}}/doctor-profile/newFilters?field=locations`
+            
+        - Requires a valid `wb-auth-token` header for authentication.
+            
+        - The `field` query parameter should be set to `locations` to retrieve
+        location-based filter options.
+            
+
+        **Response:**  
+
+        Returns a list of location filter values that can be applied to doctor
+        profile queries.
+
+
+        **Typical Use Case:**  
+
+        Populate dropdowns or filter menus in UI for users to select locations
+        when searching for doctors.
+      parameters:
+        - name: field
+          in: query
+          schema:
+            type: string
+          example: specialities
+        - name: field
+          in: query
+          schema:
+            type: string
+          example: locations
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/getAllDoctor:
+    get:
+      tags:
+        - Doctor profile filters(Single)
+      summary: doctor filters
+      parameters:
+        - name: speciality
+          in: query
+          schema:
+            type: string
+          example: Cardiologist
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '100'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/123456:
+    get:
+      tags:
+        - Doctor profile filters(Single)
+      summary: get single doctor by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/filteredbyDoctorSpeciality:
+    get:
+      tags:
+        - Doctor profile filters(Single)
+      summary: get single filters
+      parameters:
+        - name: speciality
+          in: query
+          schema:
+            type: string
+          example: Cardiologist
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /followUpInformation:
+    get:
+      tags:
+        - follow ups
+      summary: Get follow-up information
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /createFollowUpInformation:
+    post:
+      tags:
+        - follow ups
+      summary: Create follow-up information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/nearbyDoctors:
+    get:
+      tags:
+        - Geo Location Search
+      summary: Doctor search by geoLocation
+      parameters:
+        - name: latitude
+          in: query
+          schema:
+            type: number
+          example: '28.6189'
+        - name: longitude
+          in: query
+          schema:
+            type: number
+          example: '77.078'
+        - name: maxDistance
+          in: query
+          schema:
+            type: integer
+          example: '9000'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAppointmentsByIds:
+    post:
+      tags:
+        - Get All Appointmetns By Ids
+      summary: appointmentsbyIds
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                appointmentIds:
+                  - 68bc1b38239f407ed3b84f7b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAllDoctorsByIds:
+    post:
+      tags:
+        - Get All Doctor by ids
+      summary: Get Doc by Ids
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                doctorIds:
+                  - '6677'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/fethcAllProfile:
+    get:
+      tags:
+        - Get All Doctor Profiles
+      summary: Fetch All  Doctor Profile
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cancelUserSlot:
+    patch:
+      tags:
+        - Patient app appointment
+      summary: cancel User Slot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mobileNumber: <string>
+                doctorID: <string>
+                patientAppappointmentID: <string>
+                doctorWebAppointmentID: <string>
+                status: <string>
+                time: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /userSlotBook:
+    post:
+      tags:
+        - Patient app appointment
+      summary: user Slot Book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DoctorID: <string>
+                orderID: <string>
+                appointmentID: <string>
+                tag: BookedByDoctor
+                PatientInfo:
+                  name: <string>
+                  abhaAddress: <string>
+                  abhaNumber: <string>
+                  UHID: <string>
+                  age: <string>
+                  dob: <string>
+                  gender: <string>
+                  mobileNumber: <string>
+                  address:
+                    streetName: <string>
+                    city: <string>
+                    state: <string>
+                    country: <string>
+                    pincode: <string>
+                BookedSlot:
+                  status: <string>
+                  paymentStatus: UNPAID
+                  time: <string>
+                  duration: <string>
+                  typeOfSlot: <string>
+                  whichSlot: <string>
+                  whichDay: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /userVitalAssessment:
+    post:
+      tags:
+        - Patient app appointment
+      summary: user Vital Assessment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                symptom: <string>
+                question:
+                  - question: <string>
+                    options:
+                      - <string>
+                      - <string>
+                  - question: <string>
+                    options:
+                      - <string>
+                      - <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /submitUserVitalAssessment:
+    post:
+      tags:
+        - Patient app appointment
+      summary: submit User Vital Assessment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                DoctorID: <string>
+                date: <string>
+                PatientInfo:
+                  name: <string>
+                  abhaAddress: <string>
+                  abhaNumber: <string>
+                  UHID: <string>
+                  age: <string>
+                  dob: <string>
+                  gender: <string>
+                  mobileNumber: <string>
+                  address:
+                    streetName: <string>
+                    city: <string>
+                    state: <string>
+                    country: <string>
+                    pincode: <string>
+                symptom: <string>
+                questions:
+                  - questions: <string>
+                    answer: <string>
+                  - questions: <string>
+                    answer: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAssessmentQuestions:
+    get:
+      tags:
+        - Patient app appointment
+      summary: get Assessment Questions
+      parameters:
+        - name: symptomType
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getAllAppointments:
+    get:
+      tags:
+        - Patient app appointment
+      summary: get All Appointments
+      parameters:
+        - name: mobileNumber
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /rescheduleAppointment:
+    patch:
+      tags:
+        - Patient app appointment
+      summary: reschedule Appointment
+      description: >-
+        ## Reschedule Appointment
+
+
+        Reschedules an existing appointment for a patient with a specific
+        doctor. This endpoint updates the booked slot to a new time while
+        preserving appointment context.
+
+
+        - Method: PATCH
+            
+        - URL: `{{baseUrl}}/rescheduleAppointment`
+            
+        - Folder: This request is inside the relevant appointments folder in the
+        cross api(wb-to-phr) collection.
+            
+
+        ### Headers
+
+
+        - `Content-Type: application/json`
+            
+        - `username`: AarogyaIDPatientAppUser
+            
+        - `password`: AarogyaIDPatientAppPassword
+            
+
+        Note: If your API uses environment or vault variables for credentials,
+        replace static values with variables.
+
+
+        ### Authentication
+
+
+        The request currently passes credentials via headers as shown above. If
+        a bearer token is required in your deployment, set it in the
+        Authorization tab or add an `Authorization: Bearer {{wb-auth-token}}`
+        header and keep `{{wb-auth-token}}` updated in your environment or
+        vault.
+
+
+        ### Request Body (JSON)
+
+
+        Provide the appointment information to reschedule.
+
+
+        Fields:
+
+
+        - `mobileNumber` (string, required): Patient's mobile number associated
+        with the appointment.
+            
+        - `doctorID` (string, required): Unique identifier of the doctor.
+            
+        - `patientAppappointmentID` (string, optional): Appointment ID from the
+        patient app. If unavailable, leave empty and use
+        `doctorWebAppointmentID`.
+            
+        - `doctorWebAppointmentID` (string, optional): Appointment ID from the
+        doctor's web portal. Provide either this or `patientAppappointmentID`.
+            
+        - `Oldtime` (ISO 8601 string, required): Previously booked appointment
+        time (UTC or timezone-aware).
+            
+        - `BookedSlot` (object, required): Details of the new slot to book.
+            - `status` (string): Status of the booking (e.g., `Confirmed`).
+                
+            - `paymentStatus` (string): Payment status (e.g., `PAID`, `UNPAID`).
+                
+            - `time` (ISO 8601 string): New appointment start time.
+                
+            - `duration` (string|number): Duration of the slot in minutes.
+                
+            - `typeOfSlot` (string): Slot type (e.g., `teleConsultation`, `inPerson`).
+                
+            - `whichSlot` (string): Time-of-day grouping (e.g., `morningSlot`, `eveningSlot`).
+                
+            - `whichDay` (string): Day of week of the new slot.
+                
+
+        Example:
+
+
+        ``` json
+
+        {
+          "mobileNumber": "8897497435",
+          "doctorID": "965874",
+          "patientAppappointmentID": "",
+          "doctorWebAppointmentID": "68aee78911315459c936a0a4",
+          "Oldtime": "2025-08-28T06:00:00.000Z",
+          "BookedSlot": {
+            "status": "Confirmed",
+            "paymentStatus": "UNPAID",
+            "time": "2025-08-28T06:00:00.000Z",
+            "duration": "15",
+            "typeOfSlot": "teleConsultation",
+            "whichSlot": "morningSlot",
+            "whichDay": "Thursday"
+          }
+        }
+
+         ```
+
+        ### Responses
+
+
+        - `201 Created` or `200 OK`: Appointment successfully rescheduled.
+        Response may include updated appointment details.
+            
+        - `400 Bad Request`: Missing or invalid fields (e.g., invalid time,
+        missing IDs).
+            
+        - `401/403 Unauthorized/Forbidden`: Authentication or permission issues.
+            
+        - `404 Not Found`: Appointment or doctor not found.
+            
+        - `409 Conflict`: Slot no longer available; choose a different time.
+            
+        - `5xx Server Error`: Unexpected error on the server.
+            
+
+        ### Notes
+
+
+        - Ensure `BookedSlot.time` is a valid future time and aligns with the
+        doctor's availability.
+            
+        - Provide either `patientAppappointmentID` or `doctorWebAppointmentID`.
+            
+        - Time values should use ISO 8601 format.
+            
+
+        ### Testing Tips
+
+
+        - Parameterize the base URL using the active environment variable
+        `{{baseUrl}}`.
+            
+        - Store sensitive tokens in the environment or vault (e.g.,
+        `{{wb-auth-token}}`).
+            
+        - Add tests to assert status code, response time, and presence of key
+        fields in the response.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mobileNumber: '8897497435'
+                doctorID: '965874'
+                patientAppappointmentID: ''
+                doctorWebAppointmentID: 68aee78911315459c936a0a4
+                Oldtime: '2025-08-28T06:00:00.000Z'
+                BookedSlot:
+                  status: Confirmed
+                  paymentStatus: UNPAID
+                  time: '2025-08-28T06:00:00.000Z'
+                  duration: '15'
+                  typeOfSlot: teleConsultation
+                  whichSlot: morningSlot
+                  whichDay: Thursday
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: username
+          in: header
+          schema:
+            type: string
+          example: AarogyaIDPatientAppUser
+        - name: password
+          in: header
+          schema:
+            type: string
+          example: AarogyaIDPatientAppPassword
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /updatePatientInfo:
+    patch:
+      tags:
+        - Patient app appointment
+      summary: upate Patient Info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: <string>
+                abhaAddress: <string>
+                abhaNumber: <string>
+                UHID: <string>
+                age: <string>
+                dob: <string>
+                gender: <string>
+                mobileNumber: <string>
+                address:
+                  streetName: <string>
+                  city: <string>
+                  state: <string>
+                  country: <string>
+                  pincode: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getPatientAppointmentInfo:
+    get:
+      tags:
+        - Patient app appointment
+      summary: get Patient Appointment Info
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/doctorOPDdata:
+    get:
+      tags:
+        - Patient app appointment
+      summary: doctor OP Ddata
+      description: >-
+        Overview  
+
+        Retrieves OPD (Out‑Patient Department) data for a specific doctor.
+
+
+        HTTP  
+
+        GET {{baseUrl}}/doctor-profile/doctorOPDdata
+
+
+        Query parameters
+
+
+        - doctorID (string, required): Unique identifier of the doctor.  
+            • Example: doctorID=DR-12345
+            
+        - status (string, optional): Filter OPD data by status (e.g., active,
+        inactive, all). If omitted, the service may return default/active
+        records depending on server behavior.  
+            • Example: status=active
+            
+
+        Variables
+
+
+        - {{baseUrl}}: Comes from the active environment (wb-dev-env). Ensure
+        this environment is selected so the variable resolves at runtime.
+            
+
+        Authentication
+
+
+        - This workspace exposes tokens/keys as globals (e.g., wb-auth-token).
+        If this endpoint requires authentication, inherit it from the
+        folder/collection or add a Bearer token in the request/collection using
+        the available variable. No auth settings are changed by this
+        description.
+            
+
+        Saved example
+
+
+        - Request Successful: See the saved example attached to this request for
+        a typical successful response and request context.
+            
+
+        cURL example  
+
+        curl --request GET "{{baseUrl}}/doctor-profile/doctorOPDdata"  
+
+        \--get  
+
+        \--data-urlencode "doctorID=DR-12345"  
+
+        \--data-urlencode "status=active"
+
+
+        Success
+
+
+        - 200 OK: Returns OPD data for the specified doctor. Shape matches the
+        "Request Successful" example.
+            
+
+        Errors
+
+
+        - 400 Bad Request: Missing/invalid doctorID or unsupported status.
+            
+        - 401 Unauthorized/403 Forbidden: Missing or invalid credentials if the
+        API is protected.
+            
+        - 404 Not Found: doctorID not found.
+            
+        - 5xx: Server-side error.
+      parameters:
+        - name: doctorID
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/popularDoctors:
+    get:
+      tags:
+        - Popular Doctors
+      summary: Get Popular Doctor
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /doctor-profile/getDoctorsByHospital:
+    post:
+      tags:
+        - Scan & Get All Doctors under hospital
+      summary: All Doctors list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hospitalID: '123456'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

@@ -1,0 +1,31 @@
+/* Hide summary descriptions to keep the list clean */
+.opblock-summary-description {
+    display: none !important;
+}
+
+/* 
+.opblock-description-wrapper,
+.opblock-description {
+    display: none !important;
+} 
+*/
+
+
+.opblock-summary {
+    flex-wrap: wrap !important;
+}
+
+.opblock-summary-method {
+    order: 1;
+}
+
+
+.opblock-summary-path {
+    order: 2;
+    flex-grow: 1;
+}
+
+/* Hide Server Selection Box */
+.scheme-container {
+    display: none !important;
+}

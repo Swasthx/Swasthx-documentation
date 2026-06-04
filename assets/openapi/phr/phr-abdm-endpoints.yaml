@@ -1,0 +1,3546 @@
+openapi: 3.0.0
+info:
+  title: ABDM PHR endpoints
+  version: 1.0.0
+servers:
+  - url: undefined://{{base-url}}
+  - url: undefined://{{public_url}}enrollment
+  - url: undefined://{{public_url}}login
+  - url: undefined://{{abha_url}}enrollment
+  - url: undefined://{{abha_url}}profile
+  - url: https://abhasbx.abdm.gov.in
+  - url: undefined://{{public_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Consent Manager
+  - name: Create ABHA Address Flow
+  - name: Create ABHA Number using Aadhaar
+  - name: Data Flow
+  - name: Gateway
+  - name: General
+  - name: HIP Initiated Linking
+  - name: Link ABHA Number
+  - name: Patient Share
+  - name: PHR Login
+  - name: PHR Profile
+  - name: Subscription and Health locker
+  - name: User Initiated Linking
+paths:
+  /api/hiecm/hip/v3/link/patient/links:
+    get:
+      tags:
+        - Consent Manager
+      summary: links
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: limit
+          in: query
+          schema:
+            type: string
+          example: '-1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/init:
+    post:
+      tags:
+        - Consent Manager
+      summary: 01 consent-init-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consent:
+                  hip: null
+                  hiu:
+                    id: '{{hiu-id}}'
+                  hiTypes:
+                    - Prescription
+                    - DiagnosticReport
+                    - OPConsultation
+                    - DischargeSummary
+                    - ImmunizationRecord
+                    - HealthDocumentRecord
+                    - WellnessRecord
+                    - Invoice
+                  patient:
+                    id: '****test@abdm'
+                  purpose:
+                    code: CAREMGT
+                    text: Care Management
+                    refUri: wwwww.ab1dm.gov.in
+                  requester:
+                    name: Dr. Diya
+                    identifier:
+                      type: REGNO
+                      value: MH1001
+                      system: https://www.india.org
+                  careContexts: null
+                  permission:
+                    dateRange:
+                      to: '2025-03-21T05:00:00.000Z'
+                      from: '2023-01-01T08:00:00.000Z'
+                    frequency:
+                      unit: DAY
+                      value: 0
+                      repeats: 0
+                    accessMode: VIEW
+                    dataEraseAt: '2026-10-30T07:00:00.000Z'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/status:
+    post:
+      tags:
+        - Consent Manager
+      summary: 02 consent-request-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consentRequestId: '{{consentRequestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/hip/on-notify:
+    post:
+      tags:
+        - Consent Manager
+      summary: 03 hip-on-notify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acknowledgement:
+                  status: OK
+                  consentId: '{{consentId}}'
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/hiu/on-notify:
+    post:
+      tags:
+        - Consent Manager
+      summary: 04 hiu-on-notify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acknowledgement:
+                  - status: OK
+                    consentId: '{{consentId}}'
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/fetch:
+    post:
+      tags:
+        - Consent Manager
+      summary: 05 consent-fetch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consentId: '{{consentId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/auto/approve:
+    post:
+      tags:
+        - Consent Manager
+      summary: 01 auto-approve
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                isApplicableForAllHIPs: true
+                hiu:
+                  id: '{{hiu-id}}'
+                includedSources:
+                  - hiTypes:
+                      - Prescription
+                      - DiagnosticReport
+                      - OPConsultation
+                      - DischargeSummary
+                      - ImmunizationRecord
+                      - HealthDocumentRecord
+                      - WellnessRecord
+                      - Invoice
+                    purpose:
+                      text: Care Management
+                      code: CAREMGT
+                      refUri: www.abdm.gov.in
+                    period:
+                      from: '2024-11-27T16:21:00.000Z'
+                      to: '2024-12-30T00:00:00.000Z'
+                excludedSources: []
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: Bearer {{auth-token}}
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/auto/approve/{consentId}/disable:
+    post:
+      tags:
+        - Consent Manager
+      summary: 02 disable-auto-approval
+      requestBody:
+        content: {}
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/auto/approve/{consentId}/enable:
+    post:
+      tags:
+        - Consent Manager
+      summary: 03 enable-auto-approval
+      requestBody:
+        content: {}
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request:
+    get:
+      tags:
+        - Consent Manager
+      summary: 04 all-consent-requests
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{xAuthToken}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: IN0510000753
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '200'
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: REQUESTED
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/{consentRequestId}:
+    get:
+      tags:
+        - Consent Manager
+      summary: 05 consent-request-details
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/{consentRequestId}/approve:
+    post:
+      tags:
+        - Consent Manager
+      summary: 06 approve-consent-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consents:
+                  - hiTypes:
+                      - Prescription
+                      - DiagnosticReport
+                      - OPConsultation
+                      - DischargeSummary
+                      - ImmunizationRecord
+                      - HealthDocumentRecord
+                      - WellnessRecord
+                      - Invoice
+                    hip:
+                      id: '{{hip-id}}'
+                    careContexts:
+                      - patientReference: 3b07a072-a2d4-471e-9a5a-d5501a7f34bd
+                        careContextReference: DFCConnect_2024-04-01-02514
+                    permission:
+                      dateRange:
+                        to: '2025-02-24T19:20:00.000Z'
+                        from: '2024-01-01T05:20:00.000Z'
+                      frequency:
+                        unit: DAY
+                        value: 0
+                        repeats: 0
+                      accessMode: VIEW
+                      dataEraseAt: '2025-09-31T07:00:00.000Z'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/request/{consentRequestId}/deny:
+    post:
+      tags:
+        - Consent Manager
+      summary: 07 deny-consent-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                reason: Not authorized
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/revoke:
+    post:
+      tags:
+        - Consent Manager
+      summary: 08 consent-revoke
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consents:
+                  - '{{consentId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/artefact/request/{consentRequestId}:
+    get:
+      tags:
+        - Consent Manager
+      summary: 09 consent-artefact-details-by-request-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/artefact/{consentId}:
+    get:
+      tags:
+        - Consent Manager
+      summary: 10 consent-artefact-details-by-artefact-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: consentId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/consent/v3/artefact:
+    get:
+      tags:
+        - Consent Manager
+      summary: 11 all-consent-artefacts
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: ALL
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /request/otp:
+    post:
+      tags:
+        - PHR Login
+      summary: OTP Request -  ABHAADDRES Email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-address-login
+                  - email-verify
+                loginHint: abha-address
+                loginId: '{{encryptedData}}'
+                otpSystem: abdm
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /verify:
+    post:
+      tags:
+        - PHR Login
+      summary: Login OTP Verify - ABHAADDRESS Email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-address-login
+                  - email-verify
+                authData:
+                  authMethods:
+                    - otp
+                  otp:
+                    txnId: '{{transactionId}}'
+                    otpValue: '{{encryptedData}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /suggestion:
+    post:
+      tags:
+        - Create ABHA Address Flow
+      summary: Suggestion API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                txnId: 7f45052a-ac63-48de-92db-c5d8d3d0c92a
+                firstName: Priyadharshini
+                lastName: Baskaran
+                dayOfBirth: '13'
+                monthOfBirth: '10'
+                yearOfBirth: '1992'
+                email: ''
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /isExists:
+    get:
+      tags:
+        - Create ABHA Address Flow
+      summary: isExists API
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: abhaAddress
+          in: query
+          schema:
+            type: string
+          example: dharam123@sbx
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /enrol:
+    post:
+      tags:
+        - Create ABHA Address Flow
+      summary: Enroll ABHA Address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                txnId: '{{transactionId}}'
+                phrDetails:
+                  firstName: Manish
+                  middleName: ''
+                  lastName: Kahane
+                  dayOfBirth: '12'
+                  monthOfBirth: '12'
+                  yearOfBirth: '1992'
+                  gender: M
+                  email: ''
+                  mobile: >-
+                    CBLYLzJYI56HLj1+7MfQ7/FzCdieH2cgE6k8OjQqyb7/4ACNJ6LEf6bTarP1bdeZjL4eIiu7OTiYekJJV/+jd1lqOSLbedf8NtvRi3L7QaWGst1g2ntT5tgeTZePnr1I1XHUZgE7R2b/uUK3YOA/tPncp/XSrmzKw29BN+GO3Wo92fEcSElLHikHhk46yNuD1cDHyNQqTSIeZR9Tl3nzWXpDu9dsixqHjtFwc9yQtBW3FsqyxGw8JBy9aALZ1tX9HfabYAIYtl/qSbisoAjp3PR/E0rvDrwjdefFCMqYTy8f1bf55XINelVztg15FyZzDrC4TOQiPyL1bkb9ifn/Tw==
+                  address: House No 620, Main road Adgaon Nashik Mah
+                  stateName: Maharashtra
+                  stateCode: '27'
+                  districtName: Nashik
+                  districtCode: '123'
+                  pinCode: '422003'
+                  abhaAddress: kiranbornare5467@abdm
+                  password: >-
+                    zNjFKlFG+STidV2KHlMuYgSSoX8Lg6dyLnOcgbKrSVzwiHxqIRGhX6bvZNa5cmz/bRXH3CDiDqWkD1CumeIEUIkGH9YCK/jppPJKqm8rOJ0yyXq7SUXY72U1YMwvOUob1fpEkftPNCScVaLWoAVgfHTw5qhnGDeUSSDsWqVTQeFWfWg4CoscVuMBzPnirwFfP20qfAl4NS0ZscED4gHI7PzMpld1KxCLu7eQbL9vwGbWyJzsTUXTiBzP+cQpSctGPeWlMN9BREzpnrXY2sR2Pm+Ro/u4Br2enWWJGwin+6v3OcYhWR78x8TYwBuqXJHAW+DQIUyJQGdTkq3HCjP8tA==
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /verify/user:
+    post:
+      tags:
+        - PHR Login
+      summary: Verify - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: kiranbornare5467@sbx
+                txnId: '{{transactionId}}'
+      parameters:
+        - name: T-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{T-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /enrol/byAadhaar:
+    post:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: Create ABHA by verifying OTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                authData:
+                  authMethods:
+                    - otp
+                  otp:
+                    timeStamp: '{{current_timestamp}}'
+                    txnId: '{{txnId}}'
+                    otpValue: '{{encrypted otp}}'
+                    mobile: '{{mobile number for ABHA communication}}'
+                consent:
+                  code: abha-enrollment
+                  version: '1.4'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$randomUUID}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/byAbdm:
+    post:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: Mobile Update - Verify OTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-enrol
+                  - mobile-verify
+                authData:
+                  authMethods:
+                    - otp
+                  otp:
+                    timeStamp: '{{current_timestamp}}'
+                    txnId: '{{txnId}}'
+                    otpValue: '{{encrypted otp}}'
+      parameters:
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$randomUUID}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /account/request/emailVerificationLink:
+    post:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: Email Verification Link
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-profile
+                  - email-link-verify
+                loginHint: email
+                loginId: '{{encrypted email}}'
+                otpSystem: abdm
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /enrol/suggestion:
+    get:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: ABHA Address Suggestion API
+      parameters:
+        - name: Transaction_Id
+          in: header
+          schema:
+            type: string
+          example: '{{txnId}}'
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /enrol/abha-address:
+    post:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: ABHA Address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                txnId: '{{txnId}}'
+                abhaAddress: '{{ABHA Address}}'
+                preferred: 1
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /account:
+    get:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: Get Profile Details
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /account/abha-card:
+    get:
+      tags:
+        - Create ABHA Number using Aadhaar
+      summary: Download ABHA card
+      parameters:
+        - name: X-Token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/data-flow/v3/health-information/request:
+    post:
+      tags:
+        - Data Flow
+      summary: 01 hiu-health-information-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hiRequest:
+                  consent:
+                    id: '{{consentId}}'
+                  dateRange:
+                    to: '2025-02-11T13:22:00.000Z'
+                    from: '2023-12-01T07:20:00.000Z'
+                  dataPushUrl: '{{datapushURL}}'
+                  keyMaterial:
+                    cryptoAlg: ECDH
+                    curve: Curve25519
+                    dhPublicKey:
+                      expiry: '2025-12-31T07:00:00.000Z'
+                      parameters: Curve25519/32byte random key
+                      keyValue: welcome@123
+                    nonce: '{{$guid}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/data-flow/v3/health-information/hip/on-request:
+    post:
+      tags:
+        - Data Flow
+      summary: 02 hip-health-information-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hiRequest:
+                  transactionId: '{{transactionId}}'
+                  sessionStatus: ACKNOWLEDGED
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/data-flow/v3/health-information/notify:
+    post:
+      tags:
+        - Data Flow
+      summary: 03 data-flow-notification hiu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                notification:
+                  consentId: '{{consentId}}'
+                  transactionId: '{{transactionId}}'
+                  doneAt: '2024-12-24T23:00:00.000Z'
+                  notifier:
+                    type: HIP
+                    id: '{{hiu-id}}'
+                  statusNotification:
+                    sessionStatus: RECEIVED
+                    hipId: '{{hip-id}}'
+                    statusResponses:
+                      - careContextReference: Test 10
+                        hiStatus: OK
+                        description: Care Management
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/data-flow/v3/health-information/request/status/{transactionId}:
+    get:
+      tags:
+        - Data Flow
+      summary: 04 data-flow-request-status
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: transactionId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge-services:
+    get:
+      tags:
+        - Gateway
+      summary: service-ids-of-bridge
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge-service/serviceId/{hip-id}:
+    get:
+      tags:
+        - Gateway
+      summary: service-details-by-service-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: stateCode
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: districtCode
+          in: query
+          schema:
+            type: integer
+          example: '20'
+        - name: hip-id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge/url:
+    patch:
+      tags:
+        - Gateway
+      summary: update-bridge-url
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                url: https://webhook.site/9de329de-4ee0-4ee0-4ee0-e2817e6880e0
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/health-lockers:
+    get:
+      tags:
+        - Gateway
+      summary: all-health-lockers
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: locker
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge-service:
+    put:
+      tags:
+        - Gateway
+      summary: v3/gateway/bridge-service
+      description: >-
+        Generated from cURL: curl --location --request PUT
+        'http://hiecm2sbx.abdm.gov.internal/api/v3/gateway/bridge-service' \
+
+        --header 'REQUEST-ID: 305dd6e4-bbec-44f5-bcee-41dab730a079' \
+
+        --header 'TIMESTAMP: 2025-01-28T11:28:32.783Z' \
+
+        --header 'X-CM-ID: dev' \
+
+        --header 'Authorization:
+        eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3Mzc3MTk3MTYsImlhdCI6MTczNzcxODUxNiwianRpIjoiZTNiYzVlYzUtZjBhNi00NjNjLTg4ZGItYjE3NzZiODY2MDk4IiwiaXNzIjoiaHR0cHM6Ly9kZXYubmRobS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIxNWYwM2Q3NC05YWY1LTRhYTgtYWM0ZC04ZTRjNzNiZGVlNzEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJNQU5JU0hfVEVTVCIsInNlc3Npb25fc3RhdGUiOiI5NzVlZGIzMy1jMjIzLTRlODItYWIyOC1jZTZjMWMzNTYwM2QiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6OTAwNyJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiaGVhbHRoaWRfc2VydmVyIiwiSGlkSW50ZWdyYXRlZFByb2dyYW0iLCJISVVfUEFZRVIiLCJoZWFsdGhJZCIsImhlYWx0aF9sb2NrZXIiLCJoaXAiLCJISVBfUEFZRVIiLCJoZnIiLCJoaXUiLCJvZmZsaW5lX2FjY2VzcyIsInBociIsIk9JREMiLCJnYXRld2F5IiwiaHBfaWQiXX0sInJlc291cmNlX2FjY2VzcyI6eyJNQU5JU0hfVEVTVCI6eyJyb2xlcyI6WyJ1bWFfcHJvdGVjdGlvbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImNsaWVudElkIjoiTUFOSVNIX1RFU1QiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1tYW5pc2hfdGVzdCJ9.gKt4M2beIkzpbEpLN4RqDXGqU7V370YT4w4-dG-5hEcWg_PWorVA9Y87p0yefz6NJBSN3RseBkYcfVmxjn1HadBbZhpme_1zXe2zDUhww5S7jLM6YJiso63YhyIZWmryva5GPWwbJzW4WihXqwEg-2w8sXw2ZK8C-DhlQSOFXWjYtlgf0-ED7kK32fEeh4cg38Ruq_jAFExKB0P3DGgtHaKvYjxzJBb917ZTkuP_g-Oo_QD-j7eK-WqmNiHkG34lHY7i1oDzwxWputPXK8FstOYouw3CtqoBI_XgqLrvohzn8jiCbZYpkyE7NEvExRx12sBwyRyxW7VSXR5XcMOt3w'
+        \
+
+        --header 'Content-Type: application/json' \
+
+        --data '{
+            "bridgeId": "MANISH_TEST",
+            "serviceId": "MANISH_TEST_01_05",
+            "name": "MANISH TEST Gateway",
+            "isHip": true,
+            "isHiu": true,
+            "isHealthLocker": null,
+            "isPhr": false,
+            "endpoints": {},
+            "attributes": null,
+            "active": true
+        }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                bridgeId: '{{bridgeId}}'
+                serviceId: '{{serviceId}}'
+                name: TEST Gateway
+                isHip: true
+                isHiu: true
+                isHealthLocker: null
+                isPhr: false
+                endpoints: {}
+                attributes: null
+                active: true
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/govt-programs:
+    get:
+      tags:
+        - Gateway
+      summary: all-govt-programs
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/sessions:
+    post:
+      tags:
+        - General
+      summary: Session-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                clientId: '{{client-id}}'
+                clientSecret: '{{client-secret}}'
+                grantType: client_credentials
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/v3/token/generate-token:
+    post:
+      tags:
+        - HIP Initiated Linking
+      summary: generate-link-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: '{{abha-address}}'
+                name: John Doe
+                gender: M
+                yearOfBirth: '1984'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-HIP-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hip-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/hip/v3/link/carecontext:
+    post:
+      tags:
+        - HIP Initiated Linking
+      summary: link-care-context
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: '{{abha-address}}'
+                patient:
+                  - referenceNumber: '{{abha-address}}'
+                    display: Blood Test
+                    careContexts:
+                      - referenceNumber: Test-2
+                        display: Blood Test
+                    hiType: Prescription
+                    count: 1
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-HIP-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hip-id}}'
+        - name: X-LINK-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{link-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/hip/v3/link/context/notify:
+    post:
+      tags:
+        - HIP Initiated Linking
+      summary: link-care-context-notify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                notification:
+                  patient:
+                    id: '{{abha-address}}'
+                  careContext:
+                    patientReference: '{{abha-address}}'
+                    careContextReference: Test-2
+                  hiTypes:
+                    - DiagnosticReport
+                    - DischargeSummary
+                  date: '{{$isoTimestamp}}'
+                  hip:
+                    id: '{{hip-id}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-HIP-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hip-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/hip/v3/link/patient/links/sms/notify2:
+    post:
+      tags:
+        - HIP Initiated Linking
+      summary: sms-notify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                notification:
+                  phoneNo: '999999999'
+                  hip:
+                    name: DEMONEW
+                    id: '{{hip-id}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/request/otp:
+    post:
+      tags:
+        - PHR Profile
+      summary: Send Otp - Update Mobile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-address-profile
+                  - mobile-verify
+                loginHint: mobile-number
+                loginId: '{{encryptedData}}'
+                otpSystem: abdm
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/verify:
+    post:
+      tags:
+        - PHR Profile
+      summary: Verify Password - Update Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-address-profile
+                  - password-verify
+                authData:
+                  authMethods:
+                    - password
+                  password:
+                    abhaAddress: damini1407@sbx
+                    password: '{{encryptedData}}'
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/link:
+    post:
+      tags:
+        - Link ABHA Number
+      summary: Link Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                action: LINK
+                transactionId: '{{transactionId}}'
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/patient-share/v3/share:
+    post:
+      tags:
+        - Patient Share
+      summary: 01 profile-share
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                intent: PROFILE_SHARE
+                metaData:
+                  hipId: '{{hip-id}}'
+                  context: '123456'
+                  hprId: testhpr@hpr.abdm
+                  latitude: '-38.671'
+                  longitude: '58.498'
+                profile:
+                  patient:
+                    abhaAddress: '{{abha-address}}'
+                    name: John Doe
+                    gender: M
+                    dayOfBirth: '15'
+                    monthOfBirth: '01'
+                    yearOfBirth: '1984'
+                    address:
+                      line: North street
+                      district: NORTH GOA
+                      state: GOA
+                      pincode: '412115'
+                    phoneNumber: '99999999'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/patient-share/v3/on-share:
+    post:
+      tags:
+        - Patient Share
+      summary: 02 profile-on-share
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acknowledgement:
+                  status: SUCCESS
+                  abhaAddress: '{{abha-address}}'
+                  profile:
+                    context: '{{$guid}}'
+                    tokenNumber: '12'
+                    expiry: '1800'
+                response:
+                  requestId: 34eca774-a153-4d7a-8fa3-b72123456
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/patient-share/v3/profile/getTokenDetails:
+    get:
+      tags:
+        - Patient Share
+      summary: token-details
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: limit
+          in: query
+          schema:
+            type: string
+          example: '-1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /search:
+    post:
+      tags:
+        - PHR Login
+      summary: Search Auth Methods - ABHAAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: kiran_1897199711@sbx
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /abha/api/v3/phr/app/login/request/otp:
+    post:
+      tags:
+        - PHR Login
+      summary: new OTP Request- AADHAAR
+      description: >-
+        Generated from cURL: curl --location
+        'http://abha2dev.abdm.gov.internal/api/v3.5/profile/login/request/otp' \
+
+        --header 'REQUEST-ID: 946fe056-45da-4ae9-a060-8be158fe4809' \
+
+        --header 'TIMESTAMP: 2024-12-30T05:28:50.351Z' \
+
+        --header 'Content-Type: application/json' \
+
+        --data '{
+            "scope": [
+                "abha-login",
+                "aadhaar-verify",
+                "aadhaar-otp-verify"
+            ],
+            "loginHint": "aadhaar",
+            "loginId":
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-login
+                  - aadhaar-verify
+                  - aadhaar-otp-verify
+                loginHint: aadhaar
+                loginId: >-
+                  SlyobscOfSt40PU2RgkELUEylIH25J7e5B983zuffNc3JY0R2Wxw72zpWVRe7NqVrNmNo3HO3D+7t/ta1P5yu9q1BU++cR/U0UQRYj0jnO582WUpVJKx+CacioWPMbIGvrzVAIecUa11QnruZUAIUMrueLpfpTymF7idvzlMaR93NUwytFyjPPjIYgL7M8DZBrU/e7lN6da6sWjSWK5Pr5xpftKxS8NWacsfI7MbeqWW/XS7VVwrrJOmeecWfHu/K5HtzACbzVhn7+LszlSeM6j6MF0Wi3GLAZNpCkQF594cuX4bcOfdO3PjGLpn007vgkO8lV+wqB57SK8f0XLcv63rR+FddjUJnD9lAkVQQrN3XlJOCn8m7aePx8q49m7/e/U8eX9jwrmORe3+pnGJY3OYR0g79TRUo/aCij6xtDELwKbYjFPfrIth0NbIAYLbWtOnKYbQ6HehCDLSHrSLv4zXTRW/QHaNF4ISu4qUNqSiOVr7aQ1/aGX++1oJdmVo7rjyRvP+XFM5e4o82b9cFxBXIzsn+iepxCa9Y40VcXHXEC/mzJ36YTsZ3p2p2v/sjkpz11458I+kmkURunmdmHq9E/3uL5xSjRWTE2hBGjGLSDUhqDDbTyMWz/m0iSKGVuEBIv109nFSPZmMCNoXltVzwpPQvQuL8UWsVkUhKHA=
+                otpSystem: aadhaar
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /abha/api/v3/phr/app/login/verify:
+    post:
+      tags:
+        - PHR Login
+      summary: new OTP verify- AADHAAR
+      description: >-
+        Generated from cURL: curl --location
+        'http://abha2dev.abdm.gov.internal/api/v3.5/profile/login/verify' \
+
+        --header 'REQUEST-ID: 89df3d55-b0d4-4781-98b9-43273acaf5db' \
+
+        --header 'TIMESTAMP: 2024-12-30T05:29:15.237Z' \
+
+        --header 'Content-Type: application/json' \
+
+        --data '{
+            "scope": [
+                "abha-login",
+                "aadhaar-verify",
+                "aadhaar-otp-verify"
+            ],
+            "authData": {
+                "authMethods": [
+                    "otp"
+                ],
+                "otp": {
+                    "txnId": "8dbf2a17-02c8-4e1c-8541-39db1f5b3b66",
+                    "otpValue": "kMJOcVnJOwXEpmtKmALiUla7Pz0FdlS1epsqejlImgFLY3wjdY0wYtcy66Fqo/7yZgGD2u0VRrcOJXydvVNiYEKibzANrBoR/ZWisW5LpkjarLxrTXCPZqTYkuJF3U4Tt9dYVztkyl1HYgcMgA8oQ6OgNdzJ0vZOPN38paq/kk0KunSkkDNeV5QyIRUFoAqk7vL9ggVVgRnPmNOymmnrRS4SRhPYdvuFMggN1E9nJVW3i2gCWcHnkwZo/FNVuSeuTPM/9IEZn/SuTtzCWaavmN3g6N/VgbtrS5XEFuJcYsWQ7j+DIkyhE3oZiGfftsMT7pA4aJljU0askv5jWIH9E8I9sj5cLISZ/0UqZzT4/g7LpuWo9rlGrJTrnNEgIY2RqVEupGD76ZfF/feG11jOwmgWAEWA1JEIjXIZc9ev0bINFwlTe9bE1bpatZATTPN7h6Lbn+f9KoFtO5sKz5FsyXoFM4y8+3gVc0xt8JEX00QH0svPNuso56ETLk39muHqSyW9bn96FHvcGGC9zgSn8u68EwfHvEAJz7bymbdV3x9xqMU9NJOHqseSDd+Bh/r/BW9wh8QQR32WlXSecY5SghBXazw4Y7o5syJxtcVGRwEYg1OamOUhu/2wS1pH8U3If8NwOYkERJoL0emYjc0RlIVkRidQK47z7O2pwZQJZhE="
+                }
+            }
+        }'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scope:
+                  - abha-login
+                  - aadhaar-verify
+                  - aadhaar-otp-verify
+                authData:
+                  authMethods:
+                    - otp
+                  otp:
+                    txnId: c51ad4d8-ae92-4509-8fb9-b91dea948492
+                    otpValue: >-
+                      DQxzk2aLqbIfa6MXNI/pMP2DRabwJYt5kbtjTVhOhqJZNbZeQEPgiCGZh9pRMfE1aAB6TfMvkOqPM7+2hGfomi1hyRY6s7gW2tKNAvaG3oIQpMiln9Pi1IPSGsJsL8gRwz0MFok9ZzvaLOcOwjRVoqnMLJLuUYiAvWvyvAV9BJ2NO7cHvX5asGk7EQqQfRPq4sGqzIjQfTJvDlrDNXLaXCJTjVAbYbiBdb3F9h9ZCQdjtYYHGoGHKnhNuNbXPsOKI5mcPsf7HT48U1PU5Wgc6X4lXT9R9f6MAeRl7ZHwUAY9MCjKGK1xeNsr0j0pmemxTNBu1wM7xceH50/d//+oOa/j48HRXuaZRC96r9uqn9oDht6CJGh8wtmw29i+6HM7GWaSqo3tukNmOxmJsOqg1nLZMqQa5tVgAq8qnwizsg1uO9wpbrH+QYJL46DAI8Ytv+XNmzKD0gTaLIo3u6bZAlOGDZ+47ndA2TCwox5RA0hjIGBkmtbQ5n4PCf9GUlh58IPI3C8URB267jbqxtLdc2sBYvfVOSK4efM3zDELcwgSHyQc6sVNgwvD1V0IrpuxrWb5zsddQ26Kuamf61WKO5gfPVsMls/I/tkst5T2Szxk5iWNsCtJloBhVTGf0SucGwmhxB/MEAFjANCvnUM4sCqdYaqtM/shT8GqE6FRfb8=
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /abha/api/v3/phr/app/login/verify/user:
+    post:
+      tags:
+        - PHR Login
+      summary: Verify - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: kiranbornare199705@sbx
+                txnId: c51ad4d8-ae92-4509-8fb9-b91dea948492
+      parameters:
+        - name: T-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiI5MS0yODQ3LTUwMTYtMjM0OSIsImNsaWVudElkIjoiU0JYXzAwMDEzNSIsInN5c3RlbSI6IkFCSEEtQSIsImFiaGFOdW1iZXIiOiI5MS0yODQ3LTUwMTYtMjM0OSIsInR5cCI6IlRyYW5zZmVyIiwiZXhwIjoxNzQ0ODkxMTA2LCJpYXQiOjE3NDQ4OTA4MDYsImFiaGFBZGRyZXNzIjpbImtpcmFuYm9ybmFyZTE5OTcwNUBzYngiLCJraXJhbmJvcm5hcmU1NDY3QHNieCJdLCJsb2dpblN1YmplY3QiOiJBQkhBX05VTUJFUl9MT0dJTiIsInR4bklkIjoiYzUxYWQ0ZDgtYWU5Mi00NTA5LThmYjktYjkxZGVhOTQ4NDkyIn0.ILSB2SDFhnbe78zuCHxtkNCuAcuwM5-9u2aiHT7yt_SO7J4fcGxDtJDTfmeNRzr9nOlbz0t3oOo4HNyurOi28MZ3lIb-wsLqyqYpOhQo_K1FCY2NkCaoLpRkc3qBN1LS--y-p7lBt5eehCNXXQ2NJEPX-jxTIB0AdO-L4cB-h7VaXv5HYVdNhfWgt3ocFp-TaravMxA4fh6oz7X5F2wdDnVGfE7kKuUiWGdlVRze1jwMoPcEQeJiKAKpO3Hcp73jWNcov6TeAG5644xDOoyo7NRvl10H7Uz_2pXmmo_VnaDlZHXFRs0T_NE-XU5koGfL-0MCzf7bq7ASmK9mkZ9YHA
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile:
+    get:
+      tags:
+        - PHR Profile
+      summary: Get Profile
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/qrCode:
+    get:
+      tags:
+        - PHR Profile
+      summary: Get QR Code
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/phrCard:
+    get:
+      tags:
+        - PHR Profile
+      summary: Get PHR Card
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/updateProfile:
+    post:
+      tags:
+        - PHR Profile
+      summary: Update Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                profilePhoto: ''
+                firstName: Kiran
+                middleName: Vishvnath
+                lastName: Bornare
+                dayOfBirth: '11'
+                monthOfBirth: '05'
+                yearOfBirth: '1997'
+                gender: M
+                email: kiranbornare88@gmail.com
+                mobile: '7756881280'
+                address: Patoda, Yeola, Nashik, Maharashtra1
+                stateName: Maharashtra
+                districtName: Nashik
+                pinCode: '423401'
+                stateCode: '27'
+                districtCode: '12'
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/request/token:
+    get:
+      tags:
+        - PHR Profile
+      summary: Refresh Token
+      parameters:
+        - name: R-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{R-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/request/logout:
+    get:
+      tags:
+        - PHR Profile
+      summary: Logout
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /login/public/certificate:
+    get:
+      tags:
+        - PHR Profile
+      summary: PHR Certificate
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/switch-profile:
+    get:
+      tags:
+        - PHR Profile
+      summary: Switch Profile
+      parameters:
+        - name: X-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{X-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/verify/switch-profile/user:
+    post:
+      tags:
+        - PHR Profile
+      summary: Verify User Switch Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: manish10977@sbx
+                txnId: '{{transactionId}}'
+      parameters:
+        - name: T-token
+          in: header
+          schema:
+            type: string
+          example: Bearer {{T-token}}
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/init:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: 01 Subscription Request Init
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                subscription:
+                  purpose:
+                    text: Care Management
+                    code: CAREMGT
+                    refUri: www.abdm.gov.in
+                  patient:
+                    id: '{{abha-address}}'
+                  hiu:
+                    id: '{{healthlocker id/PHR id}}'
+                  hips:
+                    - id: '{{hip-id}}'
+                  categories:
+                    - LINK
+                    - DATA
+                  period:
+                    from: '2025-05-02T02:00:00.000Z'
+                    to: '2026-11-31T09:00:00.000Z'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/{subscriptionRequestId}/approve:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: 02 approve-subscription-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                isApplicableForAllHIPs: true
+                includedSources:
+                  - hiTypes:
+                      - Prescription
+                      - DiagnosticReport
+                      - OPConsultation
+                      - DischargeSummary
+                      - ImmunizationRecord
+                      - HealthDocumentRecord
+                      - WellnessRecord
+                      - Invoice
+                    purpose:
+                      text: Care Management
+                      code: CAREMGT
+                      refUri: www.abdm.gov.in
+                    categories:
+                      - LINK
+                      - DATA
+                    period:
+                      from: '2025-01-09T09:00:00.000Z'
+                      to: '2124-12-31T09:00:00.000Z'
+                excludedSources: []
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/{subscriptionRequestId}/deny:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: 03 deny-subscription-request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                reason: Not required
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/hiu/on-notify:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: 04 subscription-requests-on-notify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acknowledgement:
+                  status: OK
+                  subscriptionRequestId: '{{{{subscriptionRequestId}}}}'
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/hiu/care-context/on-notify:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: 05 subscription-hiu-on-notify-care-context-event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acknowledgement:
+                  status: OK
+                  eventId: '{{eventId}}'
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/requests:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: 06 get-all-subscription-request
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: ALL
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: offset
+          in: query
+          schema:
+            type: integer
+          example: '0'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/patients/{subscriptionID}:
+    put:
+      tags:
+        - Subscription and Health locker
+      summary: 07 edit-subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hiuId: '{{hiu-id}}'
+                subscriptionEditAndApprovalRequest:
+                  isApplicableForAllHIPs: true
+                  includedSources:
+                    - hiTypes:
+                        - Prescription
+                        - DiagnosticReport
+                        - OPConsultation
+                        - DischargeSummary
+                        - ImmunizationRecord
+                        - HealthDocumentRecord
+                        - WellnessRecord
+                        - Invoice
+                      purpose:
+                        text: Care Management
+                        code: CAREMGT
+                        refUri: www.abdm.gov.in
+                      categories:
+                        - DATA
+                        - LINK
+                      period:
+                        from: '2025-05-09T09:00:00.000Z'
+                        to: '2026-07-31T09:00:00.000Z'
+                  excludedSources: []
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionID
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/disable/{subscriptionID}:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: subscription-disable
+      requestBody:
+        content: {}
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionID
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/enable/{subscriptionID}:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: subscription-enable
+      requestBody:
+        content: {}
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionID
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/request/{subscriptionRequestId}:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: subscription-details-by-request-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/{subscriptionID}:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: subscription-details-by-subscription-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: subscriptionID
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/patients/requests:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: patient-requests
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: consentLimit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: consentOffset
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: subscriptionLimit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: subscriptionOffset
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: ALL
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/setup-locker:
+    post:
+      tags:
+        - Subscription and Health locker
+      summary: setup-locker
+      requestBody:
+        content: {}
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-LOCKER-ID
+          in: header
+          schema:
+            type: string
+          example: '{{locker-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/patients/lockers:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: patient-subscribed-lockers
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: includeInactive
+          in: query
+          schema:
+            type: boolean
+          example: 'true'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/subscription-requests/v3/patients/lockers/{locker-id}:
+    get:
+      tags:
+        - Subscription and Health locker
+      summary: patient-locker-details-by-locker-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: locker-id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/providers:
+    get:
+      tags:
+        - User Initiated Linking
+      summary: all-providers
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: stateCode
+          in: query
+          schema:
+            type: string
+          example: '-1'
+        - name: districtCode
+          in: query
+          schema:
+            type: string
+          example: '-1'
+        - name: name
+          in: query
+          schema:
+            type: string
+          example: test
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/providers/{hip-id}:
+    get:
+      tags:
+        - User Initiated Linking
+      summary: provider-by-provider-id
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: hip-id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/patient/care-context/discover:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 01 discovery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hip:
+                  id: '{{hip-id}}'
+                unverifiedIdentifiers:
+                  - type: MR
+                    value: '999999999'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/patient/care-context/on-discover:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 02 on-discovery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                transactionId: '{{transactionId}}'
+                patient:
+                  - referenceNumber: '{{abha-address}}'
+                    display: Test
+                    careContexts:
+                      - referenceNumber: Test 10
+                        display: Sugar Test
+                    hiType: Invoice
+                    count: 1
+                matchedBy:
+                  - MR
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/link/care-context/init:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 03 link-init
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                transactionId: '{{transactionId}}'
+                patient:
+                  - referenceNumber: '{{abha-address}}'
+                    display: Test
+                    careContexts:
+                      - referenceNumber: Test 10
+                        display: Sugar Test
+                    hiType: Invoice
+                    count: 1
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/link/care-context/on-init:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 04 link-on-init
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                transactionId: '{{transactionId}}'
+                link:
+                  referenceNumber: '{{$guid}}'
+                  authenticationType: DIRECT
+                  meta:
+                    communicationMedium: MOBILE
+                    communicationHint: OTP
+                    communicationExpiry: '2025-12-31T05:45:57.637Z'
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/link/care-context/confirm:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 05 link-confirm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                token: 123456
+                linkRefNumber: '{{linkRefNumber}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-AUTH-TOKEN
+          in: header
+          schema:
+            type: string
+          example: '{{auth-token}}'
+        - name: X-HIU-ID
+          in: header
+          schema:
+            type: string
+          example: '{{hiu-id}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/user-initiated-linking/v3/link/care-context/on-confirm:
+    post:
+      tags:
+        - User Initiated Linking
+      summary: 06 link-on-confirm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                patient:
+                  - referenceNumber: '{{abha-address}}'
+                    display: Test
+                    careContexts:
+                      - referenceNumber: Test 10
+                        display: Sugar Test
+                    hiType: Invoice
+                    count: 1
+                response:
+                  requestId: '{{requestId}}'
+      parameters:
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: '{{cm-id}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

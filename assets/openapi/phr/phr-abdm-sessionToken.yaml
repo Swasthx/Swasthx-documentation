@@ -1,0 +1,372 @@
+openapi: 3.0.0
+info:
+  title: ABDM session token
+  version: 1.0.0
+servers:
+  - url: undefined://{{baseurl}}
+  - url: https://dev.abdm.gov.in
+  - url: https://apis.abdm.gov.in
+  - url: https://facilitysbx.abdm.gov.in
+  - url: https://abhasbx.abdm.gov.in
+tags:
+  - name: encrypt data
+  - name: registration with bridge
+  - name: session token & certificate
+paths:
+  /login/mobile/encrypt:
+    post:
+      tags:
+        - encrypt data
+      summary: encrypt_mobile_or_otp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                data: '466351368098'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge/url:
+    patch:
+      tags:
+        - registration with bridge
+      summary: updateHealthRepoURL
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                url: https://swasthxhmis.api.swasthx.com
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: sbx
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /devservice/v1/bridges:
+    patch:
+      tags:
+        - registration with bridge
+      summary: updateHealthRepoURL production
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                url: https://api.aarogyaid.com
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer your-access-token-from-gateway-session
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /devservice/v1/bridges/services:
+    put:
+      tags:
+        - registration with bridge
+      summary: registerFacility
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: swasthx-hosptal
+                name: swasthx-hosptal
+                type: HIP
+                active: true
+                alias:
+                  - swasthx-hosptal
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer your-access-token-from-gateway-session
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /gateway/v1/bridges/services:
+    put:
+      tags:
+        - registration with bridge
+      summary: registerFacility production
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: arogyaId-facility
+                name: arogyaId-facility
+                types:
+                  - HIP
+                active: true
+                alias:
+                  - arogyaId-facility
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer your-access-token-from-gateway-session
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge-services:
+    get:
+      tags:
+        - registration with bridge
+      summary: fetchRegisteredServices
+      parameters:
+        - name: accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: sbx
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /hiecm/gateway/v1/bridges/getServices:
+    get:
+      tags:
+        - registration with bridge
+      summary: fetchRegisteredServices production
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v1/bridges/MutipleHRPAddUpdateServices:
+    post:
+      tags:
+        - registration with bridge
+      summary: registerMultipleBridgeservices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityId: IN0510006776
+                facilityName: gautamtestHFR
+                HRP:
+                  - bridgeId: SBX_003041
+                    hipName: swasthxHospital
+                    type: HIP
+                    active: true
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3Mjg4ODgxMzYsImlhdCI6MTcyODg4NjkzNiwianRpIjoiMzZjYzI2ZmUtOWM5Yi00MDVmLTg3MjgtZTYwYWJmNTU1MGQ0IiwiaXNzIjoiaHR0cHM6Ly9kZXYubmRobS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6WyJhY2NvdW50IiwiU0JYVElEXzAwNjU3NiJdLCJzdWIiOiI0NjY3ZjYwNy1hNDVhLTRlNjAtYjg0ZC1mODEzZGY1YmEzNWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJTQlhJRF8wMDg0MjAiLCJzZXNzaW9uX3N0YXRlIjoiNzFhMjYxZDItMWYwZi00Mjg4LTk3ZWMtZjgwZTRmNWRjNjE5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjkwMDciXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImhmciIsImhpdSIsIm9mZmxpbmVfYWNjZXNzIiwiaGVhbHRoSWQiLCJwaHIiLCJPSURDIiwiaGVhbHRoX2xvY2tlciIsImhpcCIsIkhpZEFiaGFTZWFyY2giXX0sInJlc291cmNlX2FjY2VzcyI6eyJTQlhJRF8wMDg0MjAiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfSwiU0JYVElEXzAwNjU3NiI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAwLjY1LjE2MC4yMTQiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoiU0JYSURfMDA4NDIwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNieGlkXzAwODQyMCIsImNsaWVudEFkZHJlc3MiOiIxMDAuNjUuMTYwLjIxNCJ9.SP4sRZZqqg4l56KiPRtSdOT8sQ8nkel68eKYXrRZUSTKBUdl03akQ90CWX4TsFjNVCruY5C71LnBSGQe6RpeCsQ0cYCh8Xu8JhZn0WYqYrB3cdor3biDsjrRvQeLGIPwAfKXThs5dS8VqvZns3HVRnk3akyEYxEEdNjcmsc2a9-IkbFFRYldmY-qikagjat5QsZMurtn7KJNkmb28jW9-7nbwzLjNV7CeosoqBew9Mqh995y3JvUWzAyUmEsLrED7CVvkYih8omihirhyEy_nFLmLg1cmmSHIQygB34siWCM4jf0dt9qeWd67MBqIDZew4e_HshLG_d3IsXv0Yydyw
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+          example: >-
+            JSESSIONID=0E159AC95ED5249ABE6E84018ED641AB;
+            TS0156f262=01445fed04986e41bf75a6d6258c8717106ea5789fe56c067df6a9726a2c6e412dccdd8922c43763bccb48f10ba9c5ad92937fd7abdf13fc93adee3b08cbc98796e5bae0a9;
+            JSESSIONID=66FEB6E3D6B0BD1CABA0F6806044959E;
+            JSESSIONID=66FEB6E3D6B0BD1CABA0F6806044959E;
+            TS0156f262=01445fed04b7714081951b7acff86fc582967e5b8b03e84a7158260b39f996099030afad0820cf46e8d7330089f0ad57d6a91663b91b57736c74d2d1fa1d708b31d9f23dde
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/bridge-service:
+    put:
+      tags:
+        - registration with bridge
+      summary: bridge-service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                bridgeId: SBXID_008420
+                serviceId: IN3610001058
+                name: swasthx hospital
+                isHip: true
+                isHiu: true
+                isHealthLocker: true
+                isPhr: true
+                endpoints: {}
+                attributes: null
+                active: true
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: >-
+            Bearer
+            eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3NDY2MzQ2MzMsImlhdCI6MTc0NjYzMzQzMywianRpIjoiNGJlOGEyMDYtNmQ5Zi00ZjM2LTg3Y2UtYzdiYmE1MTk3MGE4IiwiaXNzIjoiaHR0cHM6Ly9kZXYubmRobS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6WyJhY2NvdW50IiwiU0JYVElEXzAwNjU3NiJdLCJzdWIiOiI0NjY3ZjYwNy1hNDVhLTRlNjAtYjg0ZC1mODEzZGY1YmEzNWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJTQlhJRF8wMDg0MjAiLCJzZXNzaW9uX3N0YXRlIjoiNzgxZTRmMzEtODc3NS00ZWY2LTg5MGUtZDgxNDY3YTgwNjUwIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjkwMDciXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImhmciIsImhpdSIsIm9mZmxpbmVfYWNjZXNzIiwiaGVhbHRoSWQiLCJwaHIiLCJPSURDIiwiaGVhbHRoX2xvY2tlciIsImhpcCIsIkhpZEFiaGFTZWFyY2giXX0sInJlc291cmNlX2FjY2VzcyI6eyJTQlhJRF8wMDg0MjAiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfSwiU0JYVElEXzAwNjU3NiI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAwLjY1LjE2MC4yMTUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoiU0JYSURfMDA4NDIwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNieGlkXzAwODQyMCIsImNsaWVudEFkZHJlc3MiOiIxMDAuNjUuMTYwLjIxNSJ9.DZB3ZbZ7GerAv7hkkZtc8aHqFS0jq022MeN7dF3jEB87LPQCQ540PbHVQjZuk4UacDG518_WQcTbCskErzqOb7Fcg3ig67DuBt5e_mH5ht0Y-mvH5YZLYtIKLbG3XRdwImDJdE4Jf7g-6yp-CUdHxkkAILx5Hj6ahKHBs-UA-GInKEQIShDROwwlTFAw4BGozHHk0USsfGjkbUIuh4pr8r4lX60NLn99tlJoRAEu3VxlN-1K6bzOaC4_6znfosQwZ5igw6H3nziU5yIZjNgFX2hE_OGALTvdoGOHtc0nb264GCEEPVQTeO0EeGeGmaQ7PuRoIlwZGmR1qe_c9JkHNQ
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: sbx
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/hiecm/gateway/v3/sessions:
+    post:
+      tags:
+        - session token & certificate
+      summary: session token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                clientId: '{{swasthxPHRClientID}}'
+                clientSecret: '{{swashtPHRXsecret}}'
+                grantType: client_credentials
+      parameters:
+        - name: X-CM-ID
+          in: header
+          schema:
+            type: string
+          example: sbx
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /abha/api/v3/profile/public/certificate:
+    get:
+      tags:
+        - session token & certificate
+      summary: public key
+      parameters:
+        - name: accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: TIMESTAMP
+          in: header
+          schema:
+            type: string
+          example: '{{$isoTimestamp}}'
+        - name: REQUEST-ID
+          in: header
+          schema:
+            type: string
+          example: '{{$guid}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

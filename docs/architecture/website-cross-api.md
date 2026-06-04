@@ -61,13 +61,15 @@ The following APIs are called from the Website Backend to the PHR Backend:
 
 ## module to module cross api communication diagram
 
-<!-- *tech team will add the diagrams soon....* -->
+### Data Flowing from Web Module to PHR Module for Doctor Profile
+![Website Cross API Architecture]({{ site.baseurl }}/docs/images/doctor-profile.png){: .thumbnail-zoom}
 
-![Website Cross API Architecture]({{ site.baseurl }}/docs/images/doctor-profile.png)
-![Website Cross API Architecture]({{ site.baseurl }}/docs/images/doctor-appointment.png)
+### Data Flowing from Web Module to PHR Module for Appointment
+![Website Cross API Architecture]({{ site.baseurl }}/docs/images/doctor-appointment.png){: .thumbnail-zoom}
 
-![Website Cross API Architecture]({{ site.baseurl }}/docs/images/scan-share.png)
+### Data Flowing from Web Module to PHR Module for Scan and Share
+![Website Cross API Architecture]({{ site.baseurl }}/docs/images/scan-share.png){: .thumbnail-zoom}
 
 ## Super admin module (PHR to Websiste UI) cross api communication diagram
 
-![Website Cross API Architecture]({{ site.baseurl }}/docs/images/super-admin.png)
+![Website Cross API Architecture]({{ site.baseurl }}/docs/images/super-admin.png){: .thumbnail-zoom}

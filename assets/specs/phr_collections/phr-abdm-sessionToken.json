@@ -1,0 +1,1055 @@
+{
+    "info": {
+        "_postman_id": "0428bc71-6fde-4f7a-8096-a65b636b27f5",
+        "name": "ABDM session token",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "46178638",
+        "_collection_link": "https://swasthx.postman.co/workspace/Swasthx-PHR-APIs~795520f4-0eb4-49b5-813c-d17781c6fbef/collection/46178638-0428bc71-6fde-4f7a-8096-a65b636b27f5?action=share&source=collection_link&creator=46178638"
+    },
+    "item": [
+        {
+            "name": "session token & certificate",
+            "item": [
+                {
+                    "name": "session token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "let res = pm.response.json();\r",
+                                    "\r",
+                                    "console.log(\"res\", res)\r",
+                                    "accessToken = res.accessToken\r",
+                                    "refreshToken = res.refreshToken\r",
+                                    "pm.globals.set(\"AccessToken\",accessToken);\r",
+                                    "pm.globals.set(\"BEARER_AUTH\",accessToken);\r",
+                                    "pm.globals.set(\"R-token\",refreshToken);"
+                                ],
+                                "type": "text/javascript",
+                                "packages": {},
+                                "requests": {}
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-CM-ID",
+                                "value": "sbx"
+                            },
+                            {
+                                "key": "REQUEST-ID",
+                                "value": "{{$guid}}"
+                            },
+                            {
+                                "key": "TIMESTAMP",
+                                "value": "{{$isoTimestamp}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"clientId\": \"{{swasthxPHRClientID}}\",\n  \"clientSecret\": \"{{swashtPHRXsecret}}\",\n  \"grantType\":\"client_credentials\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/sessions",
+                            "protocol": "https",
+                            "host": [
+                                "dev",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "api",
+                                "hiecm",
+                                "gateway",
+                                "v3",
+                                "sessions"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "200 success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "X-CM-ID",
+                                        "value": "sbx"
+                                    },
+                                    {
+                                        "key": "REQUEST-ID",
+                                        "value": "{{$guid}}"
+                                    },
+                                    {
+                                        "key": "TIMESTAMP",
+                                        "value": "{{$isoTimestamp}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"clientId\": \"{{swasthxPHRClientID}}\",\n  \"clientSecret\": \"{{swashtPHRXsecret}}\",\n  \"grantType\":\"client_credentials\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/sessions",
+                                    "protocol": "https",
+                                    "host": [
+                                        "dev",
+                                        "abdm",
+                                        "gov",
+                                        "in"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "hiecm",
+                                        "gateway",
+                                        "v3",
+                                        "sessions"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "Text",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Tue, 09 Dec 2025 06:19:25 GMT"
+                                },
+                                {
+                                    "key": "Access-Control-Expose-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "x-envoy-upstream-service-time",
+                                    "value": "24"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin,Access-Control-Request-Method,Access-Control-Request-Headers"
+                                },
+                                {
+                                    "key": "correlation-id",
+                                    "value": "05a920af-74ed-4064-923e-96ddf61c2dd6"
+                                },
+                                {
+                                    "key": "pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "activityid",
+                                    "value": "88140106-28ec-4ace-b34a-2a4c60a382a4"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-xss-protection",
+                                    "value": "1 ; mode=block"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "strict-origin-when-cross-origin"
+                                },
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "server",
+                                    "value": "istio-envoy"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Methods",
+                                    "value": "GET,HEAD,POST,PUT,DELETE,OPTIONS,CONNECT,TRACE,PATCH"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-Cache",
+                                    "value": "Miss from cloudfront"
+                                },
+                                {
+                                    "key": "Via",
+                                    "value": "1.1 f0b4d967b3ec06f75167a5f4422a9df0.cloudfront.net (CloudFront)"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Pop",
+                                    "value": "MAA50-P2"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Id",
+                                    "value": "L41QOkQWvlHmsHIVLPl-U5NACbFv5xeHpnuFm521lTSwjJ0L15097A=="
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3NjUyNjIzNjUsImlhdCI6MTc2NTI2MTE2NSwianRpIjoiZjUyNDY5YTUtYTFkZi00MzVjLWEyOTMtOWJmMTRkYzA0NTA3IiwiaXNzIjoiaHR0cHM6Ly9kZXYuYWJkbS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsInN1YiI6ImVmYjllN2YxLTIzODUtNDEyNi1hNDlkLTU2NTFiMjYxOTNhZCIsInR5cCI6IkJlYXJlciIsImF6cCI6IlNCWElEXzAxMDA5NyIsInNlc3Npb25fc3RhdGUiOiJlYWQxNWVkOS0xZmIxLTQxMzUtOWIyYi01YWI0MjRkNDg3YTMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6OTAwNyJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiSElVX1BBWUVSIiwiRElHSV9ET0NUT1IiLCJoZnIiLCJoaXUiLCJvZmZsaW5lX2FjY2VzcyIsImhlYWx0aElkIiwiT0lEQyIsImhpcCIsIkhpZEFiaGFTZWFyY2giLCJISVBfUEFZRVIiLCJocF9pZCJdfSwicmVzb3VyY2VfYWNjZXNzIjp7IlNCWElEXzAxMDA5NyI6eyJyb2xlcyI6WyJ1bWFfcHJvdGVjdGlvbiJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJjbGllbnRJZCI6IlNCWElEXzAxMDA5NyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50SG9zdCI6IjEwLjIwMS43OS4xOSIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1zYnhpZF8wMTAwOTciLCJjbGllbnRBZGRyZXNzIjoiMTAuMjAxLjc5LjE5In0.D_AbXCna9HDRrF8Htz5KoeQPK3NUE1SpBsPhMvSQrmKEmD-tFudvsfTQz833GrhGIQPXGEDYBt_d2AxXUzjJuJ61I2BASZQm512DzaYM23TqF4A_608Wf0eXX1mUqjE092Yydogdwp5FiT5pKS_Okl3s4QLY2eGRpCIqAl6NLOGUIJLDlzs0HSvZH1_1ZmnAhl51cl7kf4IjZNK39nRVNq3BbpCph8IJ-YMvSc3rVmLVBUBYeBmNnmfHZia0aTlvqMMPLAL_6rbstrg8N2GixVJvw9YJ56JwMnJyFukxA5Y1eBOo47x6F1DvvRLkc3xwdLbHbb4he55GT6vUXnCTxw\",\n    \"expiresIn\": 1200,\n    \"refreshExpiresIn\": 1800,\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyMWU5NzA4OS00ZTcxLTQyNGEtOTAzYS1jOTAyMWM1NmFlNWYifQ.eyJleHAiOjE3NjUyNjI5NjUsImlhdCI6MTc2NTI2MTE2NSwianRpIjoiMmRkN2YxMjYtMTJjYS00NmFkLTgwNjYtNTdlZmNlOTJkMjFjIiwiaXNzIjoiaHR0cHM6Ly9kZXYuYWJkbS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6Imh0dHBzOi8vZGV2LmFiZG0uZ292LmluL2F1dGgvcmVhbG1zL2NlbnRyYWwtcmVnaXN0cnkiLCJzdWIiOiJlZmI5ZTdmMS0yMzg1LTQxMjYtYTQ5ZC01NjUxYjI2MTkzYWQiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiU0JYSURfMDEwMDk3Iiwic2Vzc2lvbl9zdGF0ZSI6ImVhZDE1ZWQ5LTFmYjEtNDEzNS05YjJiLTVhYjQyNGQ0ODdhMyIsInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUifQ.-DjBof2VY5FrpyAB8G2oq9f9xAIQ-7TwoVNHss6NfPg\",\n    \"tokenType\": \"bearer\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "public key",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{BEARER_AUTH}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "TIMESTAMP",
+                                "value": "{{$isoTimestamp}}"
+                            },
+                            {
+                                "key": "REQUEST-ID",
+                                "value": "{{$guid}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "https://abhasbx.abdm.gov.in/abha/api/v3/profile/public/certificate",
+                            "protocol": "https",
+                            "host": [
+                                "abhasbx",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "abha",
+                                "api",
+                                "v3",
+                                "profile",
+                                "public",
+                                "certificate"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "200 success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "TIMESTAMP",
+                                        "value": "{{$isoTimestamp}}"
+                                    },
+                                    {
+                                        "key": "REQUEST-ID",
+                                        "value": "{{$guid}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "https://abhasbx.abdm.gov.in/abha/api/v3/profile/public/certificate",
+                                    "protocol": "https",
+                                    "host": [
+                                        "abhasbx",
+                                        "abdm",
+                                        "gov",
+                                        "in"
+                                    ],
+                                    "path": [
+                                        "abha",
+                                        "api",
+                                        "v3",
+                                        "profile",
+                                        "public",
+                                        "certificate"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "Text",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Tue, 09 Dec 2025 06:21:43 GMT"
+                                },
+                                {
+                                    "key": "Access-Control-Expose-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "Expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "x-envoy-upstream-service-time",
+                                    "value": "14"
+                                },
+                                {
+                                    "key": "correlation-id",
+                                    "value": "f8a2169a-2366-4c37-aa8e-b4778c0469b7"
+                                },
+                                {
+                                    "key": "permissions-policy",
+                                    "value": "geolocation=(self)"
+                                },
+                                {
+                                    "key": "Pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "activityid",
+                                    "value": "ac307cd2-5297-403c-ace9-f0aba2f1f9e4"
+                                },
+                                {
+                                    "key": "content-security-policy",
+                                    "value": "form-action 'self'"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-xss-protection",
+                                    "value": "1 ; mode=block"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "strict-origin-when-cross-origin"
+                                },
+                                {
+                                    "key": "Cache-Control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "Server",
+                                    "value": "istio-envoy"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Methods",
+                                    "value": "GET,HEAD,POST,PUT,DELETE,OPTIONS,CONNECT,TRACE,PATCH"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Vary",
+                                    "value": "Origin"
+                                },
+                                {
+                                    "key": "X-Cache",
+                                    "value": "Miss from cloudfront"
+                                },
+                                {
+                                    "key": "Via",
+                                    "value": "1.1 e4d33331c2a277595bb59b764fb92fe6.cloudfront.net (CloudFront)"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Pop",
+                                    "value": "MAA51-P2"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Id",
+                                    "value": "Wr76dCcLRenphyXpbAlIiQMwnBtkxp-QUvuPCM8KI-rWpfwsHkbs_g=="
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"publicKey\": \"MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAstWB95C5pHLXiYW59qyO4Xb+59KYVm9Hywbo77qETZVAyc6VIsxU+UWhd/k/YtjZibCznB+HaXWX9TVTFs9Nwgv7LRGq5uLczpZQDrU7dnGkl/urRA8p0Jv/f8T0MZdFWQgks91uFffeBmJOb58u68ZRxSYGMPe4hb9XXKDVsgoSJaRNYviH7RgAI2QhTCwLEiMqIaUX3p1SAc178ZlN8qHXSSGXvhDR1GKM+y2DIyJqlzfik7lD14mDY/I4lcbftib8cv7llkybtjX1AayfZp4XpmIXKWv8nRM488/jOAF81Bi13paKgpjQUUuwq9tb5Qd/DChytYgBTBTJFe7irDFCmTIcqPr8+IMB7tXA3YXPp3z605Z6cGoYxezUm2Nz2o6oUmarDUntDhq/PnkNergmSeSvS8gD9DHBuJkJWZweG3xOPXiKQAUBr92mdFhJGm6fitO5jsBxgpmulxpG0oKDy9lAOLWSqK92JMcbMNHn4wRikdI9HSiXrrI7fLhJYTbyU3I4v5ESdEsayHXuiwO/1C8y56egzKSw44GAtEpbAkTNEEfK5H5R0QnVBIXOvfeF4tzGvmkfOO6nNXU3o/WAdOyV3xSQ9dqLY5MEL4sJCGY1iJBIAQ452s8v0ynJG5Yq+8hNhsCVnklCzAlsIzQpnSVDUVEzv17grVAw078CAwEAAQ==\",\n    \"encryptionAlgorithm\": \"RSA/ECB/OAEPWithSHA-1AndMGF1Padding\"\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "registration with bridge",
+            "item": [
+                {
+                    "name": "updateHealthRepoURL",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "REQUEST-ID",
+                                "value": "{{$guid}}"
+                            },
+                            {
+                                "key": "TIMESTAMP",
+                                "value": "{{$isoTimestamp}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-CM-ID",
+                                "value": "sbx",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"url\": \"https://swasthxhmis.api.swasthx.com\"\n}\n\n// swasthxapp - https://swasthxapp.api.swasthx.com\n// swasthx web - https://swasthxhmis.api.swasthx.com"
+                        },
+                        "url": {
+                            "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/bridge/url",
+                            "protocol": "https",
+                            "host": [
+                                "dev",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "api",
+                                "hiecm",
+                                "gateway",
+                                "v3",
+                                "bridge",
+                                "url"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateHealthRepoURL production",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer your-access-token-from-gateway-session"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"url\": \"https://api.aarogyaid.com\"\n}\n\n//\"http://13.234.30.190 - merge\"\n//\"http://15.207.200.153\"\n//\"http://13.126.199.23-prod\"\n//\"http://3.109.7.123\"\n//http://13.200.61.176\n//13.234.29.192 - abdm beta\n//http://43.204.130.12 - qa abdm"
+                        },
+                        "url": {
+                            "raw": "https://apis.abdm.gov.in/devservice/v1/bridges",
+                            "protocol": "https",
+                            "host": [
+                                "apis",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "devservice",
+                                "v1",
+                                "bridges"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "registerFacility",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer your-access-token-from-gateway-session"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": \"swasthx-hosptal\",\n  \"name\": \"swasthx-hosptal\",\n  \"type\": \"HIP\",\n  \"active\": true,\n  \"alias\": [\n    \"swasthx-hosptal\"\n  ]\n}"
+                        },
+                        "url": {
+                            "raw": "https://dev.abdm.gov.in/devservice/v1/bridges/services",
+                            "protocol": "https",
+                            "host": [
+                                "dev",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "devservice",
+                                "v1",
+                                "bridges",
+                                "services"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "registerFacility production",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer your-access-token-from-gateway-session"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"id\": \"arogyaId-facility\",\n    \"name\": \"arogyaId-facility\",\n    \"types\": [\n        \"HIP\"\n    ],\n    \"active\": true,\n    \"alias\": [\n        \"arogyaId-facility\"\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "https://apis.abdm.gov.in/gateway/v1/bridges/services",
+                            "protocol": "https",
+                            "host": [
+                                "apis",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "gateway",
+                                "v1",
+                                "bridges",
+                                "services"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fetchRegisteredServices",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "REQUEST-ID",
+                                "value": "{{$guid}}"
+                            },
+                            {
+                                "key": "TIMESTAMP",
+                                "value": "{{$isoTimestamp}}"
+                            },
+                            {
+                                "key": "X-CM-ID",
+                                "value": "sbx"
+                            }
+                        ],
+                        "url": {
+                            "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/bridge-services",
+                            "protocol": "https",
+                            "host": [
+                                "dev",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "api",
+                                "hiecm",
+                                "gateway",
+                                "v3",
+                                "bridge-services"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "200 success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "REQUEST-ID",
+                                        "value": "{{$guid}}"
+                                    },
+                                    {
+                                        "key": "TIMESTAMP",
+                                        "value": "{{$isoTimestamp}}"
+                                    },
+                                    {
+                                        "key": "X-CM-ID",
+                                        "value": "sbx"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/bridge-services",
+                                    "protocol": "https",
+                                    "host": [
+                                        "dev",
+                                        "abdm",
+                                        "gov",
+                                        "in"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "hiecm",
+                                        "gateway",
+                                        "v3",
+                                        "bridge-services"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": null,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Thu, 08 Jan 2026 05:21:16 GMT"
+                                },
+                                {
+                                    "key": "Access-Control-Expose-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "Expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "x-envoy-upstream-service-time",
+                                    "value": "36"
+                                },
+                                {
+                                    "key": "correlation-id",
+                                    "value": "30140c59-af56-4c82-903b-e36c33c3a5f8"
+                                },
+                                {
+                                    "key": "Pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "activityid",
+                                    "value": "8f5b4102-1a90-4e7c-9cff-d4160588c642"
+                                },
+                                {
+                                    "key": "x-content-type-options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "x-xss-protection",
+                                    "value": "1 ; mode=block"
+                                },
+                                {
+                                    "key": "referrer-policy",
+                                    "value": "strict-origin-when-cross-origin"
+                                },
+                                {
+                                    "key": "Cache-Control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "Server",
+                                    "value": "istio-envoy"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Methods",
+                                    "value": "GET,HEAD,POST,PUT,DELETE,OPTIONS,CONNECT,TRACE,PATCH"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Headers",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "Vary",
+                                    "value": "Origin"
+                                },
+                                {
+                                    "key": "X-Cache",
+                                    "value": "Miss from cloudfront"
+                                },
+                                {
+                                    "key": "Via",
+                                    "value": "1.1 95c609b9857a3c82556a22c04aca9f98.cloudfront.net (CloudFront)"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Pop",
+                                    "value": "MAA50-P2"
+                                },
+                                {
+                                    "key": "X-Amz-Cf-Id",
+                                    "value": "wTd6DeGlMGk1aA4EiF93eIXQq_PA7KVoVJ2J0bONKHNBIYd9pGKHNA=="
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"bridge\": {\n        \"id\": \"SBXID_010097\",\n        \"name\": \"BAY CONNECT SOLUTIONS PRIVATE LIMITED\",\n        \"url\": \"https://phrqa.api.swasthx.com\",\n        \"active\": true,\n        \"blocklisted\": false\n    },\n    \"services\": [\n        {\n            \"id\": \"IN0510000753\",\n            \"name\": \"swasthxApp\",\n            \"types\": [\n                \"HIP\",\n                \"HIU\",\n                \"HEALTH_LOCKER\",\n                \"PHR\"\n            ],\n            \"endpoints\": {},\n            \"active\": true\n        }\n    ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "fetchRegisteredServices production",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{AccessToken}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "https://apis.abdm.gov.in/hiecm/gateway/v1/bridges/getServices",
+                            "protocol": "https",
+                            "host": [
+                                "apis",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "hiecm",
+                                "gateway",
+                                "v1",
+                                "bridges",
+                                "getServices"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "registerMultipleBridgeservices",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3Mjg4ODgxMzYsImlhdCI6MTcyODg4NjkzNiwianRpIjoiMzZjYzI2ZmUtOWM5Yi00MDVmLTg3MjgtZTYwYWJmNTU1MGQ0IiwiaXNzIjoiaHR0cHM6Ly9kZXYubmRobS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6WyJhY2NvdW50IiwiU0JYVElEXzAwNjU3NiJdLCJzdWIiOiI0NjY3ZjYwNy1hNDVhLTRlNjAtYjg0ZC1mODEzZGY1YmEzNWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJTQlhJRF8wMDg0MjAiLCJzZXNzaW9uX3N0YXRlIjoiNzFhMjYxZDItMWYwZi00Mjg4LTk3ZWMtZjgwZTRmNWRjNjE5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjkwMDciXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImhmciIsImhpdSIsIm9mZmxpbmVfYWNjZXNzIiwiaGVhbHRoSWQiLCJwaHIiLCJPSURDIiwiaGVhbHRoX2xvY2tlciIsImhpcCIsIkhpZEFiaGFTZWFyY2giXX0sInJlc291cmNlX2FjY2VzcyI6eyJTQlhJRF8wMDg0MjAiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfSwiU0JYVElEXzAwNjU3NiI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAwLjY1LjE2MC4yMTQiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoiU0JYSURfMDA4NDIwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNieGlkXzAwODQyMCIsImNsaWVudEFkZHJlc3MiOiIxMDAuNjUuMTYwLjIxNCJ9.SP4sRZZqqg4l56KiPRtSdOT8sQ8nkel68eKYXrRZUSTKBUdl03akQ90CWX4TsFjNVCruY5C71LnBSGQe6RpeCsQ0cYCh8Xu8JhZn0WYqYrB3cdor3biDsjrRvQeLGIPwAfKXThs5dS8VqvZns3HVRnk3akyEYxEEdNjcmsc2a9-IkbFFRYldmY-qikagjat5QsZMurtn7KJNkmb28jW9-7nbwzLjNV7CeosoqBew9Mqh995y3JvUWzAyUmEsLrED7CVvkYih8omihirhyEy_nFLmLg1cmmSHIQygB34siWCM4jf0dt9qeWd67MBqIDZew4e_HshLG_d3IsXv0Yydyw"
+                            },
+                            {
+                                "key": "Cookie",
+                                "value": "JSESSIONID=0E159AC95ED5249ABE6E84018ED641AB; TS0156f262=01445fed04986e41bf75a6d6258c8717106ea5789fe56c067df6a9726a2c6e412dccdd8922c43763bccb48f10ba9c5ad92937fd7abdf13fc93adee3b08cbc98796e5bae0a9; JSESSIONID=66FEB6E3D6B0BD1CABA0F6806044959E; JSESSIONID=66FEB6E3D6B0BD1CABA0F6806044959E; TS0156f262=01445fed04b7714081951b7acff86fc582967e5b8b03e84a7158260b39f996099030afad0820cf46e8d7330089f0ad57d6a91663b91b57736c74d2d1fa1d708b31d9f23dde",
+                                "disabled": true
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"facilityId\": \"IN0510006776\",\n  \"facilityName\": \"gautamtestHFR\",\n  \"HRP\": [\n    {\n      \"bridgeId\": \"SBX_003041\",\n      \"hipName\": \"swasthxHospital\",\n      \"type\": \"HIP\",\n      \"active\": true\n    }\n  ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://facilitysbx.abdm.gov.in/v1/bridges/MutipleHRPAddUpdateServices",
+                            "protocol": "https",
+                            "host": [
+                                "facilitysbx",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "v1",
+                                "bridges",
+                                "MutipleHRPAddUpdateServices"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "bridge-service",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbFJiNVdDbThUbTlFSl9JZk85ejA2ajlvQ3Y1MXBLS0ZrbkdiX1RCdkswIn0.eyJleHAiOjE3NDY2MzQ2MzMsImlhdCI6MTc0NjYzMzQzMywianRpIjoiNGJlOGEyMDYtNmQ5Zi00ZjM2LTg3Y2UtYzdiYmE1MTk3MGE4IiwiaXNzIjoiaHR0cHM6Ly9kZXYubmRobS5nb3YuaW4vYXV0aC9yZWFsbXMvY2VudHJhbC1yZWdpc3RyeSIsImF1ZCI6WyJhY2NvdW50IiwiU0JYVElEXzAwNjU3NiJdLCJzdWIiOiI0NjY3ZjYwNy1hNDVhLTRlNjAtYjg0ZC1mODEzZGY1YmEzNWQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJTQlhJRF8wMDg0MjAiLCJzZXNzaW9uX3N0YXRlIjoiNzgxZTRmMzEtODc3NS00ZWY2LTg5MGUtZDgxNDY3YTgwNjUwIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjkwMDciXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImhmciIsImhpdSIsIm9mZmxpbmVfYWNjZXNzIiwiaGVhbHRoSWQiLCJwaHIiLCJPSURDIiwiaGVhbHRoX2xvY2tlciIsImhpcCIsIkhpZEFiaGFTZWFyY2giXX0sInJlc291cmNlX2FjY2VzcyI6eyJTQlhJRF8wMDg0MjAiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfSwiU0JYVElEXzAwNjU3NiI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTAwLjY1LjE2MC4yMTUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudElkIjoiU0JYSURfMDA4NDIwIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LXNieGlkXzAwODQyMCIsImNsaWVudEFkZHJlc3MiOiIxMDAuNjUuMTYwLjIxNSJ9.DZB3ZbZ7GerAv7hkkZtc8aHqFS0jq022MeN7dF3jEB87LPQCQ540PbHVQjZuk4UacDG518_WQcTbCskErzqOb7Fcg3ig67DuBt5e_mH5ht0Y-mvH5YZLYtIKLbG3XRdwImDJdE4Jf7g-6yp-CUdHxkkAILx5Hj6ahKHBs-UA-GInKEQIShDROwwlTFAw4BGozHHk0USsfGjkbUIuh4pr8r4lX60NLn99tlJoRAEu3VxlN-1K6bzOaC4_6znfosQwZ5igw6H3nziU5yIZjNgFX2hE_OGALTvdoGOHtc0nb264GCEEPVQTeO0EeGeGmaQ7PuRoIlwZGmR1qe_c9JkHNQ",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-CM-ID",
+                                "value": "sbx",
+                                "type": "text"
+                            },
+                            {
+                                "key": "REQUEST-ID",
+                                "value": "{{$guid}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "TIMESTAMP",
+                                "value": "{{$isoTimestamp}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n   \"bridgeId\": \"SBXID_008420\",\n   \"serviceId\": \"IN3610001058\",\n   \"name\": \"swasthx hospital\",\n   \"isHip\": true,\n   \"isHiu\": true,\n   \"isHealthLocker\":true,\n   \"isPhr\": true,\n   \"endpoints\": {},\n   \"attributes\": null,\n   \"active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://dev.abdm.gov.in/api/hiecm/gateway/v3/bridge-service",
+                            "protocol": "https",
+                            "host": [
+                                "dev",
+                                "abdm",
+                                "gov",
+                                "in"
+                            ],
+                            "path": [
+                                "api",
+                                "hiecm",
+                                "gateway",
+                                "v3",
+                                "bridge-service"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "This folder contains APIs\n\n- to update callback URLs for website or app\n    \n- fetch registered facilities with a clientID\n    \n- register facilities with a clientID"
+        },
+        {
+            "name": "encrypt data",
+            "item": [
+                {
+                    "name": "encrypt_mobile_or_otp",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "let res = pm.response.json();\r",
+                                    "\r",
+                                    "encryptedData = res.encrypted;\r",
+                                    "pm.globals.set(\"encryptedData\", encryptedData);"
+                                ],
+                                "type": "text/javascript",
+                                "packages": {},
+                                "requests": {}
+                            }
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"data\": \"466351368098\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseurl}}/login/mobile/encrypt",
+                            "host": [
+                                "{{baseurl}}"
+                            ],
+                            "path": [
+                                "login",
+                                "mobile",
+                                "encrypt"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

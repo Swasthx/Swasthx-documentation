@@ -1,0 +1,211 @@
+{
+    "info": {
+        "_postman_id": "e131f1e3-93e0-4929-9c63-56d0910c3f9b",
+        "name": "Super Admin",
+        "description": "Primarily create Super admin in swasthx\n\n- add supder admin\n    \n- add admin\n    \n- update admin\n    \n- search admin doctors",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "46178638",
+        "_collection_link": "https://swasthx.postman.co/workspace/Swasthx-HIMS-APIs~9ee10cd3-d955-4bc3-b9e2-43b9b7af1259/collection/46178638-e131f1e3-93e0-4929-9c63-56d0910c3f9b?action=share&source=collection_link&creator=46178638"
+    },
+    "item": [
+        {
+            "name": "Add Super Admin",
+            "item": [
+                {
+                    "name": "add super admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"phoneNumber\": 5555555555,\n    \"EntityID\": \"AarogyaId\",\n    \"email\": \"AarogyaId@gmail.com\",\n    \"name\": \"AarogyaId super admin\",\n    \"specialization\": \"Cardiolgist\",\n    \"registrationCouncil\": \"string\",\n    \"hospitalId\": \"AarogyaId\",\n    \"role\": \"super admin\",\n    \"permissions\": [\n        \"Claim Insurance\",\n        \"Analytics\",\n        \"Insurance Payment\",\n        \"Get Payer Info\",\n        \"Request Document\",\n        \"Payment\",\n        \"Patient\",\n        \"Queue\"\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/superAdmin/addSuperAdmin",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "superAdmin",
+                                "addSuperAdmin"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "By this Endpoint We can add a Super admin in our system\n\n- That role is main for our swasthx UI"
+        },
+        {
+            "name": "Add Admin",
+            "item": [
+                {
+                    "name": "add admin",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbnRpdHlJRCI6IkFhcm9neWFJZCIsInBob25lTnVtYmVyIjoiNTU1NTU1NTU1NSIsInJvbGUiOiJzdXBlciBhZG1pbiIsInBlcm1pc3Npb25zIjpbIkNsYWltIEluc3VyYW5jZSIsIkFuYWx5dGljcyIsIkluc3VyYW5jZSBQYXltZW50IiwiR2V0IFBheWVyIEluZm8iLCJSZXF1ZXN0IERvY3VtZW50IiwiUGF5bWVudCIsIlBhdGllbnQiLCJRdWV1ZSJdLCJob3NwaXRhbElkIjoiQWFyb2d5YUlkIiwic2Vzc2lvbklEIjoiNjkzMDVkMDctYzQ0Mi00ODBmLWEyZDQtMmRhOWZlYTQ2NWZlIiwiaWF0IjoxNzQ3NjQxNTI4LCJleHAiOjE3NDc2NDUxMjh9.eaPYBiVx2oRerom19ZVSe6zsQCX6xxTz4vm7IpEaFxA",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"phoneNumber\": 5555555555,\n    \"EntityID\": \"AarogyaId\",\n    \"email\": \"AarogyaId@gmail.com\",\n    \"name\": \"AarogyaId super admin\",\n    \"specialization\": \"Cardiolgist\",\n    \"registrationCouncil\": \"string\",\n    \"hospitalId\": \"AarogyaId\",\n    \"role\": \"super admin\",\n    \"permissions\": [\n        \"Claim Insurance\",\n        \"Analytics\",\n        \"Insurance Payment\",\n        \"Get Payer Info\",\n        \"Request Document\",\n        \"Payment\",\n        \"Patient\",\n        \"Queue\"\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/superAdmin/addAdmin",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "superAdmin",
+                                "addAdmin"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Super Admin can add multiple admin each admin as a hospital\n\n- Admin/doctor can add muliple doctor under his role"
+        },
+        {
+            "name": "Update Admin Details",
+            "item": [
+                {
+                    "name": "udpate admin detaisl",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbnRpdHlJRCI6IkFhcm9neWFJZCIsInBob25lTnVtYmVyIjoiNTU1NTU1NTU1NSIsInJvbGUiOiJzdXBlciBhZG1pbiIsInBlcm1pc3Npb25zIjpbIkNsYWltIEluc3VyYW5jZSIsIkFuYWx5dGljcyIsIkluc3VyYW5jZSBQYXltZW50IiwiR2V0IFBheWVyIEluZm8iLCJSZXF1ZXN0IERvY3VtZW50IiwiUGF5bWVudCIsIlBhdGllbnQiLCJRdWV1ZSJdLCJob3NwaXRhbElkIjoiQWFyb2d5YUlkIiwic2Vzc2lvbklEIjoiNjkzMDVkMDctYzQ0Mi00ODBmLWEyZDQtMmRhOWZlYTQ2NWZlIiwiaWF0IjoxNzQ3NjQxNTI4LCJleHAiOjE3NDc2NDUxMjh9.eaPYBiVx2oRerom19ZVSe6zsQCX6xxTz4vm7IpEaFxA",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"keyName\": \"name\",\n    \"value\": \"test admin 2\",\n    \"doctorId\": \"mnkj\",\n    \"phoneNumber\": 9999999999\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/superAdmin/updateAdminDetails",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "superAdmin",
+                                "updateAdminDetails"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "In this endpoint super admin can\n\n- update base admin informations as required\n    \n- and for admin Super Admin can add permission of feature."
+        },
+        {
+            "name": "Delete Admin",
+            "item": [
+                {
+                    "name": "delete admin",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbnRpdHlJRCI6IkFhcm9neWFJZCIsInBob25lTnVtYmVyIjoiNTU1NTU1NTU1NSIsInJvbGUiOiJzdXBlciBhZG1pbiIsInBlcm1pc3Npb25zIjpbIkNsYWltIEluc3VyYW5jZSIsIkFuYWx5dGljcyIsIkluc3VyYW5jZSBQYXltZW50IiwiR2V0IFBheWVyIEluZm8iLCJSZXF1ZXN0IERvY3VtZW50IiwiUGF5bWVudCIsIlBhdGllbnQiLCJRdWV1ZSJdLCJob3NwaXRhbElkIjoiQWFyb2d5YUlkIiwic2Vzc2lvbklEIjoiNjkzMDVkMDctYzQ0Mi00ODBmLWEyZDQtMmRhOWZlYTQ2NWZlIiwiaWF0IjoxNzQ3NjQxNTI4LCJleHAiOjE3NDc2NDUxMjh9.eaPYBiVx2oRerom19ZVSe6zsQCX6xxTz4vm7IpEaFxA",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/superAdmin/deleteAdminProfile?targetAdminId=mnkj",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "superAdmin",
+                                "deleteAdminProfile"
+                            ],
+                            "query": [
+                                {
+                                    "key": "targetAdminId",
+                                    "value": "mnkj"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Super admin can delete any ADMIN following this\n\nenpoints.\n\n- to delete the admin this api is using _**targetAdminId=12344**_"
+        },
+        {
+            "name": "Get All Admin",
+            "item": [
+                {
+                    "name": "search admin",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbnRpdHlJRCI6IkFhcm9neWFJZCIsInBob25lTnVtYmVyIjoiNTU1NTU1NTU1NSIsInJvbGUiOiJzdXBlciBhZG1pbiIsInBlcm1pc3Npb25zIjpbIkNsYWltIEluc3VyYW5jZSIsIkFuYWx5dGljcyIsIkluc3VyYW5jZSBQYXltZW50IiwiR2V0IFBheWVyIEluZm8iLCJSZXF1ZXN0IERvY3VtZW50IiwiUGF5bWVudCIsIlBhdGllbnQiLCJRdWV1ZSJdLCJob3NwaXRhbElkIjoiQWFyb2d5YUlkIiwic2Vzc2lvbklEIjoiNjkzMDVkMDctYzQ0Mi00ODBmLWEyZDQtMmRhOWZlYTQ2NWZlIiwiaWF0IjoxNzQ3NjQxNTI4LCJleHAiOjE3NDc2NDUxMjh9.eaPYBiVx2oRerom19ZVSe6zsQCX6xxTz4vm7IpEaFxA",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/superAdmin/searchAdmin?addedBy=AarogyaId",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "superAdmin",
+                                "searchAdmin"
+                            ],
+                            "query": [
+                                {
+                                    "key": "addedBy",
+                                    "value": "AarogyaId"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Contains requests to search and retrieve admin users (such as doctors) based on filters. Useful for admin management and lookup operations.\n\nto use this api, you must have super admin ID."
+        }
+    ]
+}
