@@ -111,3 +111,8 @@ The Website DB contains the following collections:
 ### 6. Pharmacy Order
 
 ![Pharmacy Order]({{ site.baseurl }}/docs/images/pharmacyFlow.png)
+
+**Reference Documents:**
+
+- <a href="https://drive.google.com/file/d/1jMRnBd9L_CLqWoBw31cMQddlM7Alb8PG/view?usp=sharing" target="_blank">Pharmacy Order - Collection Details</a>
+- <a href="https://drive.google.com/file/d/1EQU1AoeAB1aON0N1cf4Rk4EVtIchTZFx/view?usp=sharing" target="_blank">Pharmacy Order - APIs Details</a>
