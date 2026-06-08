@@ -182,6 +182,7 @@ Before raising `min` beyond 1, provision an ElastiCache for Valkey cluster + set
 - [AWS Lambda]({{ site.baseurl }}/docs/infra/lambda.html) — `AppRunnerStateChangeAlerts` function detail
 - [Amazon SQS]({{ site.baseurl }}/docs/infra/sqs.html) — backend async job queue (diagnostic ABDM publish) the App Runner backends produce to + consume from
 - [Amazon ElastiCache (Valkey/Redis)]({{ site.baseurl }}/docs/infra/elasticache.html) — Socket.IO pub/sub adapter for multi-instance WebSocket broadcast
+- [CI/CD Pipeline]({{ site.baseurl }}/docs/infra/cicd.html) — GitHub Actions workflows that build + push to ECR; App Runner's "Automatic" deployment picks up the new image
 - [Security Groups]({{ site.baseurl }}/docs/infra/security-groups.html) — `swasthx-website-api-dev-apprunner-sg`
 - [IAM Roles]({{ site.baseurl }}/docs/infra/iam-roles.html) — `AppRunnerInstanceRole` permissions
 - [Website Key Management Overview]({{ site.baseurl }}/docs/infra/key-management-overview-website.html) — how secrets reach App Runner containers

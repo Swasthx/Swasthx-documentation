@@ -44,6 +44,10 @@ This section contains detailed documentation of the cloud infrastructure, includ
 *   [IAM Roles]({{ site.baseurl }}/docs/infra/iam-roles.html) — user groups (`developer`, `swasthxAwsFullAccess`) and programmatic-access users
 *   [Update AWS Keys]({{ site.baseurl }}/docs/infra/update-aws-keys.html) — step-by-step for rotating IAM access keys
 
+## Build & Deploy
+
+*   [CI/CD Pipeline]({{ site.baseurl }}/docs/infra/cicd.html) — GitHub Actions workflows (`ci.yml`, `deploy.yml`), Dockerfile, image tagging, App Runner auto-deploy
+
 ## Key Management
 
 *   [Website Key Management Overview]({{ site.baseurl }}/docs/infra/key-management-overview-website.html) — how secrets flow from GitHub Actions → App Runner config → Secrets Manager → runtime env (Website)
