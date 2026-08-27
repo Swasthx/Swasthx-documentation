@@ -467,7 +467,65 @@ Every invocation prints the raw EventBridge payload via `print("EVENT RECEIVED:"
 | EventBridge rule | $0 — event publishing from AWS service sources is free |
 | CloudWatch Logs | <$0.01/month at this invocation rate |
 
-Total: effectively free.
+### 3. swathxWebsiteAuthentication
+
+Custom authorizer and authentication function for API Gateway / Website requests. Validates incoming tokens and credentials before routing requests to backend services.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Function name** | `swathxWebsiteAuthentication` |
+| **Runtime** | Node.js 22.x |
+| **Handler** | `index.handler` |
+| **Timeout** | 3 seconds |
+| **Memory** | 128 MB |
+| **Execution role** | `arn:aws:iam::515966508772:role/service-role/swathxWebsiteAuthentication-role-w2k2q6oe` |
+
+---
+
+### 4. encryptDecryptFunction
+
+Serverless utility function for encrypting and decrypting sensitive payload data and tokens across services.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Function name** | `encryptDecryptFunction` |
+| **Runtime** | Node.js 22.x |
+| **Handler** | `index.handler` |
+| **Timeout** | 15 seconds |
+| **Memory** | 128 MB |
+| **Execution role** | `arn:aws:iam::515966508772:role/service-role/encryptDecryptFunction-role-hbsxqe7x` |
+
+---
+
+### 5. ApiGatetWay
+
+Integration and request handler function associated with Amazon API Gateway routing.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Function name** | `ApiGatetWay` |
+| **Runtime** | Node.js 22.x |
+| **Handler** | `index.handler` |
+| **Timeout** | 3 seconds |
+| **Memory** | 128 MB |
+| **Execution role** | `arn:aws:iam::515966508772:role/service-role/ApiGatetWay-role-9n17ji9h` |
+
+---
+
+### 6. documentDbStopAutomation
+
+Cost optimization automation script that automatically stops non-production DocumentDB clusters during off-hours.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Function name** | `documentDbStopAutomation` |
+| **Runtime** | Python 3.14 |
+| **Handler** | `lambda_function.lambda_handler` |
+| **Timeout** | 3 seconds |
+| **Memory** | 128 MB |
+| **Execution role** | `arn:aws:iam::515966508772:role/LamdaAccessToDocumentDB` |
+
+---
 
 ## Future Lambda functions
 
