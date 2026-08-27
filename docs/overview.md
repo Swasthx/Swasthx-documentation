@@ -12,14 +12,16 @@ permalink: /overview
 **Swasthx PHR app** is an all-in-one digital health companion—designed to make hospital visits and healthcare needs as smooth as air travel with Digi Yatra. From check-ins to lab tests, medicines, and health records, everything is just a tap away.
 
 **Key Features:**
-- **Smart QR Check-In**: Skip long queues—just scan and go.
-- **Doctor Appointments**: Search by symptoms, view profiles, and book instantly.
-- **Lab Tests Anywhere**: Book at home, diagnostic center, or hospital with real-time slot availability.
-- **Instant Lab Reports**: Get PDF results on your phone and share securely.
-- **Medicine Ordering**: Upload prescriptions or search by name; choose delivery or pickup.
-- **Personal Health Records (PHR)**: Securely store prescriptions, reports, and health history.
-- **ABHA/NDHM Integration**: Connect your government health ID for unified medical access.
-- **AI-Powered Assistance**: Smart recommendations for doctors, tests, and wellness.
+- **Smart QR Check-In**: Scan hospital QR codes to fetch facility doctors, auto-detect today's confirmed/rescheduled appointments for instant QR check-in (via ABDM Scan & Share context metadata), handle Pay-Later payment status sync for unpaid/pay-at-reception bookings, or book a new appointment on the spot.
+- **Doctor Appointments**: Search by symptoms, view profiles, book instantly (with Online Payment or Pay-at-Reception options), check live slot availability, manage consultation modes, and track current appointments directly on the Home Screen card (hiding cancelled/no-show).
+- **Lab Tests Anywhere**: Book at home, diagnostic center, or hospital with real-time slot availability, 1MG online lab booking, Pay-at-Reception & Pay Later options for HIMS lab bookings, and HIMS diagnostic catalog lookup.
+- **Instant Lab Reports**: Real-time per-test status tracking, Report Ready notifications, and PDF report downloads directly on your phone.
+- **Medicine Ordering**: HIMS catalog search, doctor-prescribed order proposals with patient consent, pharmacy check-in tracking, and combined checkout rewards.
+- **Personal Health Records (PHR)**: Securely store prescriptions, reports, and health history with ABDM Health Locker integration, automatic health locker enablement on account creation, and Health Locker record tagging.
+- **ABHA/NDHM Integration**: Dynamic `@abdm`/`@sbx` environment suffixes, real Aadhaar OTP error handling, pincode on ABHA cards, consent lifecycle (active, expired, revoked), and split Health Locker subscription & auto-approval permission toggles.
+- **AI-Powered Assistance**: Smart assistant powered by Gemini 2.5 Flash for direct doctor & specialization recommendations without interrogation.
+- **UHI Blood Bank Search**: Search nearby blood banks by blood group, component, and location (GPS radius or district) via UHI network.
+- **SwasthX Rewards System**: Earn points on checkout (appointments, lab tests, medicines), auto-reverse reward points on cancellations, track redemption ledger history, and apply coupons.
 - **Live Updates**: Track appointments, deliveries, and test results in real-time.
 - **Privacy First**: 100% consent-driven and ABDM-compliant.
 

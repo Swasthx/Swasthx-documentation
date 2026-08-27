@@ -58,6 +58,7 @@ The following APIs are called from the PHR Backend to the Website Backend:
 *   `/doctor-profile/popularDoctors`
 *   `/doctor-profile/getSchedule/`
 *   `/doctor-profile/getBookedSlots`
+*   `/doctor-profile/getSlots`
 *   `/doctor-profile/fethcAllProfile?`
 *   `/doctor-profile/nearbyDoctors`
 *   `/doctor-profile/newFilters`
