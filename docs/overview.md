@@ -30,12 +30,10 @@ permalink: /overview
 - **Production**: [`production` branch](https://github.com/Swasthx/swasthx_Backend/tree/production)
 
 ### Application URLs
-- **Development**: `new-swasthxapp.api.swasthx.com`
-  - App Runner: [https://muwj3h3fcg.ap-south-1.awsapprunner.com](https://muwj3h3fcg.ap-south-1.awsapprunner.com)
-- **QA**: `phrqa.api.swasthx.com`
-  - App Runner: [https://xx22sbt2bz.ap-south-1.awsapprunner.com](https://xx22sbt2bz.ap-south-1.awsapprunner.com)
-- **Production**: `phrproduction.api.swasthx.com`
-  - App Runner: [https://mj2baxemvj.ap-south-1.awsapprunner.com](https://mj2baxemvj.ap-south-1.awsapprunner.com)
+- **Development**: `new-swasthxapp.api.swasthx.com` (App Runner: [https://muwj3h3fcg.ap-south-1.awsapprunner.com](https://muwj3h3fcg.ap-south-1.awsapprunner.com))
+- **QA**: `phrqa.api.swasthx.com` (App Runner: [https://xx22sbt2bz.ap-south-1.awsapprunner.com](https://xx22sbt2bz.ap-south-1.awsapprunner.com))
+  - **iOS QA TestFlight**: [https://testflight.apple.com/join/33chzNj9](https://testflight.apple.com/join/33chzNj9)
+- **Production**: `phrproduction.api.swasthx.com` (App Runner: [https://mj2baxemvj.ap-south-1.awsapprunner.com](https://mj2baxemvj.ap-south-1.awsapprunner.com))
 
 </div>
 
@@ -71,15 +69,24 @@ permalink: /overview
   - **QA**: [`QA` branch](https://github.com/Swasthx/swasthx_backend_website/tree/QA)
   - **Production**: [`production` branch](https://github.com/Swasthx/swasthx_backend_website/tree/production)
 
-### Application URLs
+### Application & Environment URLs
 - **Website Frontend (Doctor Portal)**
   - **Development**: [https://dev-doctor.swasthx.com/](https://dev-doctor.swasthx.com/)
-  - **QA**: [https://qa-doctor.swasthx.com/](https://qa-doctor.swasthx.com/)
-  - **Production**: [https://prod-doctor.swasthx.com/](https://prod-doctor.swasthx.com/)
-- **Website Backend API**
-  - **Development**: `website-development.api.swasthx.com` (App Runner: [https://ycatiun3ez.ap-south-1.awsapprunner.com](https://ycatiun3ez.ap-south-1.awsapprunner.com))
+  - **QA**: [https://qa-doctor.swasthx.com/login](https://qa-doctor.swasthx.com/login)
+  - **Production**: [https://doctor.swasthx.com/login](https://doctor.swasthx.com/login)
+- **Website Backend API & Gateways**
+  - **Development**: `websitedevelopment.api.swasthx.com` (App Runner: [https://ycatiun3ez.ap-south-1.awsapprunner.com](https://ycatiun3ez.ap-south-1.awsapprunner.com))
   - **QA**: `websiteqa.api.swasthx.com` (App Runner: [https://98jahxhmj5.ap-south-1.awsapprunner.com](https://98jahxhmj5.ap-south-1.awsapprunner.com))
   - **Production**: `websiteproduction.api.swasthx.com` (App Runner: [https://2vmdwmdstc.ap-south-1.awsapprunner.com](https://2vmdwmdstc.ap-south-1.awsapprunner.com))
+
+### Test Logins (Universal OTP: `765432`)
+- **Admin**: `2222222228`
+- **Super Admin**: `5555555555`
+- **Reception**: `5555555551`
+- **Doctor 1**: `4444444440`
+- **Doctor 2 / 3**: `4444444441` / `3333333339`
+- **Diagnostic User**: `8888888888`
+- **Pharmacy User**: `7777777777`
 
 </div>
 
@@ -87,4 +94,4 @@ permalink: /overview
 - [Images used in documentation](https://drive.google.com/drive/folders/19i4ozSjlAETX0RRa4cT0-dQDQsWYaF2O?usp=sharing)
 
 ---
-*Last Updated: December 2025*
+*Last Updated: August 2026*
