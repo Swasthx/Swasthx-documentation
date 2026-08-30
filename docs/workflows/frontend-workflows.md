@@ -21,17 +21,17 @@ The Website Frontend uses **AWS Amplify** for continuous deployment.
   2.  AWS Amplify automatically detects the new commit.
   3.  It builds the application and deploys the new version to the live URL for that environment.
 
-- **Environment URLs**:
-  - Dev: `https://dev-doctor.swasthx.com/`
-  - QA: `https://qa-doctor.swasthx.com/`
-  - Prod: `https://prod-doctor.swasthx.com`
+- **Environment URLs & API Gateways**:
+  - **Dev**: `https://dev-doctor.swasthx.com/` (API: `websitedevelopment.api.swasthx.com`)
+  - **QA**: `https://qa-doctor.swasthx.com/login` (API: `websiteqa.api.swasthx.com`)
+  - **Prod**: `https://doctor.swasthx.com/login` (API: `websiteproduction.api.swasthx.com`)
 - **Monitoring**: AWS Amplify provides build logs and deployment status for monitoring the deployment process.
 
 ## Developer documentation
 
 - Authentication and Authorization details.
-- LocalStorage
-- UI canching (MobX and Redux)
+- **SessionStorage & Client Caching**: Using `sessionStorage` for auth tokens, session state management, and user context across active tabs.
+- UI caching (MobX and Redux Toolkit)
 - Cookies (Future scope)
 - Caching Mechanism
 Read More details about the developer access management
@@ -56,15 +56,16 @@ This document outlines the naming conventions for the website frontend component
 
 ## UI Environment Variables
 
-The Website Frontend uses several environment variables for configuration. These are typically stored in a `.env` file and injected during the deployment process. Below is a list of common environment variables used:
+The Website Frontend (`Swasthx_HIP_Frontend`) uses **Vite** environment variables injected during the deployment process or set in `.env` files:
 
-- `REACT_APP_API_BASE_URL`: Base URL for the backend API.
-- `REACT_APP_AUTH0_DOMAIN`: Auth0 domain for authentication.
-- `REACT_APP_AUTH0_CLIENT_ID`: Auth0 client ID for authentication.
-- `REACT_APP_GOOGLE_ANALYTICS_ID`: Google Analytics tracking ID.
-- `REACT_APP_SENTRY_DSN`: Sentry Data Source Name for error tracking.
-- `REACT_APP_ENVIRONMENT`: Current environment (e.g., `development`, `qa`, `production`).
-Ensure to keep sensitive information secure and avoid hardcoding them in the source code. Use secret management solutions or environment variable injection during deployment.
+- `VITE_BASE_URL`: Base API Gateway URL (`websitedevelopment.api.swasthx.com`, `websiteqa.api.swasthx.com`, or `websiteproduction.api.swasthx.com`).
+- `VITE_BASE_APP_URL`: PHR App backend URL (`https://new-swasthxapp.api.swasthx.com`).
+- `VITE_HIU_ID`: ABDM HIU Facility Identifier (`IN3610001058`).
+- `VITE_HIP_ID`: ABDM HIP Facility Identifier (`IN3610001058`).
+- `VITE_SECRET_KEY`: ABDM consent body encryption secret.
+- `VITE_S3_BUCKET_NAME`: AWS S3 bucket for storing medical reports and static assets.
+- `VITE_RECAPTURE_SITE_KEY`: Google ReCAPTCHA site key.
+Ensure sensitive secrets are kept secure in AWS Secrets Manager or Amplify Environment settings.
 <br>
 <hr />
 <a href="https://docs.google.com/document/d/1A6LnxCiRio1lkdqQi7yUyv45JbtHPdeaMzCT8uP6cY0/edit?usp=sharing" target="_blank">Prod-ENV</a>

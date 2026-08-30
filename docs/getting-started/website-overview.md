@@ -35,9 +35,9 @@ We maintain distinct environments for both Frontend (Website/Portal) and Backend
 ### Frontend Deployment
 Websites are hosted on **AWS Amplify**.
 -   **Landing Page**: [https://swasthx.com](https://swasthx.com)
--   **Doctor Portal (Prod)**: [https://prod-doctor.swasthx.com](https://prod-doctor.swasthx.com)
--   **Doctor Portal (QA)**: [https://qa-doctor.swasthx.com](https://qa-doctor.swasthx.com)
--   **Doctor Portal (Dev)**: [https://dev-doctor.swasthx.com](https://dev-doctor.swasthx.com)
+-   **Doctor Portal (Dev)**: [https://dev-doctor.swasthx.com/](https://dev-doctor.swasthx.com/) (Connected to `websitedevelopment.api.swasthx.com`)
+-   **Doctor Portal (QA)**: [https://qa-doctor.swasthx.com/login](https://qa-doctor.swasthx.com/login) (Connected to `websiteqa.api.swasthx.com`)
+-   **Doctor Portal (Prod)**: [https://doctor.swasthx.com/login](https://doctor.swasthx.com/login) (Connected to `websiteproduction.api.swasthx.com`)
 
 ### Backend Deployment
 Backend services are deployed on **AWS App Runner**.

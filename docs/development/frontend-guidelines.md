@@ -58,12 +58,110 @@ Before pushing your code:
 
 <div data-context="website" markdown="1">
 
-## 3. Deployment
+## 3. Website Frontend Architecture (`Swasthx_HIP_Frontend`)
+
+The Doctor Portal / HMIS Frontend is built with modern web technologies:
+
+- **Build Tool / Bundler**: [Vite](https://vitejs.dev/) (React SWC plugin)
+- **UI Framework**: React 18
+- **UI Component Libraries**: [Ant Design 5](https://ant.design/), [Tailwind CSS 3](https://tailwindcss.com/), DaisyUI
+- **State & Session Storage**: Redux Toolkit, MobX, and **`sessionStorage`** (for auth tokens, user context & session caching)
+- **Integrations**: ABDM (HIP M1, M2, M3), Axios, Leaflet maps, PDF Viewers (`@react-pdf-viewer`), Recharts
+
+### Local Setup & Execution Commands
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Run Local Development Server (Dev API)**:
+   ```bash
+   npm run dev
+   ```
+   *Connects to `websitedevelopment.api.swasthx.com`*.
+
+3. **Run Local Development Server against QA API**:
+   ```bash
+   npm run dev:qa
+   ```
+   *Connects to `websiteqa.api.swasthx.com`*.
+
+4. **Build Production Bundles**:
+   ```bash
+   npm run build      # Build for Dev / Production
+   npm run build:qa   # Build for QA
+   ```
+
+5. **Linting & Fixing**:
+   ```bash
+   npm run lint
+   npm run lint:fix
+   ```
+
+### Environment Configuration (`.env`)
+
+Vite requires environment variables prefixed with `VITE_`:
+
+| Environment Variable | Example Value | Description |
+| :--- | :--- | :--- |
+| `VITE_BASE_URL` | `https://websitedevelopment.api.swasthx.com` | API Gateway base endpoint |
+| `VITE_BASE_APP_URL` | `https://new-swasthxapp.api.swasthx.com` | PHR App backend URL |
+| `VITE_HIU_ID` | `IN3610001058` | ABDM HIU Identifier |
+| `VITE_HIP_ID` | `IN3610001058` | ABDM HIP Identifier |
+| `VITE_BASE_AI_URL` | `https://api-insurance.aarogyaid.com` | AI Insurance gateway |
+| `VITE_S3_BUCKET_NAME` | `https://swasthx-bucket.s3.ap-south-1.amazonaws.com` | S3 Media Asset Bucket |
+
+### Core Application Modules & Role Workflows
+
+The `Swasthx_HIP_Frontend` application enforces strict **Role-Based Access Control (RBAC)** across 6 core portals:
+
+1. **Super Admin (`/src/pages/SuperAdmin/`)**:
+   - Onboarding hospitals, facility administration, and staff delegation.
+   - HPR / NHPR Healthcare Professional registry verification.
+   - Facility-wide analytics, billing management, and ABDM credential setup.
+
+2. **Hospital Admin (`/src/pages/Admin/`)**:
+   - Facility profile management, department configuration, and staff onboarding.
+   - Doctor schedule provision and appointment overrides.
+
+3. **Receptionist Portal (`/src/pages/Receptionist/`)**:
+   - Patient registration & ABHA Health ID creation/verification (Aadhaar & Mobile OTP flows).
+   - Smart QR check-in & OPD live queue management.
+   - Appointment booking, billing modals, and payment collection.
+
+4. **Doctor Workspace (`/src/pages/Doctor/`)**:
+   - Clinical consultation queue, patient longitudinal medical history access.
+   - Digital e-prescription generator (medicines, dosage, diagnostic test orders).
+   - ABDM consent request & health record fetch (HIP M1, M2, M3).
+
+5. **Diagnostic Portal (`/src/pages/Diagnostic/`)**:
+   - Diagnostic test queue management & lab report upload (PDF viewer & image crop).
+   - ABDM diagnostic record linking & publish pipeline.
+
+6. **Pharmacy Portal (`/src/pages/Pharmacy/`)**:
+   - E-prescription verification, medicine dispensing queue, and order fulfillment.
+
+### Real-Time Live Queue & WebSockets (`socket.io-client`)
+
+The application integrates WebSockets (`/src/socket.js`) for real-time OPD queue updates and instant notifications across Receptionist, Doctor, and Diagnostic portals without page reloads.
+
+### Security & Authentication Wrappers
+
+- **`RequireAuth.jsx` & `RequireNHPRAuth.jsx`**: Guarded routes enforcing valid active session in `sessionStorage`.
+- **`RequireNHPRRole.jsx` & `RoleBasedAccess.jsx`**: Dynamic role verification protecting clinical and administrative modules.
+
+## 4. Deployment
 
 The frontend deployment is automated using **AWS Amplify**:
--   **Hosting**: Amplify hosts the React.js application and manages the CI/CD pipeline.
--   **API Integration**: The frontend connects to the backend via **AWS API Gateway**.
+- **Hosting**: Amplify hosts the React.js Single Page Application (SPA) and handles CI/CD.
+- **API Integration**: The frontend connects to backend App Runner instances via **AWS API Gateway**.
+- **Deployment Branches**:
+  - `development-new` ➔ [https://dev-doctor.swasthx.com/](https://dev-doctor.swasthx.com/)
+  - `QA` ➔ [https://qa-doctor.swasthx.com/login](https://qa-doctor.swasthx.com/login)
+  - `production` ➔ [https://doctor.swasthx.com/login](https://doctor.swasthx.com/login)
 
 </div>
 
 For a detailed breakdown of the system flow and infrastructure, refer to the [System Architecture]({{ '/architecture' | relative_url }}) page.
+

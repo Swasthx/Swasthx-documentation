@@ -44,3 +44,18 @@ AWS access is managed via IAM.
 - **Razorpay**: Dashboard access for finance/admin roles.
 - **Twilio**: Dashboard access for dev/ops roles.
 - **Sentry**: Error tracking dashboard access.
+
+## 6. Doctor Portal Test Accounts & Logins
+> **Universal OTP**: `765432` for all test numbers listed below.
+
+| Role | Dev Phone | QA Phone | Production Phone |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `2222222228` | `2222222228` | `2222222228` |
+| **Super Admin** | `5555555555` | `5555555555` | `5555555555` |
+| **Reception** | `5555555551` | `5555555551` | `5555555551` |
+| **Doctor 1** | `4444444440` | `4444444440` | `4444444440` |
+| **Doctor 2** | `4444444441` | `4444444441` | *(Created if needed)* |
+| **Doctor 3** | `3333333339` | `3333333339` | *(Created if needed)* |
+| **Diagnostic User** | `8888888888` | `8888888888` | *(Created by @Vansh Rana)* |
+| **Pharmacy User** | `7777777777` | `7777777777` | *(Created by @Vansh Rana)* |
+
