@@ -11,14 +11,14 @@ This page provides detailed configuration and purpose information for the EC2 in
 ## Overview
 
 We utilize Amazon EC2 for two primary purposes:
-1.  **Jump Server**: Acts as a secure intermediary (bastion host) for connecting to our DocumentDB clusters.
+1.  **Jump Server**: Acts as a secure intermediary (bastion host) for connecting to our DocumentDB clusters *(Future Scope)*.
 2.  **Snomed Server**: Hosts the Snomed CT terminology service used for medical term searching.
 
 ---
 
 ## Jump Server
 
-The Jump Server is a critical component for database administration and security. All direct connections to the DocumentDB DocumentDB cluster are routed through this instance via SSH tunneling. This ensures that our database remains in a private subnet and is not directly exposed to the public internet.
+The Jump Server is a critical component for database administration and security. All direct connections to the DocumentDB cluster *(Future Scope)* are routed through this instance via SSH tunneling. This ensures that our database remains in a private subnet and is not directly exposed to the public internet.
 
 ### Configuration Details
 

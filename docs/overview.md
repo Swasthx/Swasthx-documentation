@@ -21,7 +21,7 @@ permalink: /overview
 - **Medicine Ordering**: HIMS catalog search, doctor-prescribed order proposals with patient consent, pharmacy check-in tracking, and combined checkout rewards.
 - **Personal Health Records (PHR)**: Securely store prescriptions, reports, and health history with ABDM Health Locker integration, automatic health locker enablement on account creation, and Health Locker record tagging.
 - **ABHA/NDHM Integration**: Dynamic `@abdm`/`@sbx` environment suffixes, real Aadhaar OTP error handling, pincode on ABHA cards, consent lifecycle (active, expired, revoked), and split Health Locker subscription & auto-approval permission toggles.
-- **AI-Powered Assistance**: Smart assistant powered by Gemini 2.5 Flash for direct doctor & specialization recommendations without interrogation.
+- **AI-Powered Assistance**: Smart assistant powered by Gemini 2.5 Flash for direct doctor & specialization recommendations without interrogation, plus automated 1–2 sentence health record summarization.
 - **UHI Blood Bank Search**: Search nearby blood banks by blood group, component, and location (GPS radius or district) via UHI network.
 - **SwasthX Rewards System**: Earn points on checkout (appointments, lab tests, medicines), auto-reverse reward points on cancellations, track redemption ledger history, and apply coupons.
 - **Live Updates**: Track appointments, deliveries, and test results in real-time.
@@ -29,12 +29,14 @@ permalink: /overview
 
 ---
 
-### Git Repositories & Branches
-
-- **Repository**: [Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend)
-- **Development**: [`development` branch](https://github.com/Swasthx/swasthx_Backend/tree/development) (primary working branch)
-- **QA**: [`QA` branch](https://github.com/Swasthx/swasthx_Backend/tree/QA)
-- **Production**: [`production` branch](https://github.com/Swasthx/swasthx_Backend/tree/production)
+- **PHR Frontend Repository**: [Swasthx/Swasthx_Software](https://github.com/Swasthx/Swasthx_Software)
+  - **Development**: [`development` branch](https://github.com/Swasthx/Swasthx_Software/tree/development)
+  - **QA**: [`QA` branch](https://github.com/Swasthx/Swasthx_Software/tree/QA)
+  - **Production**: [`production` branch](https://github.com/Swasthx/Swasthx_Software/tree/production)
+- **PHR Backend Repository**: [Swasthx/swasthx_Backend](https://github.com/Swasthx/swasthx_Backend)
+  - **Development**: [`development` branch](https://github.com/Swasthx/swasthx_Backend/tree/development) (primary working branch)
+  - **QA**: [`QA` branch](https://github.com/Swasthx/swasthx_Backend/tree/QA)
+  - **Production**: [`production` branch](https://github.com/Swasthx/swasthx_Backend/tree/production)
 
 ---
 
@@ -174,5 +176,4 @@ SwasthX operates on a multi-tenant SaaS architecture where authority cascades fr
 - [Images used in documentation](https://drive.google.com/drive/folders/19i4ozSjlAETX0RRa4cT0-dQDQsWYaF2O?usp=sharing)
 
 ---
-
-_Last Updated: August 2026_
+*Last Updated: August 2026*

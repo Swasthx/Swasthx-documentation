@@ -4,9 +4,9 @@ title: Amazon DocumentDB
 parent: Infrastructure
 ---
 
-# Amazon DocumentDB
+# Amazon DocumentDB *(Future Scope / Infrastructure)*
 
-Amazon DocumentDB (with MongoDB compatibility) is a scalable, highly durable, and fully managed database service for operating mission-critical MongoDB workloads.
+Amazon DocumentDB (with MongoDB compatibility) is a scalable, highly durable, and fully managed database service planned for future infrastructure upgrades. Currently, the Website backend connects directly to MongoDB.
 
 > [!NOTE]
 > **Current Operational Status**: Currently, the platform actively utilizes standard **MongoDB** for day-to-day operations. Amazon DocumentDB clusters are fully implemented, provisioned, and configured in AWS as an enterprise-grade standby database.

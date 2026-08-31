@@ -45,8 +45,9 @@ The following collections in the **Website Database** are involved in these API 
 
 ## List of Cross APIs
 
-The following APIs are called from the PHR Backend to the Website Backend:
+The following APIs are called from the PHR Backend to the Website (HIMS) Backend:
 
+### 1. Doctor & Appointment Cross APIs
 *   `/cancelUserSlot`
 *   `/rescheduleAppointment`
 *   `/doctor-profile/getProfile`
@@ -64,8 +65,45 @@ The following APIs are called from the PHR Backend to the Website Backend:
 *   `/doctor-profile/newFilters`
 *   `/doctor-profile/searchDocName`
 *   `/doctor-profile/getDoctorFaq`
+*   `/doctor-profile/getAllDoctor?speciality=...` *(AI Chatbot Doctor Lookup)*
 *   `/getAllAppointments`
 
-## module to module cross api communication diagram
+### 2. HIMS Diagnostic / Lab Test Cross APIs (`/diagnostic/phr/*`)
+*   `GET /diagnostic/phr/categories` *(Lab test categories)*
+*   `GET /diagnostic/phr/catalog/filters` *(Catalog filters)*
+*   `POST /diagnostic/phr/tests-and-bookings` *(Combined test catalog + categories + patient bookings lookup)*
+*   `GET /diagnostic/phr/tests/:testId` *(Single test details)*
+*   `GET /diagnostic/phr/tests?q=...` *(Catalog search)*
+*   `GET /diagnostic/phr/tests/:testId/available-slots` *(Available slots)*
+*   `POST /diagnostic/phr/quote` *(Booking quote price confirmation)*
+*   `POST /diagnostic/phr/booking/submit-unpaid` *(Pay-Later / Pay-at-Reception HIMS lab test booking)*
+*   `POST /diagnostic/phr/booking/submit-paid` *(Submit paid lab booking)*
+*   `POST /diagnostic/phr/booking/submit-home-paid` *(Submit home collection paid booking)*
+*   `POST /diagnostic/phr/bookings` *(Create lab booking)*
+*   `GET /diagnostic/phr/bookings` *(Fetch patient booking list with per-test status tracking)*
+*   `PATCH /diagnostic/phr/bookings/:bookingId/payment-status` *(Pay-Later payment status sync for unpaid/pay-at-reception HIMS lab bookings)*
+*   `GET /diagnostic/phr/bookings/:bookingId` *(Fetch single booking status)*
+*   `GET /diagnostic/phr/booking/:bookingId/report` *(Fetch report ready status & PDF URL)*
+*   `GET /diagnostic/phr/report/:reportId/view` *(Report stream view)*
+*   `POST /diagnostic/phr/bookings/:bookingId/cancel` *(Cancel lab booking)*
+*   `POST /diagnostic/phr/bookings/:bookingId/reschedule` *(Reschedule lab slot)*
+*   `POST /diagnostic/phr/callbacks/refund-confirm` *(Confirm lab refund execution)*
 
-*tech team will add the diagrams soon....*
+### 3. HIMS Pharmacy / Medicine Cross APIs (`/pharmacy/phr/*`)
+*   `GET /pharmacy/phr/medicines` *(Pharmacy catalog search, popular & deals lookup)*
+*   `GET /pharmacy/phr/medicines/:medicineId` *(Single medicine detail)*
+*   `GET /pharmacy/phr/categories` *(Pharmacy categories)*
+*   `POST /pharmacy/phr/quote` *(Authoritative price & stock quote for cart)*
+*   `POST /pharmacy/phr/orders` *(Submit PREPAID or PAY_AT_COUNTER medicine order)*
+*   `GET /pharmacy/phr/orders` *(Fetch patient medicine order history)*
+*   `GET /pharmacy/phr/orders/:orderId` *(Fetch single medicine order details)*
+*   `POST /pharmacy/phr/orders/:orderId/cancel` *(Cancel medicine order)*
+*   `POST /pharmacy/phr/orders/:orderId/return` *(Request return on delivered order lines)*
+*   `POST /pharmacy/phr/callbacks/refund-confirm` *(Confirm pharmacy refund execution)*
+
+### 4. Support & Ticket Resolution Cross APIs (`/support/phr/*`)
+*   `POST /support/phr/issues` *(Raise automated support issue ticket on website when paid order fails)*
+
+## Module to Module Cross API Communication Diagram
+
+*Tech team will add the diagrams soon....*
