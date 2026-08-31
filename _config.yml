@@ -115,6 +115,15 @@ navigation:
         url: "/docs/architecture/website-cross-api.html"
         icon: fas fa-exchange-alt
         contexts: [website]
+      - title: "QR Automation"
+        url: "#"
+        icon: fas fa-folder-open
+        contexts: [phr, website]
+        children:
+          - title: "QR Automation"
+            url: "/docs/architecture/qr-automation.html"
+            icon: fas fa-qrcode
+            contexts: [phr, website]
 
   - title: "Development"
     url: "#"
@@ -151,7 +160,6 @@ navigation:
         url: "/postman-collection-guide"
         icon: fas fa-envelope-open-text
         contexts: [phr, website]
-
 
   - title: "Database"
     url: "#"
