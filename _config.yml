@@ -235,6 +235,22 @@ navigation:
             url: "/docs/infra/app-runner.html"
             icon: fas fa-database
             contexts: [phr, website]
+          - title: "AWS Lambda"
+            url: "/docs/infra/lambda.html"
+            icon: fas fa-bolt
+            contexts: [phr, website]
+          - title: "Amazon SQS"
+            url: "/docs/infra/sqs.html"
+            icon: fas fa-stream
+            contexts: [phr, website]
+          - title: "Amazon EventBridge"
+            url: "/docs/infra/eventbridge.html"
+            icon: fas fa-network-wired
+            contexts: [phr, website]
+          - title: "Amazon ElastiCache"
+            url: "/docs/infra/elasticache.html"
+            icon: fas fa-memory
+            contexts: [phr, website]
           - title: "Google Gemini"
             url: "/docs/infra/gemini.html"
             icon: fas fa-brain
@@ -266,6 +282,10 @@ navigation:
           - title: "IAM Roles"
             url: "/docs/infra/iam-roles.html"
             icon: fas fa-user-lock
+            contexts: [phr, website]
+          - title: "CI/CD Pipeline"
+            url: "/docs/infra/cicd.html"
+            icon: fas fa-code-branch
             contexts: [phr, website]
 
   - title: "Workflows & Processes"
