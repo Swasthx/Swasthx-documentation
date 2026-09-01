@@ -292,9 +292,13 @@ navigation:
             icon: fas fa-user-lock
             contexts: [phr, website]
           - title: "CI/CD Pipeline"
+            url: "/docs/infra/cicd-phr.html"
+            icon: fas fa-code-branch
+            contexts: [phr]
+          - title: "CI/CD Pipeline"
             url: "/docs/infra/cicd.html"
             icon: fas fa-code-branch
-            contexts: [phr, website]
+            contexts: [website]
 
   - title: "Workflows & Processes"
     url: "#"
