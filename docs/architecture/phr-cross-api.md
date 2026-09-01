@@ -24,13 +24,13 @@ The cross-api communication follows this sequence:
 5.  **Website Backend**: On successful authentication, the request reaches the Website Backend logic.
 6.  **Response**: The Website Backend processes the request and sends the response back to the PHR Backend, which then relays it to the PHR App.
 
-![PHR Cross API Architecture]({{ site.baseurl }}/docs/images/website-cross-api-arch.png)
+<img src="{{ site.baseurl }}/docs/images/website-cross-api-arch.png" alt="PHR Cross API Architecture" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ### PHR backend cross-api sequence diagram
 
 The sequence diagram below details the interaction flow initiated by the PHR App. It shows how the PHR Backend acts as a client to the Website Backend, passing a session token which is verified by a Lambda function at the Website Gateway before the request is allowed to reach the Website Backend services.
 
-![PHR backend cross-api sequence diagram]({{ site.baseurl }}/docs/images/phr-cross-api-sequence.png)
+<img src="{{ site.baseurl }}/docs/images/phr-cross-api-sequence.png" alt="PHR backend cross-api sequence diagram" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ## Involved Collections
 

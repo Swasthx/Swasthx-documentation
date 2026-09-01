@@ -41,7 +41,7 @@ The Personal Health Record (PHR) application enables patients to manage their he
     -   SMS notifications are sent using **AWS SNS**.
     -   Deep integration with **ABDM** (Ayushman Bharat Digital Mission).
 
-![PHR System Flow Architecture]({{ site.baseurl }}/docs/images/phr_system_flow_architecture.png)
+<img src="{{ site.baseurl }}/docs/images/phr_system_flow_architecture.png" alt="PHR System Flow Architecture" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ### Partnership Integration
 
@@ -53,7 +53,7 @@ Swasthx has integrated external APIs to provide additional facilities to the use
     -   **API Gateway** intercepts these callbacks.
     -   Routes them to the specific backend handler in App Runner.
 
-![PHR System Flow]({{ site.baseurl }}/docs/images/phr_system_flow.png)
+<img src="{{ site.baseurl }}/docs/images/phr_system_flow.png" alt="PHR System Flow" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 #### 1MG INTEGRATION
 
@@ -76,7 +76,7 @@ Search lab test -> Check lab test is available at user location -> Get the labs 
 
 ### Architecture Diagram
 
-![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
+<img src="{{ site.baseurl }}/docs/images/phr-app-cloud-infra.png" alt="PHR App Cloud Infrastructure" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 </div>
 
@@ -124,7 +124,7 @@ Swasthx has integrated external APIs to provide additional facilities to the use
 
 ### Architecture Diagram
 
-![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
+<img src="{{ site.baseurl }}/docs/images/website-cloud-infra.png" alt="Website Cloud Infrastructure" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 </div>
 
@@ -145,7 +145,7 @@ To ensure security and low latency, critical components are isolated within the 
 
 ### Network Diagram
 
-![Network Diagram]({{ site.baseurl }}/docs/images/network_diagram.png)
+<img src="{{ site.baseurl }}/docs/images/network_diagram.png" alt="Network Diagram" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ---
 

@@ -44,19 +44,19 @@ permalink: /overview
 
 #### 1. PHR Android Application
 
-| Environment                        | Build Status / Live Link | Base API URL                             |
-| :--------------------------------- | :----------------------- | :--------------------------------------- |
-| **Development** (Internal Testing) | _(Pending)_              | `https://new-swasthxapp.api.swasthx.com` |
-| **QA** (Closed Testing)            | _(Pending)_              | `https://phrqa.api.swasthx.com`          |
-| **Production** (Google Play Store) | _(Pending)_              | `https://phrproduction.api.swasthx.com`  |
+| Environment | Build Status / Live Link | Base API URL |
+| :--- | :--- | :--- |
+| **Development** (Internal Testing) | [Google Play Internal Test](https://play.google.com/store/apps/details?id=com.swasthx) | `https://new-swasthxapp.api.swasthx.com` |
+| **QA** (Closed Testing) | [Google Play Closed Test](https://play.google.com/store/apps/details?id=com.swasthx) | `https://phrqa.api.swasthx.com` |
+| **Production** (Google Play Store) | [SwasthX on Google Play](https://play.google.com/store/apps/details?id=com.swasthx) | `https://phrproduction.api.swasthx.com` |
 
 #### 2. PHR iOS Application
 
-| Environment                           | Build Status / TestFlight Link                                   | Base API URL                             |
-| :------------------------------------ | :--------------------------------------------------------------- | :--------------------------------------- |
-| **Development** (Internal TestFlight) | _No public link_                                                 | `https://new-swasthxapp.api.swasthx.com` |
-| **QA** (External TestFlight)          | [Join QA TestFlight](https://testflight.apple.com/join/33chzNj9) | `https://phrqa.api.swasthx.com`          |
-| **Production** (Apple App Store)      | _(Pending)_                                                      | `https://phrproduction.api.swasthx.com`  |
+| Environment | Build Status / TestFlight Link | Base API URL |
+| :--- | :--- | :--- |
+| **Development** (Internal TestFlight) | _No public link_ | `https://new-swasthxapp.api.swasthx.com` |
+| **QA** (External TestFlight) | [Join QA TestFlight](https://testflight.apple.com/join/33chzNj9) | `https://phrqa.api.swasthx.com` |
+| **Production** (Apple App Store) | [SwasthX on App Store](https://apps.apple.com/us/app/swasthx/id6752235273) | `https://phrproduction.api.swasthx.com` |
 
 </div>
 
