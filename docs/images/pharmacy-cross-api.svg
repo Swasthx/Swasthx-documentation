@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1760 1964" width="1760" height="1964" font-family="'Segoe UI',Inter,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2b2b2b"/>
+    </marker>
+  </defs>
+  <rect width="1760" height="1964" fill="#ffffff"/>
+
+  <text x="40" y="58" font-size="34" font-weight="700" fill="#111">Pharmacy (PHR-backend to HIMS)</text>
+  <text x="40" y="88" font-size="15" fill="#5b6570">Cross-API mapping - the PHR Backend calls the HIMS pharmacy module over HTTPS; the caller Bearer token is forwarded and every call is scoped by hospitalId.</text>
+
+  <text x="430" y="148" font-size="30" font-weight="700" fill="#111" text-anchor="middle">PHR - Backend</text>
+  <text x="1330" y="148" font-size="30" font-weight="700" fill="#111" text-anchor="middle">HIMS - Pharmacy</text>
+  <text x="430" y="174" font-size="13" fill="#5b6570" text-anchor="middle">medicine.controller.ts / provider-order.controller.ts -&gt; hims_api.service.ts</text>
+  <text x="1330" y="174" font-size="13" fill="#5b6570" text-anchor="middle">pharma_to_phr_app.controller.ts (base route: /pharmacy/phr)</text>
+
+  <line x1="880" y1="118" x2="880" y2="1788" stroke="#2b2b2b" stroke-width="2"/>
+
+  <g>
+    <rect x="40" y="210" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="240" font-size="16" font-weight="600" fill="#111">Browse hospital pharmacy catalogue</text>
+    <text x="64" y="266" font-size="15" fill="#1a6fd4">Function Name - himsFindAll()</text>
+    <text x="64" y="286" font-size="12" fill="#5b6570">himsGetMedicines() -&gt; HIMSApiService.getPharmacyMedicines()</text>
+    <rect x="64" y="297" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="311" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="311" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="210" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="240" font-size="16" font-weight="600" fill="#111">Browse pharmacy catalog</text>
+    <text x="964" y="266" font-size="15" fill="#1a6fd4">Function Name - browseMedicines()</text>
+    
+    <rect x="964" y="297" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="311" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="311" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/medicines</text>
+    
+  </g>
+  <line x1="828" y1="269" x2="930" y2="269" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="354" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="384" font-size="16" font-weight="600" fill="#111">Popular medicines section</text>
+    <text x="64" y="410" font-size="15" fill="#1a6fd4">Function Name - himsPopular()</text>
+    <text x="64" y="430" font-size="12" fill="#5b6570">himsGetPopularMedicines() -&gt; getPharmacyMedicines({ tag: POPULAR })</text>
+    <rect x="64" y="441" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="455" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="455" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/popular</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="354" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="384" font-size="16" font-weight="600" fill="#111">Browse pharmacy catalog (tagged)</text>
+    <text x="964" y="410" font-size="15" fill="#1a6fd4">Function Name - browseMedicines()</text>
+    
+    <rect x="964" y="441" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="455" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="455" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/medicines?tag=POPULAR</text>
+    
+  </g>
+  <line x1="828" y1="413" x2="930" y2="413" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="498" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="528" font-size="16" font-weight="600" fill="#111">Medicine categories</text>
+    <text x="64" y="554" font-size="15" fill="#1a6fd4">Function Name - himsCategories()</text>
+    <text x="64" y="574" font-size="12" fill="#5b6570">himsGetCategories() -&gt; getPharmacyCategories()</text>
+    <rect x="64" y="585" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="599" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="599" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/categories</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="498" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="528" font-size="16" font-weight="600" fill="#111">List global medicine categories</text>
+    <text x="964" y="554" font-size="15" fill="#1a6fd4">Function Name - listCategories()</text>
+    
+    <rect x="964" y="585" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="599" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="599" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/categories</text>
+    
+  </g>
+  <line x1="828" y1="557" x2="930" y2="557" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="642" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="672" font-size="16" font-weight="600" fill="#111">Single medicine detail</text>
+    <text x="64" y="698" font-size="15" fill="#1a6fd4">Function Name - himsFindOne()</text>
+    <text x="64" y="718" font-size="12" fill="#5b6570">himsGetMedicineById() -&gt; getPharmacyMedicineById()</text>
+    <rect x="64" y="729" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="743" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="743" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/single?medicineId=...</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="642" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="672" font-size="16" font-weight="600" fill="#111">Medicine detail (hospital-scoped)</text>
+    <text x="964" y="698" font-size="15" fill="#1a6fd4">Function Name - getMedicine()</text>
+    
+    <rect x="964" y="729" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="743" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="743" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/medicines/${medicineId}</text>
+    
+  </g>
+  <line x1="828" y1="701" x2="930" y2="701" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="786" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="816" font-size="16" font-weight="600" fill="#111">Stock check &amp; authoritative price quote</text>
+    <text x="64" y="842" font-size="15" fill="#1a6fd4">Function Name - himsQuote()</text>
+    <text x="64" y="862" font-size="12" fill="#5b6570">medicineService.himsQuote() -&gt; getPharmacyQuote()</text>
+    <rect x="64" y="873" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="87" y="887" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="120" y="887" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/quote</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="786" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="816" font-size="16" font-weight="600" fill="#111">Quote a cart (bill + GST, no order created)</text>
+    <text x="964" y="842" font-size="15" fill="#1a6fd4">Function Name - quote()</text>
+    
+    <rect x="964" y="873" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="987" y="887" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="1020" y="887" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/quote</text>
+    
+  </g>
+  <line x1="828" y1="845" x2="930" y2="845" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="930" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="960" font-size="16" font-weight="600" fill="#111">Register order after online payment</text>
+    <text x="64" y="986" font-size="15" fill="#1a6fd4">Function Name - confirm-payment handler</text>
+    <text x="64" y="1006" font-size="12" fill="#5b6570">HIMSApiService.submitPharmacyOrder()</text>
+    <rect x="64" y="1017" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="87" y="1031" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="120" y="1031" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/provider-order/prescription-proposals/${id}/confirm-payment</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="930" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="960" font-size="16" font-weight="600" fill="#111">Submit patient-app order (PREPAID / PAY_AT_COUNTER)</text>
+    <text x="964" y="986" font-size="15" fill="#1a6fd4">Function Name - createOrder()</text>
+    
+    <rect x="964" y="1017" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="987" y="1031" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="1020" y="1031" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/orders</text>
+    
+  </g>
+  <line x1="828" y1="989" x2="930" y2="989" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="1074" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="1104" font-size="16" font-weight="600" fill="#111">Patient pharmacy order history</text>
+    <text x="64" y="1130" font-size="15" fill="#1a6fd4">Function Name - himsOrders()</text>
+    <text x="64" y="1150" font-size="12" fill="#5b6570">himsGetOrders() -&gt; getPharmacyOrders()</text>
+    <rect x="64" y="1161" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="1175" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="1175" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/orders</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="1074" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="1104" font-size="16" font-weight="600" fill="#111">List a patient's PHR pharmacy orders</text>
+    <text x="964" y="1130" font-size="15" fill="#1a6fd4">Function Name - listOrders()</text>
+    
+    <rect x="964" y="1161" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="1175" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="1175" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/orders</text>
+    
+  </g>
+  <line x1="828" y1="1133" x2="930" y2="1133" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="1218" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="1248" font-size="16" font-weight="600" fill="#111">Single order status</text>
+    <text x="64" y="1274" font-size="15" fill="#1a6fd4">Function Name - himsOrderDetail()</text>
+    <text x="64" y="1294" font-size="12" fill="#5b6570">himsGetOrderById() -&gt; getPharmacyOrderById()</text>
+    <rect x="64" y="1305" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="84" y="1319" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="114" y="1319" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/orders/${orderId}</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="1218" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="1248" font-size="16" font-weight="600" fill="#111">Get one PHR pharmacy order status</text>
+    <text x="964" y="1274" font-size="15" fill="#1a6fd4">Function Name - getOrder()</text>
+    
+    <rect x="964" y="1305" width="40" height="19" rx="4" fill="#d8f0e4" stroke="#0b7a4b" stroke-opacity=".4"/><text x="984" y="1319" font-size="11" font-weight="700" fill="#0b7a4b" text-anchor="middle">GET</text>
+    <text x="1014" y="1319" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/orders/${id}</text>
+    
+  </g>
+  <line x1="828" y1="1277" x2="930" y2="1277" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="1362" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="1392" font-size="16" font-weight="600" fill="#111">Cancel pharmacy order</text>
+    <text x="64" y="1418" font-size="15" fill="#1a6fd4">Function Name - himsCancelOrder()</text>
+    <text x="64" y="1438" font-size="12" fill="#5b6570">himsCancelOrder() -&gt; cancelPharmacyOrder()</text>
+    <rect x="64" y="1449" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="87" y="1463" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="120" y="1463" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/orders/${orderId}/cancel</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="1362" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="1392" font-size="16" font-weight="600" fill="#111">Cancel a patient-app pharmacy order</text>
+    <text x="964" y="1418" font-size="15" fill="#1a6fd4">Function Name - cancelOrder()</text>
+    
+    <rect x="964" y="1449" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="987" y="1463" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="1020" y="1463" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/orders/${id}/cancel</text>
+    
+  </g>
+  <line x1="828" y1="1421" x2="930" y2="1421" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="1506" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="1536" font-size="16" font-weight="600" fill="#111">Return delivered line items</text>
+    <text x="64" y="1562" font-size="15" fill="#1a6fd4">Function Name - himsReturnOrder()</text>
+    <text x="64" y="1582" font-size="12" fill="#5b6570">himsReturnOrder() -&gt; returnPharmacyOrder()</text>
+    <rect x="64" y="1593" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="87" y="1607" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="120" y="1607" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/orders/${orderId}/return</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="1506" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="1536" font-size="16" font-weight="600" fill="#111">Initiate line-item returns</text>
+    <text x="964" y="1562" font-size="15" fill="#1a6fd4">Function Name - returnOrder()</text>
+    
+    <rect x="964" y="1593" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="987" y="1607" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="1020" y="1607" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/orders/${id}/return</text>
+    
+  </g>
+  <line x1="828" y1="1565" x2="930" y2="1565" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g>
+    <rect x="40" y="1650" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="64" y="1680" font-size="16" font-weight="600" fill="#111">Confirm PHR-executed refund</text>
+    <text x="64" y="1706" font-size="15" fill="#1a6fd4">Function Name - himsRefundConfirm()</text>
+    <text x="64" y="1726" font-size="12" fill="#5b6570">himsRefundConfirm() -&gt; pharmacyRefundConfirm()</text>
+    <rect x="64" y="1737" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="87" y="1751" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="120" y="1751" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{PHR_URL}}/phr/medicines/hims/refund-confirm</text>
+    
+  </g>
+  <g>
+    <rect x="940" y="1650" width="780" height="118" rx="14"
+          fill="#e9ecef" stroke="#2b2b2b"
+          stroke-width="1.4"/>
+    <text x="964" y="1680" font-size="16" font-weight="600" fill="#111">Callback: confirm pharmacy refund</text>
+    <text x="964" y="1706" font-size="15" fill="#1a6fd4">Function Name - refundConfirm()</text>
+    
+    <rect x="964" y="1737" width="46" height="19" rx="4" fill="#fdefd2" stroke="#8a5a00" stroke-opacity=".4"/><text x="987" y="1751" font-size="11" font-weight="700" fill="#8a5a00" text-anchor="middle">POST</text>
+    <text x="1020" y="1751" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">{{HIMS_BASE_URL}}/pharmacy/phr/callbacks/refund-confirm</text>
+    
+  </g>
+  <line x1="828" y1="1709" x2="930" y2="1709" stroke="#2b2b2b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="40" y="1808" width="1680" height="116" rx="14" fill="#f6f8fa" stroke="#c4ccd4" stroke-width="1.2"/>
+  <text x="64" y="1838" font-size="16" font-weight="700" fill="#111">Prescription proposal lifecycle (PHR-internal - no HIMS call)</text>
+  <text x="64" y="1864" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">GET   /provider-order/prescription-proposals                 - list doctor prescription proposals</text>
+  <text x="64" y="1886" font-family="Consolas,'Courier New',monospace" font-size="13" fill="#1f2937">POST  /provider-order/prescription-proposals/${id}/decision  - accept / reject a proposal</text>
+  <text x="64" y="1912" font-size="13" fill="#5b6570">Only .../${id}/confirm-payment crosses into HIMS - it registers the paid order through POST /pharmacy/phr/orders (row 6 above).</text>
+</svg>
