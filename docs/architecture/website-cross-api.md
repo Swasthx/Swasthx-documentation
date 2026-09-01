@@ -133,6 +133,24 @@ These endpoints handle hospital pharmacy medicine browsing, price quoting, order
 ### Data Flowing from Web Module to PHR Module for Scan and Share
 ![Website Cross API Architecture]({{ site.baseurl }}/docs/images/scan-share.png){: .thumbnail-zoom}
 
+### Data Flowing from PHR Module to Pharmacy (HIMS) Module
+
+Unlike the diagrams above, the pharmacy flow is initiated from the **PHR side**: the PHR Backend (`medicine.controller.ts` and `provider-order.controller.ts`) calls the HIMS pharmacy cross-API controller (`pharma_to_phr_app.controller.ts`, base route `/pharmacy/phr`) through `HIMSApiService`. The caller's Bearer token is forwarded on every hop and each request is scoped by `hospitalId`.
+
+![Pharmacy Cross API Mapping]({{ site.baseurl }}/docs/images/pharmacy-cross-api.svg){: .thumbnail-zoom}
+
+> [!NOTE]
+> The PHR routes `phr/medicines/hims/orders/:orderId/cancel`, `.../return` and `phr/medicines/hims/refund-confirm` are direct pass-throughs that are present in `medicine.controller.ts` but are not part of the published PHR pharmacy endpoint list.
+
+### Data Flowing from PHR Module to Diagnostic (HIMS) Module
+
+The lab-test flow is also PHR-initiated. Every PHR route carries `?source=hims`, which selects `HIMSLabTestProvider` from the lab-test provider registry (the alternative source is `1mg`); the provider then calls the HIMS diagnostic cross-API controller (`labtest_phr_cross_api.controller.ts`, base route `/diagnostic/phr`) through `HIMSApiService`. Requests are scoped by `hospitalId` and the patient's `phone`.
+
+![Diagnostic Cross API Mapping]({{ site.baseurl }}/docs/images/diagnostic-cross-api.svg){: .thumbnail-zoom}
+
+> [!NOTE]
+> Several HIMS booking routes are called with a plural/singular fallback (`/bookings/:id` retried as `/booking/:id`, and `/callbacks/refund-confirm` retried as `/callback/refund-confirm`), so both spellings must stay routable on the HIMS side.
+
 ---
 
 ## Super Admin Module (PHR to Website UI) Cross API Communication Diagram

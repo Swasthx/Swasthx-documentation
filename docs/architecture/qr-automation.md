@@ -18,6 +18,12 @@ The QR Automation framework leverages secure HTTPS APIs to sync real-time queue 
 
 ![QR Automation Flow]({{ site.baseurl }}/docs/images/qrautomation.jpg)
 
+<p>
+  <a href="https://drive.google.com/file/d/1NhX_A-_xAR_09LNl76LFYKG8TdmcaU9x/view?usp=sharing" class="btn-primary" target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-project-diagram"></i>&nbsp; Open Flow Diagram
+  </a>
+</p>
+
 ---
 
 ## 1. Patient Access Modes (3 QR Scanning Options)
