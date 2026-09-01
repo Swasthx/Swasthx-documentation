@@ -18,15 +18,15 @@ We maintain three distinct environments for both Frontend (Mobile App) and Backe
 | :--- | :--- | :--- |
 | **Development** | `development` | Active development branch. Fast-paced changes. |
 | **QA** | `qa` | Stability testing and Quality Assurance. |
-| **Production** | `main` / `production` | Stable production release live for users. |
-
+| **Production** | `production` | Stable production release live for users. |
+|
 ### Frontend Environments
 
 | Environment | Branch | Description |
 | :--- | :--- | :--- |
 | **Development** | `development` | For testing new features during development. |
 | **QA** | `qa` | For internal testing/QA team verification. |
-| **Production** | `main` | Published to Play Store/App Store. |
+| **Production** | `production` | Published to Play Store/App Store. |
 
 ## 3. Deployment
 The PHR App backend services are containerized and deployed on **AWS App Runner**.
@@ -53,7 +53,7 @@ The PHR App consumes the Swasthx Backend APIs.
 - **PHR Frontend Repository URLs**:
     - development - [https://github.com/Swasthx/Swasthx_Software/tree/development](phr frontend dev repo)
     - qa - [https://github.com/Swasthx/Swasthx_Software/tree/QA](phr frontend qa repo)
-    - production - [https://github.com/Swasthx/Swasthx_Software/tree/main](phr frontend main repo)
+    - production - [https://github.com/Swasthx/Swasthx_Software/tree/production](phr frontend production repo)
 - **APP runner**:
     - `PHR_production` -  prod deployment
     - `PHR_QA_DEPLOYMENT` -  QA depoyment
@@ -72,3 +72,6 @@ APKs are deployed to the Google Play Store via tracks mapping to our environment
 - **Internal Test Track**: mapped to `development` builds.
 - **Closed Test Track**: mapped to `QA` builds.
 - **Open/production Track**: mapped to `production` builds.
+
+> [!NOTE]
+> Android builds target SDK 36 (`targetSdkVersion: 36`) for Google Play Console compliance.

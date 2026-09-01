@@ -9,7 +9,7 @@ parent: Database
 This document outlines the standards, environment details, and access procedures for the Swasthx database layer.
 
 ## 1. Technology Stack
-We use **AWS DocumentDB**, a fully managed, scalable, and secure document database service that is compatible with **MongoDB**. All guidelines below assume a MongoDB-compatible environment.
+We use **MongoDB** (with provisioned **AWS DocumentDB** *(Future Scope / Infrastructure)*), a fully managed, scalable, and secure document database service. All guidelines below assume a MongoDB-compatible environment.
 
 ## 2. Naming Conventions
 

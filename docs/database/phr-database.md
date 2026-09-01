@@ -10,8 +10,10 @@ parent: Database
 This database stores all data focused on the Personal Health Record (PHR) application, including user health profiles, orders, and subscriptions.
 
 ## Database Name
-In all environments (Dev, QA, Prod), the database name is consistent:
-*   `testingdb`
+The PHR database names per environment are:
+*   **Development**: `phr-dev`
+*   **QA**: `phr-qa-prod` *(Newly provisioned QA database connected to the QA PHR backend)*
+*   **Production**: `phr-prod`
 
 ## Database Diagram
 <a href="https://drive.google.com/file/d/1cSDfYB7I0MHtp0uRbxSP5lCsTej6B19H/view?usp=sharing" target="_blank">View PHR Database Diagram</a>

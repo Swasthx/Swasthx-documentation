@@ -152,6 +152,14 @@ navigation:
         url: "/docs/api/overview.html"
         icon: fas fa-info
         contexts: [phr, website]
+      - title: "PHR API Documentation"
+        url: "/api-phr"
+        icon: fas fa-mobile-alt
+        contexts: [phr]
+      - title: "Website API Documentation"
+        url: "/api-website"
+        icon: fas fa-desktop
+        contexts: [website]
       - title: "API Guidelines"
         url: "/docs/api/api-guidelines.html"
         icon: fas fa-list-ul
@@ -300,7 +308,7 @@ navigation:
       - title: "Frontend Workflows"
         url: "/docs/workflows/frontend-workflows.html"
         icon: fas fa-desktop
-        contexts: [website]
+        contexts: [phr, website]
       - title: "Backend"
         url: "#"
         icon: fas fa-server

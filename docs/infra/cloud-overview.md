@@ -28,7 +28,7 @@ This document provides a comprehensive overview of all AWS resources used in the
 | :--- | :--- | :--- |
 | **AWS Amplify** | Frontend / Hosting | Hosts the React.js website and portals; handles CI/CD and domain mapping. |
 | **AWS App Runner** | Compute / Container | Managed service for running the Nest.js backend APIs (containerized). |
-| **Amazon DocumentDB** | Database | Fully managed NoSQL database service (MongoDB compatible) for storing application data. |
+| **Amazon DocumentDB** *(Future Scope / Infrastructure)* | Database | Fully managed NoSQL database service (MongoDB compatible) provisioned for future migration. Currently using MongoDB. |
 | **Amazon S3** | Storage | Object storage for user-uploaded files, images, and static assets. |
 | **Amazon SNS** | Messaging | Simple Notification Service used for sending SMS alerts and notifications. |
 | **API Gateway** | Networking | Fully managed service that acts as the "front door" for the backend APIs, handling Auth and Routing. |
