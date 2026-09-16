@@ -162,6 +162,19 @@ The diagnostic ABDM publish pipeline is feature-flagged via two environment vari
 
 Both `WORKER_ENABLED` and `DIAGNOSTIC_ABDM_USE_QUEUE` must be `true` for the pipeline to be active. Either set to `false` falls back to the legacy inline ABDM call path.
 
+### Additional ABDM publish consumers (code-complete, not yet provisioned)
+
+The same `src/infra/sqs/` base is reused by two more ABDM publish flows in the backend (verified in code on 2026-09-16). Both are **flag-gated and default OFF** — with the flag off, behaviour is the legacy inline call. **The AWS queues, DLQs, IAM policy entries and CloudWatch alarms for these have not been created yet**; do not flip the flags until they exist, otherwise records pile up at `PENDING`.
+
+| Flow | Producer / consumer | Env var (flag) | Env var (queue URL) | Planned queue name | State tracked on |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Invoice / bill ABDM publish (reception `POST /payment/createPaymentLink` + doctor `createInvoiceRecord`) | `src/services/payments/abdm/` — `InvoiceAbdmPublishService` / `InvoiceAbdmPublishProcessor` | `PAYMENT_ABDM_USE_QUEUE` | `SQS_PAYMENT_ABDM_URL` | `swasthx-payment-abdm` (+ `-dlq`) | `invoicefhirs.abdmPublicationStatus` |
+| Doctor clinical-write ABDM publish (8 `/doctor-profile/submit*` call sites, link + notify) | `src/services/book_doctor_appointment/doctor_functionality/doctor_profile/abdm/` — `ClinicalAbdmPublishService` / `ClinicalAbdmPublishProcessor` | `DOCTOR_ABDM_USE_QUEUE` | `SQS_DOCTOR_ABDM_URL` | `swasthx-doctor-abdm` (+ `-dlq`) | `clinical_abdm_publishes` collection |
+
+Shared behaviour (same as the diagnostic consumer): state machine `PENDING → IN_FLIGHT → PUBLISHED | PUBLICATION_FAILED`, retry schedule `30s → 2m → 10m → 30m → 1h → hourly → ~24h terminal`, identity-only job payloads (no PII in the message), dedupe on `PUBLISHED`, single consumer registered in `app.module` only. `SKIPPED_NO_TOKEN` (patient has ABHA but no link token stored yet for that ABHA address + facility) is **not** retried — it is marked `PUBLISHED` with a note and the token callback links the record later.
+
+When provisioning: mirror the diagnostic queue settings (standard queue, visibility timeout ≥ ABDM call time, `maxReceiveCount` → DLQ), add both queues to the `SwasthxDiagnosticAbdmQueueAccess`-style customer-managed policy on `AppRunnerInstanceRole`, and wire the DLQs to the `SlackABDMdlqNotification` Lambda.
+
 ## Resource access via console
 
 - **Main queue**: AWS Console → SQS → Queues → `swasthx-diagnostic-abdm-publish`

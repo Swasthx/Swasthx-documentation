@@ -42,44 +42,52 @@ The Website DB contains core operational collections as well as specialized coll
 
 | Collection Name                      | Description                                                                    |
 | :----------------------------------- | :----------------------------------------------------------------------------- |
-| **`abdmtxnidstorages`**              | Store ABDM transaction IDs                                                     |
+| **`abdmtxnidstorages`**              | Store ABDM transaction IDs (M1)                                                |
 | **`accesstokens`**                   | Store ABDM session tokens                                                      |
 | **`adminauditlogs`**                 | Store admin audit logs for operations and administrative actions               |
 | **`advertisements`**                 | Store advertisements created for the app by admins                             |
-| **`authinitdbs`**                    | Used as initial storage in user scan and share flow                            |
+| **`authinitdbs`**                    | Initial storage of a Scan & Share profile (M2, `POST /api/v3/hip/patient/share`) |
+| **`clinical_abdm_publishes`**        | Tracking doc for the doctor clinical-write ABDM publish queue (`DOCTOR_ABDM_USE_QUEUE`): `recordType`, `hasAbha`, `linkPayload`/`notifyPayload`, `abdmPublicationStatus` (M2) |
 | **`billpaymentreceipts`**            | Store bill receipts                                                            |
 | **`bookedslots`**                    | Store already booked slots                                                     |
 | **`doctorbankaccounts`**             | Store doctor bank accounts data                                                |
 | **`doctorfaqdatas`**                 | Store doctor FAQs                                                              |
 | **`doctorhealthpackagedatas`**       | Store health packages data                                                     |
-| **`doctorprofiles`**                 | Store complete doctor profiles data                                            |
+| **`doctorprofiles`**                 | Store complete doctor profiles data; `hpr` sub-doc = HPR verification read-model `{ createdHprIdDetailsPresent, hprId, hprIdNumber }` (M4) |
 | **`doctorschedules`**                | Store doctor day-to-day schedules                                              |
 | **`doctorservicesdatas`**            | Store services given by doctor clinic                                          |
-| **`doctoruserprescriptions`**        | Store prescription data created by doctor for a patient against an appointment |
+| **`doctoruserprescriptions`**        | Store prescription data created by doctor for a patient against an appointment; diagnostic rows carry `abdmPublicationStatus` / `abdmPublicationAttempts` (SQS publish, M2) |
+| **`facility_qrs`**                   | Facility QR per HFR facility generated from `/admin/facility-qr` — `payloadUrl` (deep link `/scan/{facilityId}?hospital=…`), `s3Key` of the PNG, `generatedAt` (M4) |
+| **`facilitylocaldrafts`**            | Local-only HFR facility drafts, unique per `{doctorID, hprID, localDraftId}` (not sent to ABDM) (M4) |
 | **`followups`**                      | Store follow-ups that doctor has scheduled                                     |
 | **`generateverifyotps`**             | All OTP generation/verify flows use this collection to store and get OTP       |
 | **`hipconsents`**                    | All approved consents are stored in this                                       |
 | **`hipnotlinkedhealthrecords`**      | All not linked ABDM records are stored                                         |
 | **`hiptxns`**                        | All encryption keys and data push URL data are stored                          |
+| **`healthrecords`**                  | Care contexts already linked for a user (M2, `userLinkedHealthRecords.schema`) |
+| **`hospital-policies`**              | Per-hospital policy; `abdmEnabled` switches the HPR verification gate on (`403 HPR_NOT_VERIFIED`) (M4) |
+| **`hpr_onboarding_sessions`**        | HPR onboarding `trackingId` sessions `{ trackingId, targetDoctorID, status, hprIdNumber, expiresAt }`; TTL 24h abandoned / 30d completed (M4) |
 | **`hiuconsents`**                    | All created consents are stored                                                |
 | **`hiuhealthdatafetches`**           | Store HIU health data fetches                                                  |
 | **`hiukeys`**                        | Store encryption/decryption data                                               |
 | **`hiuonfetches`**                   | Store carecontext granted by user shared by ABDM                               |
 | **`hiutxns`**                        | Store the encryption, data push URL, and transaction shared with HIP           |
-| **`invoicefhirs`**                   | Store invoices in FHIR format                                                  |
-| **`linktokens`**                     | Store user-specific link token used for record linking                         |
+| **`invoicefhirs`**                   | Store invoices in FHIR format (NRCES InvoiceRecord) + `careContextId`, `abdmPublicationStatus`, `abdmPublishedAt`, `abdmPublicationLastError` (M2) |
+| **`linktokens`**                     | ABDM link token per **ABHA address** (`healthAddress`) + facility, minted async via `on-generate-token` (M2) |
 | **`medicinelist`**                   | Store the master list of medicines available for pharmacy orders               |
 | **`patientinfos`**                   | Store patient info for appointment                                             |
 | **`patientregistrations`**           | Store user registration details                                                |
+| **`patientonfinds`**                 | Patient-find callback results (M3 HIU) |
 | **`payments`**                       | Store Razorpay payment data                                                    |
 | **`pharmacyoperator`**               | Store pharmacy operator profiles and access details                            |
 | **`pharmacyorders`**                 | Store pharmacy orders placed by users                                          |
 | **`pharmacypayments`**               | Store pharmacy order payment transactions                                      |
 | **`scansharetrails`**                | Store scan and share data if token expires                                     |
 | **`sessionschemas`**                 | Store user session data when user logs in                                      |
-| **`storefacilityregistrationdatas`** | Store HFR registration data                                                    |
-| **`storenhprtxns`**                  | Store txnid data                                                               |
-| **`storeuserregistrationdatas`**     | Store NHPR doctor data                                                         |
+| **`storecarecontextstatuses`**       | Care-context transfer status per HIU request (M3) |
+| **`storefacilityregistrationdatas`** | HFR facility wizard state per (professional × trackId); final HFR facility id `IN…` (M4) |
+| **`storenhprtxns`**                  | HPR wizard transaction state (`linkStatus` = auth-link state, not registration success) (M4) |
+| **`storeuserregistrationdatas`**     | NHA professional profile snapshot + `linkedDoctorID` (doctor ↔ HPR link stamped by onboarding `complete`) (M4) |
 | **`userpaymentdbs`**                 | Store user payment data initiated in Razorpay                                  |
 | **`userprofiles`**                   | Store complete user profile data                                               |
 | **`userprofileshares`**              | Store user scan and share data token number                                    |

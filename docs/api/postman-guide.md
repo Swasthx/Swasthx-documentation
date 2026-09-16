@@ -181,12 +181,21 @@ Used to get the `accessToken` required to hit each ABDM API.
 ![Session Token]({{ site.baseurl }}/assets/images/postman/abdm-session-token.png)
 
 **registrationWithBridge**
-Used to update and get ABDM callbacks for M2/M3.
+Used to update and get ABDM callbacks for M2/M3 (`/api/hiecm/gateway/v3/bridge/url`, `bridge-services`). The callback paths the website backend exposes are listed in the [Website API Documentation]({{ site.baseurl }}/api-website#gateway-callbacks).
 
 ![Callback Registration]({{ site.baseurl }}/assets/images/postman/abdm-registration-bridge.png)
 
 **ABDM HMIS M1/M2/M3/M4**
-Contains all the ABDM APIs for the three milestones (M1, M2, M3).
+Contains the NHA-side ABDM APIs for all four milestones, grouped by tag:
+
+| Tag | Milestone | What it covers |
+|---|---|---|
+| `M1(V3) abha apis` | M1 | ABHA enrolment (`/abha/api/v3/enrollment/*`), profile login, ABHA card / phr-card |
+| `M2(V3) abha apis` | M2 | Gateway sessions, `token/generate-token`, `link/carecontext`, `sms/notify2`, user-initiated linking callbacks, `patient-share/on-share` |
+| `ABDM HMIS M1/M2/M3/M4` (consent, data-flow) | M3 | `consent/request/init|status|fetch`, `data-flow/health-information/request|notify` |
+| `M4(v3) abha apis`, `HPR-HPID`, `facility`, `lgd` | M4 | HPR auth (`/v4/int/api/v1/auth/*`), professional register/update/documents, forgot HPR id / password, masters (incl. nurse councils), HFR facility (`/v4/int/v1.5/facility/*`), LGD lookups, `bridges/MutipleHRPAddUpdateServices` (Register HIP) |
+
+> These are the **upstream NHA endpoints**. The corresponding SwasthX backend wrappers (what the portal actually calls) are in the *Swasthx HMIS* collection and documented milestone-wise at [/api-website]({{ site.baseurl }}/api-website) — e.g. NHA `bridges/MutipleHRPAddUpdateServices` ⇢ backend `POST /HFR/linkMultipleHRP`.
 
 ![ABDM Milestones]({{ site.baseurl }}/assets/images/postman/abdm-milestones.png)
 

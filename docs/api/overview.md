@@ -17,6 +17,13 @@ Welcome to the API & Integration section. Here you will find comprehensive guide
     <a href="{{ '/api-phr' | relative_url }}" class="btn-primary">View PHR APIs</a>
   </div>
 
+  <div class="doc-card" data-context="website">
+    <i class="fas fa-desktop card-icon"></i>
+    <h3>Website API Documentation</h3>
+    <p>Website / HMIS backend APIs organised by ABDM milestone — M1 ABHA, M2 linking &amp; records, M3 consent &amp; data exchange, M4 HPR / HFR / Register HIP / Facility QR.</p>
+    <a href="{{ '/api-website' | relative_url }}" class="btn-primary">View Website APIs</a>
+  </div>
+
   <div class="doc-card">
     <i class="fas fa-list-ul card-icon"></i>
     <h3>API Guidelines</h3>

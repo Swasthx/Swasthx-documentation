@@ -26,7 +26,12 @@ info:
     7. Connecting ABDM vs WB
         
     8. NHPR Flow
-  version: 1.0.0
+
+    ABDM milestone tags: "M1 - ABHA", "M2 - Linking & records", "M3 - Consent & data
+    exchange", "M4 - HPR / HFR / Facility QR" plus "gateway callbacks" (called by the NHA
+    gateway, no JWT). Routes verified against the backend controllers on 2026-09-16
+    (swasthx_backend_website @ b7d4834c). Human-readable guide: /api-website.
+  version: 1.1.0
 servers:
   - url: undefined://{{baseUrl}}
   - url: undefined://{{baseurl}}
@@ -107,30 +112,16 @@ tags:
   - name: using mobile OTP
   - name: verifyAbha by abha address or number
   - name: Walkin
+  - name: M1 - ABHA (ABDM)
+  - name: M2 - Linking & records (ABDM)
+  - name: M2 - gateway callbacks (ABDM)
+  - name: M3 - Consent & data exchange (ABDM)
+  - name: M3 - gateway callbacks (ABDM)
+  - name: M4 - HPR (ABDM)
+  - name: M4 - HPR onboarding & verification (ABDM)
+  - name: M4 - HFR (ABDM)
+  - name: M4 - Facility QR (ABDM)
 paths:
-  /HPR/register/aadhaar/generateOtp:
-    post:
-      tags:
-        - aadhaar
-      summary: Generate OTP for Aadhaar verification
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                aadhaar: <string>
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
   /HPR/register/aadhaar/verifyOtp:
     post:
       tags:
@@ -1615,470 +1606,6 @@ paths:
               example:
                 email: <string>
                 password: <string>
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /api/v3/hiu/hiecm/subscription-requests/on-init:
-    post:
-      tags:
-        - callbacks
-      summary: callback for HIU subscription init
-      description: >
-        Callback to acknowledge HIU subscription init.
-
-
-        - Method: POST
-
-        - URL: `{{baseUrl}}/api/v3/hiu/hiecm/subscription-requests/on-init`
-
-        - Headers: `Content-Type: application/json`
-
-
-        Request body schema (example):
-
-        ```json
-
-        {
-          "subscriptionRequest": {
-            "id": "<string>"
-          },
-          "response": {
-            "requestId": "<string>"
-          }
-        }
-
-        ```
-
-
-        Behavior:
-
-        - Use to acknowledge the HIU subscription init callback from HIE-CM.
-
-        - Returns 200 OK on successful acknowledgement.
-
-        - Related saved examples cover success and server error variants.
-
-
-        Variables:
-
-        - `{{baseUrl}}` — environment base URL
-
-        - `{{bearerToken}}` — token if authorization is later added (not
-        required in this request currently).
-
-
-        Notes:
-
-        - This endpoint is used as a callback receiver and should be accessible
-        publicly from the HIE-CM service.
-
-        - Ensure the request body fields are provided as strings.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                subscriptionRequest:
-                  id: <string>
-                response:
-                  requestId: <string>
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /api/v3/hiu/subscription-requests/hiu/notify:
-    post:
-      tags:
-        - callbacks
-      summary: callback for HIU subscription approved/deny status
-      description: >-
-        ## Overview
-
-
-        Callback endpoint for HIUs to notify subscription request approval or
-        denial.
-
-
-        - Method: POST
-            
-        - URL: `{{baseUrl}}/api/v3/hiu/subscription-requests/hiu/notify`
-            
-        - Purpose: Informs the system of the final status of a subscription
-        request raised by an HIU (approve/deny) along with reason and
-        subscription details.
-            
-
-        ## Authentication
-
-
-        - Typically secured using a Bearer token. Ensure your
-        workspace/environment provides a valid token.
-            
-
-        ## Headers
-
-
-        - `Content-Type: application/json`
-            
-
-        ## Request Body
-
-
-        Send a JSON object with the following shape:
-
-
-        ``` json
-
-        {
-          "notification": {
-            "subscriptionRequestId": "<string>",
-            "status": "approved | denied",
-            "reason": "<string>",
-            "subscription": {
-              "id": "<string>",
-              "patient": { "id": "<string>" },
-              "hiu": {
-                "id": "<string>",
-                "name": "<string>",
-                "type": "<string>"
-              },
-              "sources": [
-                {
-                  "hip": { /* HIP identifier object */ },
-                  "categories": ["<string>", "<string>"],
-                  "period": { "from": "<ISO-8601>", "to": "<ISO-8601>" }
-                }
-              ]
-            }
-          }
-        }
-
-         ```
-
-        ### Field details
-
-
-        - `notification.subscriptionRequestId` (string, required): The ID of the
-        original subscription request.
-            
-        - `notification.status` (string, required): Final decision — `approved`
-        or `denied`.
-            
-        - `notification.reason` (string, optional/required when denied):
-        Human-readable reason for the decision.
-            
-        - `notification.subscription` (object, required on approval): Details of
-        the created subscription when approved.
-            - `id` (string): Subscription identifier.
-                
-            - `patient.id` (string): Patient identifier.
-                
-            - `hiu` (object): HIU metadata.
-                
-            - `sources[].hip` (object): HIP identifier payload.
-                
-            - `sources[].categories` (array\[string\]): Data categories requested.
-                
-            - `sources[].period.from|to` (string, ISO-8601): Time range for data.
-                
-
-        ## Sample payloads
-
-
-        Approved:
-
-
-        ``` json
-
-        {
-          "notification": {
-            "subscriptionRequestId": "subreq-123",
-            "status": "approved",
-            "reason": "Meets policy criteria",
-            "subscription": {
-              "id": "sub-789",
-              "patient": { "id": "patient-456" },
-              "hiu": { "id": "hiu-01", "name": "Acme HIU", "type": "HIU" },
-              "sources": [
-                {
-                  "hip": { "id": "hip-55" },
-                  "categories": ["DiagnosticReport", "Observation"],
-                  "period": { "from": "2024-01-01T00:00:00Z", "to": "2024-12-31T23:59:59Z" }
-                }
-              ]
-            }
-          }
-        }
-
-         ```
-
-        Denied:
-
-
-        ``` json
-
-        {
-          "notification": {
-            "subscriptionRequestId": "subreq-123",
-            "status": "denied",
-            "reason": "Insufficient patient consent"
-          }
-        }
-
-         ```
-
-        ## Responses
-
-
-        - 200 OK — Callback successfully acknowledged. See saved example:
-        "callback successfully acknowledged".
-            
-        - 500 Internal Server Error — See saved example: "Internal server
-        error".
-            
-
-        Saved examples:
-
-
-        - OK: see example in this request.
-            
-        - Error: see example in this request.
-            
-
-        ## Notes
-
-
-        - Variables used: `{{baseUrl}}` (from environment), `{{bearerToken}}` if
-        applicable.
-            
-        - This documentation is based on similarly named requests within this
-        workspace including:
-            - callback for HIU subscription approved/deny status (current request)
-                
-            - callback for HIU subscription approved/deny status (related reference)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                notification:
-                  subscriptionRequestId: <string>
-                  status: <string>
-                  reason: <string>
-                  subscription:
-                    id: <string>
-                    patient:
-                      id: <string>
-                    hiu:
-                      id: <string>
-                      name: <string>
-                      type: <string>
-                    sources:
-                      - hip: {}
-                        categories:
-                          - <string>
-                          - <string>
-                        period:
-                          from: <string>
-                          to: <string>
-                      - hip: {}
-                        categories:
-                          - <string>
-                          - <string>
-                        period:
-                          from: <string>
-                          to: <string>
-      parameters:
-        - name: Content-Type
-          in: header
-          schema:
-            type: string
-          example: application/json
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-  /api/v3/hiu/subscription/notify:
-    post:
-      tags:
-        - callbacks
-      summary: callback for new care context/data linked
-      description: >-
-        Purpose
-
-
-        - Notify HIU that a new care context/data link event occurred for a
-        subscription. Used by HIU to acknowledge and track subscription
-        notifications.
-            
-
-        Endpoint
-
-
-        - Method: POST
-            
-        - URL: `{{baseUrl}}/api/v3/hiu/subscription/notify`
-            
-
-        Headers
-
-
-        - Content-Type: application/json
-            
-
-        Authentication & Variables
-
-
-        - Uses variables:
-            - `{{baseUrl}}` (from active environment)
-                
-            - `{{bearerToken}}` if Authorization is applied elsewhere in the collection/environment.
-                
-
-        Request Body
-
-
-        - Type: raw (application/json)
-            
-        - Schema (guide):
-            
-            ``` json
-            {
-            "notification": {
-              "subscriptionRequestId": "string",
-              "status": "string",
-              "reason": "string",
-              "subscription": {
-                "id": "string",
-                "patient": { "id": "string" },
-                "hiu": { "id": "string", "name": "string", "type": "string" },
-                "sources": [
-                  {
-                    "hip": {},
-                    "categories": ["string", "string"],
-                    "period": { "from": "string", "to": "string" }
-                  }
-                ]
-              }
-            }
-            }
-            
-             ```
-            
-
-        Example Request Body
-
-
-        ``` json
-
-        {
-          "notification": {
-            "subscriptionRequestId": "req-123",
-            "status": "ACKNOWLEDGED",
-            "reason": "Care context linked",
-            "subscription": {
-              "id": "sub-789",
-              "patient": { "id": "patient-456" },
-              "hiu": { "id": "hiu-001", "name": "Sample HIU", "type": "Hospital" },
-              "sources": [
-                {
-                  "hip": {},
-                  "categories": ["OPConsultation", "Diagnostics"],
-                  "period": { "from": "2024-01-01T00:00:00Z", "to": "2024-12-31T23:59:59Z" }
-                }
-              ]
-            }
-          }
-        }
-
-         ```
-
-        Responses
-
-
-        - See saved examples on this request for typical outcomes:
-            - callback successfully acknowledged — status: 200 OK
-                
-            - Internal server error — status: 500 Internal Server Error
-                
-
-        Related Requests
-
-
-        - This request is referenced as: callback for new care context/data
-        linked.
-            
-
-        Notes
-
-
-        - Ensure the environment variable `baseUrl` is set (active environment:
-        wb-prod-env).
-            
-        - Align field values (ids, statuses, categories) with your domain model.
-            
-        - No pre-request or test scripts are defined for this request yet.
-            
-
-        References
-
-
-        - Similar requests and guidance derived from: [callback for new care
-        context/data
-        linked](https://request/46178638-7683d831-14f1-4fb2-8cbd-c07ef9a45a9e)
-        and [callback for new care context/data
-        linked](https://request/46178638-539c5c64-cd21-4d54-b0e5-a19261a08871).
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                notification:
-                  subscriptionRequestId: <string>
-                  status: <string>
-                  reason: <string>
-                  subscription:
-                    id: <string>
-                    patient:
-                      id: <string>
-                    hiu:
-                      id: <string>
-                      name: <string>
-                      type: <string>
-                    sources:
-                      - hip: {}
-                        categories:
-                          - <string>
-                          - <string>
-                        period:
-                          from: <string>
-                          to: <string>
-                      - hip: {}
-                        categories:
-                          - <string>
-                          - <string>
-                        period:
-                          from: <string>
-                          to: <string>
       parameters:
         - name: Content-Type
           in: header
@@ -5411,7 +4938,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /facility/search:
+  /HFR/facility/search:
     post:
       tags:
         - HFR-Utility
@@ -5501,7 +5028,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /fetchFacilityType:
+  /HFR/fetchFacilityType:
     post:
       tags:
         - HFR-Utility
@@ -5601,7 +5128,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getOwnerSubtypes:
+  /HFR/getOwnerSubtypes:
     post:
       tags:
         - HFR-Utility
@@ -5629,7 +5156,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /linkMultipleHRP:
+  /HFR/linkMultipleHRP:
     post:
       tags:
         - HFR-Utility
@@ -5657,7 +5184,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /LGDSubDistrict:
+  /HFR/LGDSubDistrict:
     get:
       tags:
         - HFR-Utility
@@ -5673,7 +5200,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /LGDDistrict:
+  /HFR/LGDDistrict:
     get:
       tags:
         - HFR-Utility
@@ -5689,7 +5216,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /LGDStates:
+  /HFR/LGDStates:
     get:
       tags:
         - HFR-Utility
@@ -5699,7 +5226,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getMasterData:
+  /HFR/getMasterData:
     get:
       tags:
         - HFR-Utility
@@ -5715,7 +5242,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getMasterTypes:
+  /HFR/getMasterTypes:
     get:
       tags:
         - HFR-Utility
@@ -5725,7 +5252,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getABDMCompliantSoftware:
+  /HFR/getABDMCompliantSoftware:
     get:
       tags:
         - HFR-Utility
@@ -5735,7 +5262,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getFacilitySubtype:
+  /HFR/getFacilitySubtype:
     get:
       tags:
         - HFR-Utility
@@ -5756,22 +5283,17 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /getSpecialities:
-    get:
+    post:
       tags:
         - HFR-Utility
-      summary: Get Specialities
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-          example: Bearer {{token}}
-        - name: systemOfMedicineCode
-          in: query
-          schema:
-            type: string
-          example: '{{systemOfMedicineCode}}'
+      summary: Retrieve facility subtypes for a given facility type code (POST variant)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityTypeCode: <string>
       responses:
         '200':
           description: Successful response
@@ -6518,7 +6040,7 @@ paths:
           content:
             application/json: {}
   /HPR/masterAPI/colleges:
-    get:
+    post:
       tags:
         - masterAPI
       summary: Get colleges by state and system of medicine
@@ -6541,7 +6063,7 @@ paths:
           content:
             application/json: {}
   /HPR/masterAPI/courses:
-    get:
+    post:
       tags:
         - masterAPI
       summary: Get courses by HPR type and system of medicine
@@ -6583,7 +6105,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /HPR/masterAPI/district:
+  /HPR/masterAPI/districts:
     get:
       tags:
         - masterAPI
@@ -6644,7 +6166,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /HPR/masterAPI/nurserCollegesByStateID:
+  /HPR/masterAPI/nurse-colleges:
     get:
       tags:
         - masterAPI
@@ -10885,6 +10407,1714 @@ paths:
             type: string
           description: (Required) End date of the range
           example: <string>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getOTPonCommunicationMobileForABHAprofile:
+    post:
+      tags:
+        - M1 - ABHA (ABDM)
+      summary: Send OTP on a communication mobile (ABHA creation)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                aadhaar: "<string>"
+                communicationMobileNumber: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /accessbymobile/finalizeProfileLinkage:
+    post:
+      tags:
+        - M1 - ABHA (ABDM)
+      summary: Finalize the local-profile choice after mobile ABHA verification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                verificationId: "<string>"
+                action: use_existing | update_profile | create_profile
+                selectedProfileId: "<string>"
+                selectedProfileSource: userprofile | patient_registration | patient_info
+                makeAbhaAddressPreferred: "<boolean>"
+                confirmDemographicMismatch: "<boolean>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /patient/{patientId}:
+    get:
+      tags:
+        - patient
+      summary: Get one registered patient
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /patient/update/{patientId}:
+    patch:
+      tags:
+        - patient
+      summary: Update a registered patient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                patientInfo: {}
+                patientGuardian: {}
+                patientAddress: {}
+                patientParentsInfo: {}
+                patientAbhaDetails: {}
+                doctorName: "<string>"
+                doctorID: "<string>"
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /patient/delete/{patientId}:
+    delete:
+      tags:
+        - patient
+      summary: Delete a registered patient
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hip/token/on-generate-token:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: link token generated (stored in linktokens keyed by ABHA address)"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: "<string>"
+                linkToken: "<string>"
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/link/on_carecontext:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: care-context link acknowledgement"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                abhaAddress: "<string>"
+                status: "<string>"
+                error: {}
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/patients/sms/on-notify:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: SMS notify acknowledgement"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hip/link/care-context/init:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: user-initiated linking — init (send OTP)"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                requestId: "<string>"
+                timestamp: "<string>"
+                transactionId: "<string>"
+                patient:
+                  id: "<string>"
+                  referenceNumber: "<string>"
+                  careContexts:
+                    - referenceNumber: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hip/link/care-context/confirm:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: user-initiated linking — confirm OTP"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                requestId: "<string>"
+                timestamp: "<string>"
+                confirmation:
+                  linkRefNumber: "<string>"
+                  token: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hip/patient/share:
+    post:
+      tags:
+        - M2 - gateway callbacks (ABDM)
+      summary: "Callback: Scan & Share — patient profile shared after scanning the facility QR (also requests the link token silently)"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                requestId: "<string>"
+                timestamp: "<string>"
+                intent:
+                  type: PROFILE_SHARE
+                metaData:
+                  hipId: "<string>"
+                  context: "<string>"
+                  hipCounterCode: "<string>"
+                profile:
+                  patient:
+                    abhaNumber: "<string>"
+                    abhaAddress: "<string>"
+                    name: "<string>"
+                    gender: "<string>"
+                    dayOfBirth: "<string>"
+                    monthOfBirth: "<string>"
+                    yearOfBirth: "<string>"
+                    address:
+                      line: "<string>"
+                      district: "<string>"
+                      state: "<string>"
+                      pincode: "<string>"
+                    phoneNumber: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getShareProfileUserData:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: List profiles shared via Scan & Share
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /verifyUsershareDemographics:
+    put:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: Verify demographics of a Scan & Share profile
+      parameters:
+        - name: healthID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /completeScanShareVerification:
+    put:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: Mark a Scan & Share profile as verified / checked-in
+      parameters:
+        - name: healthID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /deletePatientData:
+    delete:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: Delete a shared (Scan & Share) patient profile
+      parameters:
+        - name: healthID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/getAllPatientsInfoRecords:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Admin: all patient info records"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/getSinglePatientInfoRecords/{patientID}:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Admin: single patient info record"
+      parameters:
+        - name: patientID
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/updatePatientInfos/{patientID}:
+    patch:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Admin: update patient info"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                patientInfo: {}
+                patientGuardian: {}
+                patientAddress: {}
+                patientParentsInfo: {}
+                patientAbhaDetails: {}
+                doctorName: "<string>"
+                doctorID: "<string>"
+      parameters:
+        - name: patientID
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/deletePatient/{patientID}:
+    delete:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Admin: delete patient"
+      parameters:
+        - name: patientID
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /receptionist/getAllPatientsInfo:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Reception: all patients of the hospital"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /pharmacy/getAllPatientsInfo:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Pharmacy: all patients"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /diagnostic/getAllPatientsInfo:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Diagnostic: all patients"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /receptionist/getAllDoctorPatients:
+    get:
+      tags:
+        - M2 - Linking & records (ABDM)
+      summary: "Reception: patients of one doctor"
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /checkConsentStatus:
+    post:
+      tags:
+        - M3 - Consent & data exchange (ABDM)
+      summary: "HIU: check consent request status"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consentRequestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /fetchStatus:
+    get:
+      tags:
+        - M3 - Consent & data exchange (ABDM)
+      summary: "HIU: fetch verification status for a request"
+      parameters:
+        - name: requestID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /getCarecontextStatus:
+    get:
+      tags:
+        - M3 - Consent & data exchange (ABDM)
+      summary: "HIU: care-context transfer status"
+      parameters:
+        - name: requestID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: consentID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /datapushdone:
+    post:
+      tags:
+        - M3 - Consent & data exchange (ABDM)
+      summary: "HIP → HIU data push receiver (HIU_DATA_PUSH_URL): encrypted FHIR entries + key material"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                pageNumber: "<number>"
+                pageCount: "<number>"
+                transactionId: "<string>"
+                entries:
+                  - content: "<string>"
+                    media: application/fhir+json
+                    checksum: "<string>"
+                    careContextReference: "<string>"
+                keyMaterial:
+                  cryptoAlg: ECDH
+                  curve: Curve25519
+                  dhPublicKey:
+                    expiry: "<string>"
+                    parameters: "<string>"
+                    keyValue: "<string>"
+                  nonce: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /test-parse-fhir-bundle:
+    post:
+      tags:
+        - M3 - Consent & data exchange (ABDM)
+      summary: "Dev/test: parse a FHIR bundle string per hiType (no auth)"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                bundleString: "<string>"
+                hiTypes:
+                  - OPConsultation
+                  - DiagnosticReport
+                  - Prescription
+                  - Invoice
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hiu/consent/request/on-init:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: consent request created"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consentRequest:
+                  id: "<string>"
+                error:
+                  code: "<number>"
+                  message: "<string>"
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hiu/consent/request/on-status:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: consent request status"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consentRequest:
+                  id: "<string>"
+                  status: GRANTED | DENIED | REVOKED | EXPIRED
+                  consentArtefacts:
+                    - id: "<string>"
+                error: {}
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hiu/consent/request/notify:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: consent artefact notification"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                notification:
+                  consentRequestId: "<string>"
+                  status: "<string>"
+                  consentArtefacts:
+                    - id: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v0.5/patients/on-find:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: patient find result"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                requestId: "<string>"
+                timestamp: "<string>"
+                patient:
+                  id: "<string>"
+                  name: "<string>"
+                resp:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hiu/consent/on-fetch:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: consent artefact fetched"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                consent:
+                  status: "<string>"
+                  consentDetail: {}
+                  signature: "<string>"
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hiu/health-information/on-request:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback: health-information request acknowledged"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hiRequest:
+                  transactionId: "<string>"
+                  sessionStatus: ACKNOWLEDGED
+                error:
+                  code: "<number>"
+                  message: "<string>"
+                response:
+                  requestId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v3/hip/health-information/request:
+    post:
+      tags:
+        - M3 - gateway callbacks (ABDM)
+      summary: "Callback (HIP): gateway asks us to transfer records for a consent — bundles are built, encrypted and pushed to hiRequest.dataPushUrl"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                requestId: "<string>"
+                timestamp: "<string>"
+                transactionId: "<string>"
+                hiRequest:
+                  consent:
+                    id: "<string>"
+                  dateRange:
+                    from: "<string>"
+                    to: "<string>"
+                  dataPushUrl: "<string>"
+                  keyMaterial:
+                    cryptoAlg: ECDH
+                    curve: Curve25519
+                    dhPublicKey:
+                      expiry: "<string>"
+                      parameters: "<string>"
+                      keyValue: "<string>"
+                    nonce: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/register/aadhaar/generateLink:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Step 1 — generate the ABDM-hosted Aadhaar consent link (replaces generateOtp)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                scopes:
+                  - "<string>"
+                source: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/register/aadhaar/isAuthenticated:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Step 2 — poll whether the Aadhaar consent was completed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                txnId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/reKyc/generateOtp:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Re-KYC — send OTP to the Aadhaar-linked mobile (uses stored HPR token)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hprID: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/reKyc/verifyOtp:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Re-KYC — verify the Aadhaar OTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                otp: "<string>"
+                hprId: "<string>"
+                txnId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/profile/updateRole:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Update the role on an HPR ID (NHA allows 1→3 and 2→3 only)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hprId: "<string>"
+                role: "<number>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/professional/getCompleteFormData:
+    get:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Local draft slices (personalInformation / educationInformation / workInformation)
+      parameters:
+        - name: hprIdNumber
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/masterAPI/nurse-affiliated-boards:
+    get:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Nurse flow — affiliated boards (universities) by state
+      parameters:
+        - name: state_id
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/masterAPI/affiliated-board:
+    get:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Nurse flow — affiliated board by ID
+      parameters:
+        - name: board_id
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/masterAPI/hpid/categories:
+    get:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: HPR ID categories for a role
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/masterAPI/hpid/sub-categories:
+    get:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: HPR ID sub-categories
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: categoryCode
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /updatePassword/verifyAadhaarOtp:
+    post:
+      tags:
+        - M4 - HPR (ABDM)
+      summary: Password recovery — verify Aadhaar OTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hprId: "<string>"
+                otp: "<rsa-encrypted>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/onboarding/start:
+    post:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "Admin: start an HPR onboarding session for a doctor (returns trackingId)"
+      description: "hospitalId + adminID come from the JWT. Response: { trackingId, targetDoctorID, status: \"IN_PROGRESS\" }"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                targetDoctorID: "<string>"
+                targetDoctorName: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/onboarding/complete:
+    post:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "Admin: complete onboarding — links the HPR to the tracked doctor (idempotent)"
+      description: "Fire after createHprid (register path) or getAccountInfo (login path). Response: { ok, status, targetDoctorID, linked, message } — branch on linked."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                trackingId: "<string>"
+                hprIdNumber: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/onboarding/pending:
+    get:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "Admin: in-progress onboarding sessions for the hospital"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/onboarding/{trackingId}:
+    get:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "Admin: one onboarding session"
+      parameters:
+        - name: trackingId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/verify/status/{doctorID}:
+    get:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "HPR read-model for a doctor: { hpr: { createdHprIdDetailsPresent, hprId, hprIdNumber } | null }"
+      parameters:
+        - name: hospitalId
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: doctorID
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HPR/verify/banner:
+    get:
+      tags:
+        - M4 - HPR onboarding & verification (ABDM)
+      summary: "Admin: unverified-doctors feed for the hospital"
+      description: "Caller must be role=admin of the same hospital. Response: { hospitalId, unverifiedCount, unverifiedDoctors[] }"
+      parameters:
+        - name: hospitalId
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/sendOtpToContact:
+    post:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Send OTP to the facility contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/validateOtp:
+    post:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Validate the facility contact OTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityId: "<string>"
+                sourceId: "<string>"
+                otp: "<string>"
+                source: "<string>"
+                transactionId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/deleteDraft:
+    delete:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Delete a server-side (ABDM) facility draft
+      parameters:
+        - name: trackId
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: hprID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/saveDraft:
+    post:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Save a local-only facility draft (not sent to ABDM)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                hprID: "<string>"
+                localDraftId: "<string>"
+                payload: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/localDrafts:
+    get:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: List local facility drafts for a professional
+      parameters:
+        - name: hprID
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/facility/localDraft:
+    get:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Fetch a local facility draft by id
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Delete a local facility draft by id
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/getSpecialities:
+    post:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: Specialities for a system of medicine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                systemOfMedicineCode: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /HFR/getHrpBridgeDetails:
+    post:
+      tags:
+        - M4 - HFR (ABDM)
+      summary: "Register HIP — \"Get Details\": resolve the software bridge for a facility"
+      description: "facilityID must match ^IN\\d+$. Calls NHA facility/getHrpBridgeDtls. Response: { id, name, url, bridgeId }"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityID: IN3610001058
+                facilityName: "<string>"
+                bridgeId: "<string>"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/facility-qr/facilities:
+    get:
+      tags:
+        - M4 - Facility QR (ABDM)
+      summary: "Admin: facilities under the admin hospital (from HFR data)"
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/facility-qr/generate:
+    post:
+      tags:
+        - M4 - Facility QR (ABDM)
+      summary: "Admin: generate the Facility QR for a facility"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                facilityId: IN0210000001
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/facility-qr/{facilityId}:
+    get:
+      tags:
+        - M4 - Facility QR (ABDM)
+      summary: "Admin: active Facility QR record"
+      parameters:
+        - name: facilityId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/facility-qr/{facilityId}/preview:
+    get:
+      tags:
+        - M4 - Facility QR (ABDM)
+      summary: "Admin: stream the QR PNG for inline preview"
+      parameters:
+        - name: facilityId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /admin/facility-qr/{facilityId}/regenerate:
+    post:
+      tags:
+        - M4 - Facility QR (ABDM)
+      summary: "Admin: regenerate the QR (supersedes the current active QR)"
+      parameters:
+        - name: facilityId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "<string>"
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <jwt>
       responses:
         '200':
           description: Successful response

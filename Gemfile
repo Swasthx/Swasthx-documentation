@@ -19,3 +19,9 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Performance extensions
 gem "wdm", "~> 0.2.0", :install_if => Gem.win_platform?
+
+# Stdlib gems that are no longer default gems on Ruby >= 3.4 / 4.0 but Jekyll 4.3 still requires
+gem "logger"
+gem "csv"
+gem "base64"
+gem "bigdecimal"
