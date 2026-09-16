@@ -163,5 +163,295 @@ The frontend deployment is automated using **AWS Amplify**:
 
 </div>
 
+<div data-context="phr" markdown="1">
+
+## 3. PHR Mobile App Frontend Architecture (`Swasthx_Software`)
+
+The Swasthx PHR Mobile App is a cross-platform mobile application developed with **React Native (v0.80+)** for patients to manage health records, doctor appointments, ABHA accounts, lab tests, and digital prescriptions.
+
+- **Framework**: React Native 0.80.1 (React 19)
+- **Architecture**: Modular feature-based structure with Redux Toolkit, Context API, and React Query
+- **Navigation**: React Navigation 7 (Native Stack, Bottom Tabs, Drawer, Material Top Tabs)
+- **Native Bridges & Integrations**:
+  - Apple HealthKit (`react-native-health`) & Health Connect (`react-native-health-connect`)
+  - Camera & Document Scanning (`react-native-vision-camera`, `@react-native-documents/picker`)
+  - Push Notifications (`@react-native-firebase/messaging`, `react-native-onesignal`)
+  - Authentication: Google Sign-in (`@react-native-google-signin/google-signin`), OTP verification
+  - Payments: Razorpay (`react-native-razorpay`)
+  - Realtime: Socket.IO Client (`socket.io-client`)
+  - Security: SSL Pinning (`react-native-ssl-pinning`), Jail Monkey (`jail-monkey`), CryptoJS
+
+---
+
+## 4. iOS Setup & Development Guidelines (macOS)
+
+This guide provides step-by-step instructions for cloning, setting up, building, and running the iOS application on macOS, as well as distributing pre-release builds via TestFlight.
+
+### 4.1 Prerequisites (macOS Only)
+
+iOS development requires **macOS** (Apple Silicon M1/M2/M3/M4 or Intel). Before starting, ensure the following tools are installed:
+
+1. **Homebrew** (macOS Package Manager):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+2. **Node.js (LTS v18 or v20)**:
+   Node version `>= 18` is required. Using [nvm](https://github.com/nvm-sh/nvm) is strongly recommended:
+   ```bash
+   brew install nvm
+   nvm install 20
+   nvm use 20
+   ```
+
+3. **Watchman**:
+   ```bash
+   brew install watchman
+   ```
+
+4. **Xcode & Command Line Tools**:
+   - Install **Xcode 15 or 16** from the [Mac App Store](https://apps.apple.com/app/xcode/id497799835).
+   - Install Xcode Command Line Tools:
+     ```bash
+     xcode-select --install
+     ```
+   - Accept the Xcode license:
+     ```bash
+     sudo xcodebuild -license accept
+     ```
+
+5. **Ruby & Bundler (for CocoaPods)**:
+   The project uses a pinned `Gemfile` to manage CocoaPods and avoid version incompatibilities:
+   ```bash
+   gem install bundler
+   ```
+
+---
+
+### 4.2 Step 1: Git Clone the Repository
+
+Clone the mobile application repository:
+
+```bash
+# Clone the repository
+git clone https://github.com/Swasthx/Swasthx_Software.git
+
+# Move into the project root directory
+cd Swasthx_Software
+```
+
+#### iOS Environment Branches
+The iOS application uses dedicated branches for development, QA, and production releases:
+
+| iOS Branch | Environment | Purpose |
+| :--- | :--- | :--- |
+| **`IOS_Dev`** | Development (Alpha) | Active daily development for iOS features and updates. |
+| **`IOS_QA`** | QA (Beta) | Quality Assurance testing and pre-release TestFlight builds. |
+| **`IOS_MAIN`** | Production | Stable production release deployed to App Store Connect / App Store. |
+
+Switch to your target iOS branch:
+```bash
+# For active daily iOS development:
+git checkout IOS_Dev
+
+# For QA testing and TestFlight builds:
+git checkout IOS_QA
+
+# For production App Store releases:
+git checkout IOS_MAIN
+```
+
+When creating a new feature or fix for iOS, always branch off `IOS_Dev`:
+```bash
+git checkout IOS_Dev
+git pull origin IOS_Dev
+git checkout -b feat/ios-your-feature-name
+```
+
+---
+
+### 4.3 Step 2: Install JavaScript Dependencies
+
+Install the project npm dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+---
+
+### 4.4 Step 3: Configure Environment Variables (`.env`)
+
+Copy the template `.env.example` into a local `.env` file:
+
+```bash
+cp .env.example .env
+```
+
+Populate the required environment variables:
+
+| Variable | Description | Example / Environment |
+| :--- | :--- | :--- |
+| `BASE_URL` | PHR API Gateway endpoint | Dev: `https://new-swasthxapp.api.swasthx.com`<br>QA: `https://phrqa.api.swasthx.com`<br>Prod: `https://phrproduction.api.swasthx.com` |
+| `HMIS_URL` | Doctor / HMIS portal base URL | Dev: `https://dev-doctor.swasthx.com`<br>QA: `https://qa-doctor.swasthx.com` |
+| `GOOGLE_API_KEY` | Google Maps & Services API Key | Project specific API Key |
+| `DATA_SECRET_KEY` | Data encryption / decryption key | Consult team lead |
+| `HIU_ID` | ABDM Health Information User ID | `IN3610001058` |
+| `GMAIL_WEB_CLIENT_ID` | OAuth Web Client ID for Google Auth | Project specific client ID |
+| `GMAIL_WEB_CLIENT_SECRET` | OAuth Web Client Secret | Project specific client secret |
+
+> [!CAUTION]
+> Never commit `.env` or sensitive production API keys to Git.
+
+---
+
+### 4.5 Step 4: Configure Node Path for Xcode (`.xcode.env.local`)
+
+Xcode build phases require locating your `node` binary. When using NVM or Homebrew on macOS, create `ios/.xcode.env.local` to prevent `Command PhaseScriptExecution failed` errors:
+
+```bash
+# Locate your node binary
+which node
+
+# Automatically write it to ios/.xcode.env.local
+echo "export NODE_BINARY=$(which node)" > ios/.xcode.env.local
+```
+
+---
+
+### 4.6 Step 5: Install iOS Pods via Bundler
+
+Navigate to the `ios/` folder and install the CocoaPods dependencies. Use `bundle exec` to ensure the exact CocoaPods version specified in the project's `Gemfile` is used:
+
+```bash
+cd ios
+
+# Install Ruby gems (cocoapods, xcodeproj, etc.)
+bundle install
+
+# Install native iOS CocoaPods dependencies
+bundle exec pod install
+
+# Return to root directory
+cd ..
+```
+
+> [!TIP]
+> **Apple Silicon (M1/M2/M3/M4) Users**: If you encounter architecture mismatch errors during `pod install`, prefix the command with Rosetta:
+> ```bash
+> arch -x86_64 bundle exec pod install
+> ```
+
+---
+
+### 4.7 Step 6: Open Project in Xcode & Configure Signing
+
+> [!IMPORTANT]
+> Always open **`swasthx.xcworkspace`**, **NEVER** `swasthx.xcodeproj`. Opening `.xcodeproj` directly will cause library linking errors because CocoaPods dependencies are managed in the workspace.
+
+Open the workspace from the terminal:
+```bash
+open ios/swasthx.xcworkspace
+```
+
+#### Configure Signing & Capabilities:
+1. In Xcode's left Project Navigator, click the top **`swasthx`** project.
+2. Under **Targets**, select **`swasthx`**.
+3. Select the **Signing & Capabilities** tab.
+4. Check **Automatically manage signing**.
+5. Under **Team**, select the **Swasthx Apple Developer Team** (request access from your administrator if not listed).
+6. Ensure the **Bundle Identifier** is properly set.
+
+---
+
+### 4.8 Step 7: Running the App on iOS
+
+#### Option A: Running via Terminal (CLI)
+
+1. Start Metro bundler in one terminal tab:
+   ```bash
+   npm start -- --reset-cache
+   # or
+   yarn start --reset-cache
+   ```
+
+2. In another terminal tab, launch the iOS build:
+   ```bash
+   npm run ios
+   ```
+
+   To launch a specific simulator (e.g., iPhone 15 Pro):
+   ```bash
+   npx react-native run-ios --simulator="iPhone 15 Pro"
+   ```
+
+#### Option B: Running via Xcode
+
+1. In the top toolbar, select the active scheme: **`swasthx`**.
+2. Select your target device: choose an **iOS Simulator** (e.g., *iPhone 16 Pro*) or your **Connected Physical iPhone**.
+3. Press **Cmd + R** (or click the **Play** button) to build and run.
+
+---
+
+### 4.9 Step 8: Build Sharing & TestFlight Distribution Links
+
+Swasthx distributes pre-release iOS builds via **Apple TestFlight** and shared storage for testing without requiring Xcode:
+
+| Resource / Channel | Access Link | Description |
+| :--- | :--- | :--- |
+| **iOS QA TestFlight (Public Link)** | [**Join QA TestFlight**](https://testflight.apple.com/join/33chzNj9) | Direct share link for internal and external testers to install the latest QA iOS build on an iPhone/iPad. |
+| **App Store Connect Portal** | [**App Store Connect**](https://appstoreconnect.apple.com/login) | Apple portal for managing TestFlight tester groups, release builds, metadata, and App Store submission. |
+| **iOS Pre-Release Builds Storage** | [**Google Drive iOS Builds**](https://drive.google.com/drive/folders/1oGzG5uIjLnLmychI1TL9gduKEPltpGvP?usp=sharing) | Archive of pre-built development builds and artifacts. |
+
+#### Creating a New TestFlight Release Build:
+1. In Xcode, set the build destination to **Any iOS Device (arm64)**.
+2. Increment the `Build Number` in target settings.
+3. From the menu bar, choose **Product** ➔ **Archive**.
+4. When the Organizer window opens, select the build and click **Distribute App**.
+5. Select **App Store Connect** ➔ **Upload**.
+6. Once Apple finishes processing the build (typically 10-15 minutes), open [App Store Connect](https://appstoreconnect.apple.com/login), navigate to **TestFlight**, and share the build with the QA / Internal Testing groups.
+
+---
+
+### 4.10 Troubleshooting Common iOS Issues
+
+#### 1. Pods Out of Sync / Linking Failures
+If you encounter missing header errors or pod conflicts after pulling new code:
+```bash
+cd ios
+rm -rf Pods Podfile.lock
+bundle exec pod install --repo-update
+cd ..
+```
+
+#### 2. Metro Bundler Cache Stale
+If old JavaScript code is loading or bundle resolution fails:
+```bash
+npm start -- --reset-cache
+```
+
+#### 3. Clear Xcode DerivedData & Clean Build
+```bash
+rm -rf ~/Library/Developer/Xcode/DerivedData
+```
+In Xcode, press **Cmd + Shift + K** to clean the build folder, then rebuild.
+
+#### 4. Node Binary Not Found (`PhaseScriptExecution` Error)
+Ensure your `.xcode.env.local` contains the valid Node binary path:
+```bash
+echo "export NODE_BINARY=$(which node)" > ios/.xcode.env.local
+```
+
+#### 5. CocoaPods Gem Version Incompatibility
+If you see gem conflicts or warnings about CocoaPods versions, always run pod commands via Bundler:
+```bash
+bundle exec pod install
+```
+
+</div>
+
 For a detailed breakdown of the system flow and infrastructure, refer to the [System Architecture]({{ '/architecture' | relative_url }}) page.
+
 

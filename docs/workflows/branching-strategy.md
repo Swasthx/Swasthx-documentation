@@ -15,9 +15,14 @@ We maintain specific branching structures for our different application componen
 <div data-context="phr" markdown="1">
 
 ### App Frontend
-*   **development**: For day-to-day development work.
-*   **qa**: For quality assurance testing.
-*   **production**: For the live application.
+*   **Android Branches**:
+    *   `development`: Day-to-day development work.
+    *   `qa`: Quality assurance testing.
+    *   `main`: Production release.
+*   **iOS Branches**:
+    *   `IOS_Dev`: Day-to-day iOS development work.
+    *   `IOS_QA`: Quality assurance testing and pre-release TestFlight builds.
+    *   `IOS_MAIN`: Production release for App Store Connect / App Store.
 
 ### App Backend
 *   **development**: For day-to-day development work.
