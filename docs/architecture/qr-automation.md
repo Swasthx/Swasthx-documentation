@@ -63,9 +63,9 @@ Patients visiting a hospital or clinic can initiate their journey through one of
 ### Option 2: Smartphone Camera Scan (Deep Link / Dynamic App Install)
 - **Workflow:** The patient scans the hospital QR code using their smartphone's native camera app.
 - **Actions:** 
-  1. The QR code resolves to a dynamic universal URL (`https://swasthx.com/qr/...`).
-  2. **If PHR App is installed:** The deep link opens the SwasthX PHR app directly into the hospital's booking context.
-  3. **If PHR App is NOT installed:** The link redirects the patient to the Google Play Store or Apple App Store to download the application. Upon launching after installation, the app seamlessly restores the hospital booking context.
+  1. The QR code resolves to an AppsFlyer OneLink universal URL (`swasthx.onelink.me` or `link.swasthx.com`) containing parameters `share_profile`, `doctor_appointment`, or `hipId`.
+  2. **If PHR App is installed:** The deep link opens the SwasthX PHR app directly into the hospital's booking context (`POST /provider-order/doctors/appointments`). Selection is available within a ±15-minute window of the booked slot for allow-listed hospital HIPs.
+  3. **If PHR App is NOT installed:** The link redirects the patient to the Google Play Store or Apple App Store to download the application. Upon launching after installation, deferred deep-linking restores the hospital booking context.
 
 ### Option 3: External ABDM / Government Approved Apps (Scan & Share)
 - **Workflow:** Patients using ABDM-compliant national apps (e.g., ABHA App, Aarogya Setu, Paytm, DigiLocker) scan the official hospital ABDM QR code.

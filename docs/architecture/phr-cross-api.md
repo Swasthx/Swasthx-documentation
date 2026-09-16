@@ -104,6 +104,7 @@ The following APIs are called from the PHR Backend to the Website (HIMS) Backend
 ### 4. Support & Ticket Resolution Cross APIs (`/support/phr/*`)
 *   `POST /support/phr/issues` *(Raise automated support issue ticket on website when paid order fails)*
 
-## Module to Module Cross API Communication Diagram
-
-*Tech team will add the diagrams soon....*
+### 5. HIMS Pharmacy Webhooks & Inbound Callbacks (Website -> PHR)
+*   `POST /pharmacy/prescription-orders` *(HIMS doctor-prescribed medicine proposal pushed from HMIS to PHR)*
+*   `POST /pharmacy/orders/status` *(Real-time pharmacy order status update from hospital counter for pay-at-counter orders)*
+*   `POST /pharmacy/refunds/execute` *(Refund execution trigger for prepaid orders from hospital backend)*
