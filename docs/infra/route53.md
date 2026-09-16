@@ -23,21 +23,26 @@ Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS
 ## Domain Management
 - **Primary Domain**: swasthx.com
 - **Subdomains**:
-  - **Website Frontend Subdomains**
-    - prod-website.swasthx.com (Website production branch)
-    - qa-website.swasthx.com (Website qa branch)
-    - dev-website.swasthx.com (Website development branch)
-  - **Website Backend Subdomains**
-    - websitedevelopment.api.swasthx.com (HMIS development branch backend) 
-    - websiteproduction.api.swasthx.com (HMIS production branch backend) 
-    - websiteqa.api.swasthx.com (HMIS qa branch backend) 
-  - **PHR Backend Subdomains**
-    - new-swasthxapp.api.swasthx.com (PHR development branch backend) 
-    - phrproduction.api.swasthx.com (PHR production branch backend) 
-    - phrqa.api.swasthx.com (PHR qa branch backend)
+  - **Website & Doctor Portal Frontend Subdomains**
+    - `doctor.swasthx.com` / `prod-doctor.swasthx.com` (Doctor/HMIS portal production)
+    - `qa-doctor.swasthx.com` (Doctor/HMIS portal QA)
+    - `dev-doctor.swasthx.com` (Doctor/HMIS portal development)
+    - `www.swasthx.com` (Public marketing website)
+  - **Website / HMIS Backend Subdomains**
+    - `swasthxhmis.api.swasthx.com` (HMIS API gateway endpoint)
+    - `websiteproduction.api.swasthx.com` (HMIS production branch backend)
+    - `websiteqa.api.swasthx.com` (HMIS QA branch backend)
+    - `websitedevelopment.api.swasthx.com` (HMIS development branch backend)
+    - `new-swasthxhmis.api.swasthx.com` (New HMIS backend endpoint)
+  - **PHR App Backend Subdomains**
+    - `swasthxapp.api.swasthx.com` (PHR main API gateway endpoint)
+    - `phrproduction.api.swasthx.com` (PHR production branch backend)
+    - `phrqa.api.swasthx.com` (PHR QA branch backend)
+    - `phrdevelopment.api.swasthx.com` / `new-swasthxapp.api.swasthx.com` (PHR development branch backend)
+    - `swasthxapp.api.preprod.swasthx.com` (PHR pre-production endpoint)
 
 ## DNS Features
 - A records for service endpoints
 - CNAME records for aliases
-- MX records for email services
-- TXT records for verification
+- MX records for email services (Hostinger Mail)
+- TXT records for verification (SPF, DKIM)

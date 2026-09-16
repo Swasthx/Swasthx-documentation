@@ -115,6 +115,15 @@ navigation:
         url: "/docs/architecture/website-cross-api.html"
         icon: fas fa-exchange-alt
         contexts: [website]
+      - title: "QR Automation"
+        url: "#"
+        icon: fas fa-folder-open
+        contexts: [phr, website]
+        children:
+          - title: "QR Automation"
+            url: "/docs/architecture/qr-automation.html"
+            icon: fas fa-qrcode
+            contexts: [phr, website]
 
   - title: "Development"
     url: "#"
@@ -143,6 +152,14 @@ navigation:
         url: "/docs/api/overview.html"
         icon: fas fa-info
         contexts: [phr, website]
+      - title: "PHR API Documentation"
+        url: "/api-phr"
+        icon: fas fa-mobile-alt
+        contexts: [phr]
+      - title: "Website API Documentation"
+        url: "/api-website"
+        icon: fas fa-desktop
+        contexts: [website]
       - title: "API Guidelines"
         url: "/docs/api/api-guidelines.html"
         icon: fas fa-list-ul
@@ -151,7 +168,6 @@ navigation:
         url: "/postman-collection-guide"
         icon: fas fa-envelope-open-text
         contexts: [phr, website]
-
 
   - title: "Database"
     url: "#"
@@ -227,6 +243,22 @@ navigation:
             url: "/docs/infra/app-runner.html"
             icon: fas fa-database
             contexts: [phr, website]
+          - title: "AWS Lambda"
+            url: "/docs/infra/lambda.html"
+            icon: fas fa-bolt
+            contexts: [phr, website]
+          - title: "Amazon SQS"
+            url: "/docs/infra/sqs.html"
+            icon: fas fa-stream
+            contexts: [phr, website]
+          - title: "Amazon EventBridge"
+            url: "/docs/infra/eventbridge.html"
+            icon: fas fa-network-wired
+            contexts: [phr, website]
+          - title: "Amazon ElastiCache"
+            url: "/docs/infra/elasticache.html"
+            icon: fas fa-memory
+            contexts: [phr, website]
           - title: "Google Gemini"
             url: "/docs/infra/gemini.html"
             icon: fas fa-brain
@@ -259,6 +291,14 @@ navigation:
             url: "/docs/infra/iam-roles.html"
             icon: fas fa-user-lock
             contexts: [phr, website]
+          - title: "CI/CD Pipeline"
+            url: "/docs/infra/cicd-phr.html"
+            icon: fas fa-code-branch
+            contexts: [phr]
+          - title: "CI/CD Pipeline"
+            url: "/docs/infra/cicd.html"
+            icon: fas fa-code-branch
+            contexts: [website]
 
   - title: "Workflows & Processes"
     url: "#"
@@ -272,7 +312,7 @@ navigation:
       - title: "Frontend Workflows"
         url: "/docs/workflows/frontend-workflows.html"
         icon: fas fa-desktop
-        contexts: [website]
+        contexts: [phr, website]
       - title: "Backend"
         url: "#"
         icon: fas fa-server

@@ -17,11 +17,25 @@ Welcome to the Database section. Here you will find comprehensive standards, env
     <a href="{{ '/docs/database/guidelines.html' | relative_url }}" class="btn-primary">View Guidelines</a>
   </div>
 
+  <div class="doc-card" data-context="phr">
+    <i class="fas fa-database card-icon"></i>
+    <h3>PHR Database</h3>
+    <p>Detailed documentation of database collections, schemas, and environment DB names for PHR App.</p>
+    <a href="{{ '/docs/database/phr-database.html' | relative_url }}" class="btn-primary">View PHR DB</a>
+  </div>
+
+  <div class="doc-card" data-context="website">
+    <i class="fas fa-database card-icon"></i>
+    <h3>Website Database</h3>
+    <p>Detailed documentation of database collections, schemas, and environment DB names for Website/HMIS.</p>
+    <a href="{{ '/docs/database/website-database.html' | relative_url }}" class="btn-primary">View Website DB</a>
+  </div>
+
   <div class="doc-card">
-    <i class="fas fa-file-alt card-icon"></i>
-    <h3>DB Documentations</h3>
-    <p>Detailed documentation of database collections, schemas, and relationships for PHR and Website.</p>
-    <a href="{{ '/docs/database/documentation.html' | relative_url }}" class="btn-primary">View Documentation</a>
+    <i class="fas fa-key card-icon"></i>
+    <h3>DB Access Guide</h3>
+    <p>Instructions for connecting to DocumentDB using MongoDB Compass and SSH Tunneling.</p>
+    <a href="{{ '/docs/database/db-access.html' | relative_url }}" class="btn-primary">View DB Access</a>
   </div>
 
 </div>

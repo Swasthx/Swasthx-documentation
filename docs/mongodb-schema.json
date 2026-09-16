@@ -332,6 +332,78 @@
         { "name": "createdAt", "type": "Date" },
         { "name": "updatedAt", "type": "Date" }
       ]
+    },
+    {
+      "name": "aisummaries",
+      "description": "Cached AI health record summaries generated via Gemini",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "sha256Hash", "type": "String", "required": true, "unique": true },
+        { "name": "summaryText", "type": "String", "required": true },
+        { "name": "createdAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "medicineorderproposals",
+      "description": "Doctor-prescribed medicine order proposals",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "proposalId", "type": "String", "required": true, "unique": true },
+        { "name": "abhaAddress", "type": "String", "required": true },
+        { "name": "status", "type": "String", "enum": ["PENDING", "ACCEPTED", "REJECTED"] },
+        { "name": "createdAt", "type": "Date" }
+      ]
+    },
+    {
+      "name": "orderissues",
+      "description": "Customer support issue tickets for failed order/payment sagas",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "ticketId", "type": "String", "required": true, "unique": true },
+        { "name": "orderId", "type": "String" },
+        { "name": "issueDescription", "type": "String" },
+        { "name": "status", "type": "String" }
+      ]
+    },
+    {
+      "name": "partners",
+      "description": "Third-party vendor parameters and base URLs",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "partnerName", "type": "String", "required": true },
+        { "name": "baseUrl", "type": "String" },
+        { "name": "active", "type": "Boolean" }
+      ]
+    },
+    {
+      "name": "doctorprofiles",
+      "description": "Hospital doctor details and consultation schedules",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "doctorId", "type": "String", "required": true },
+        { "name": "name", "type": "String" },
+        { "name": "speciality", "type": "String" },
+        { "name": "hospitalId", "type": "String" }
+      ]
+    },
+    {
+      "name": "healthlockers",
+      "description": "Patient Health Locker setup and auto-approval preferences",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "abhaAddress", "type": "String", "required": true, "unique": true },
+        { "name": "lockerId", "type": "String" },
+        { "name": "autoApproval", "type": "Boolean" }
+      ]
+    },
+    {
+      "name": "uhisessions",
+      "description": "UHI Beckn protocol search sessions and callbacks",
+      "fields": [
+        { "name": "_id", "type": "ObjectId", "primary": true },
+        { "name": "transactionId", "type": "String", "required": true },
+        { "name": "status", "type": "String" }
+      ]
     }
   ],
   "relationships": [

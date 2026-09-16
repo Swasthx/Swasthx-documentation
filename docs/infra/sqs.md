@@ -50,6 +50,34 @@ Catches messages that have failed processing 10 times on the main queue. Operato
 | **Dead-letter queue** | None (DLQs do not have their own DLQ) |
 | **Trigger** | AWS Lambda (`SlackABDMdlqNotification` — see [Lambda]({{ site.baseurl }}/docs/infra/lambda.html)) |
 
+### 3. swasthx-critical-queue (high-priority queue)
+
+Dedicated queue for mission-critical, time-sensitive asynchronous background tasks and high-priority operations in the SwasthX backend services.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Name** | `swasthx-critical-queue` |
+| **ARN** | `arn:aws:sqs:ap-south-1:515966508772:swasthx-critical-queue` |
+| **URL** | `https://sqs.ap-south-1.amazonaws.com/515966508772/swasthx-critical-queue` |
+| **Type** | Standard |
+| **Encryption** | Amazon SQS key (SSE-SQS) |
+| **Visibility timeout** | 60 seconds |
+| **Message retention** | 4 days (345,600 seconds) |
+
+### 4. swasthx-standard-queue (general queue)
+
+General-purpose background job queue for non-critical, standard asynchronous workloads across SwasthX platform modules.
+
+| Parameter | Value |
+| :--- | :--- |
+| **Name** | `swasthx-standard-queue` |
+| **ARN** | `arn:aws:sqs:ap-south-1:515966508772:swasthx-standard-queue` |
+| **URL** | `https://sqs.ap-south-1.amazonaws.com/515966508772/swasthx-standard-queue` |
+| **Type** | Standard |
+| **Encryption** | Amazon SQS key (SSE-SQS) |
+| **Visibility timeout** | 60 seconds |
+| **Message retention** | 4 days (345,600 seconds) |
+
 ## Retry policy (consumer-side)
 
 The `DiagnosticAbdmPublishProcessor` consumer (defined under `src/diagnostic/abdm/` in the repo) implements the per-message retry schedule via SQS's `ChangeMessageVisibility`:

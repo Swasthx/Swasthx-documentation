@@ -746,7 +746,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /lab-test/fetch:
+  /diagnostic/phr/tests:
     get:
       tags:
         - Lab Test
@@ -776,7 +776,7 @@ paths:
 
         - **Method:** `GET`
             
-        - **URL:** `/lab-test/fetch`
+        - **URL:** `/diagnostic/phr/tests`
             
 
         You may pass optional query parameters (if supported by the backend) to
@@ -818,7 +818,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /lab-test/create:
+  /diagnostic/phr/bookings:
     post:
       tags:
         - Lab Test
@@ -830,7 +830,7 @@ paths:
 
         **Endpoint**  
 
-        `POST /lab-test/create`
+        `POST /diagnostic/phr/bookings`
 
 
         **Request body (JSON)**

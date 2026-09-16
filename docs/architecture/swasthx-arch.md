@@ -24,7 +24,7 @@ The Personal Health Record (PHR) application enables patients to manage their he
 -   **Frontend**: React Native (Android & iOS).
 -   **Backend**: Nest.js Framework.
 -   **Cloud Platform**: AWS.
--   **Database**: MongoDB (using AWS DocumentDB).
+-   **Database**: MongoDB (using AWS DocumentDB *(Future Scope / Infrastructure)*).
 
 ### System Flow
 1.  **Request Entry**: Use specific requests (HTTPS) initiated from the Android/iOS app.
@@ -35,13 +35,13 @@ The Personal Health Record (PHR) application enables patients to manage their he
     -   Requests are processed by **AWS App Runner** running the Nest.js application.
     -   **Environment**: Secrets and environment variables are configured directly in AWS App Runner.
 4.  **Data Persistence**:
-    -   Core data is stored in **AWS DocumentDB** (MongoDB compatible).
+    -   Core data is stored in **MongoDB** (with provisioned **AWS DocumentDB** *(Future Scope / Infrastructure)*).
     -   Images/Files are stored in **Amazon S3**.
 5.  **External Communication**:
     -   SMS notifications are sent using **AWS SNS**.
     -   Deep integration with **ABDM** (Ayushman Bharat Digital Mission).
 
-![PHR System Flow Architecture]({{ site.baseurl }}/docs/images/phr_system_flow_architecture.png)
+<img src="{{ site.baseurl }}/docs/images/phr_system_flow_architecture.png" alt="PHR System Flow Architecture" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ### Partnership Integration
 
@@ -53,7 +53,7 @@ Swasthx has integrated external APIs to provide additional facilities to the use
     -   **API Gateway** intercepts these callbacks.
     -   Routes them to the specific backend handler in App Runner.
 
-![PHR System Flow]({{ site.baseurl }}/docs/images/phr_system_flow.png)
+<img src="{{ site.baseurl }}/docs/images/phr_system_flow.png" alt="PHR System Flow" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 #### 1MG INTEGRATION
 
@@ -76,7 +76,7 @@ Search lab test -> Check lab test is available at user location -> Get the labs 
 
 ### Architecture Diagram
 
-![PHR App Cloud Infrastructure]({{ site.baseurl }}/docs/images/phr-app-cloud-infra.png)
+<img src="{{ site.baseurl }}/docs/images/phr-app-cloud-infra.png" alt="PHR App Cloud Infrastructure" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 </div>
 
@@ -93,7 +93,7 @@ The Swasthx Website provides interfaces for patients and providers via web brows
 -   **Hosting**: AWS Amplify.
 -   **Backend**: Nest.js Framework.
 -   **Cloud Platform**: AWS.
--   **Database**: MongoDB (using AWS DocumentDB).
+-   **Database**: MongoDB (using AWS DocumentDB *(Future Scope / Infrastructure)*).
 
 ### System Flow
 1.  **Frontend Delivery**: The React application is hosted and served via **AWS Amplify**.
@@ -102,7 +102,7 @@ The Swasthx Website provides interfaces for patients and providers via web brows
     -   Similar to the PHR app, the backend runs on **AWS App Runner**.
     -   **Configuration**: Environment variables are managed in App Runner + **AWS Secrets Manager** for sensitive credentials.
 4.  **Data Persistence**:
-    -   Shares the same **AWS DocumentDB** cluster for core data.
+    -   Shares the same **AWS DocumentDB *(Future Scope / Infrastructure)*** cluster for core data.
     -   Uses **Amazon S3** for file and media storage.
 5.  **External Communication**:
     -   Web-triggered SMS/e-mail flows are handled through **AWS SNS** or other notification services.
@@ -124,7 +124,7 @@ Swasthx has integrated external APIs to provide additional facilities to the use
 
 ### Architecture Diagram
 
-![Website Cloud Infrastructure]({{ site.baseurl }}/docs/images/website-cloud-infra.png)
+<img src="{{ site.baseurl }}/docs/images/website-cloud-infra.png" alt="Website Cloud Infrastructure" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 </div>
 
@@ -135,17 +135,17 @@ Swasthx has integrated external APIs to provide additional facilities to the use
 ### Virtual Private Cloud (VPC)
 To ensure security and low latency, critical components are isolated within the same **AWS VPC**:
 -   **AWS App Runner** (VPC Connector enabled)
--   **AWS DocumentDB** (Private Subnet)
+-   **AWS DocumentDB *(Future Scope / Infrastructure)*** (Private Subnet)
 -   **EC2 Bastion Host** (See below)
 
 ### Database Access
-**AWS DocumentDB** runs in a private subnet and is not accessible from the public internet. 
+**AWS DocumentDB *(Future Scope / Infrastructure)*** runs in a private subnet and is not accessible from the public internet. 
 -   **Compass Access**: An **EC2 instance** is deployed in the same VPC to act as a jump server/bastion.
 -   Developers connect to this EC2 instance via SSH tunnel to access DocumentDB using MongoDB Compass.
 
 ### Network Diagram
 
-![Network Diagram]({{ site.baseurl }}/docs/images/network_diagram.png)
+<img src="{{ site.baseurl }}/docs/images/network_diagram.png" alt="Network Diagram" style="max-width: 650px; width: 100%; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
 
 ---
 
@@ -156,7 +156,7 @@ To ensure security and low latency, critical components are isolated within the 
 | **AWS Amplify** | Hosting and CI/CD for React Frontend. |
 | **AWS API Gateway** | Entry point for APIs, Authentication, Routing, and ABDM Callback handling. |
 | **AWS App Runner** | Containerized backend service (Nest.js). Auto-scaling and load balancing. |
-| **AWS DocumentDB** | Managed NoSQL database (MongoDB compatible). Secure and scalable. |
+| **AWS DocumentDB** *(Future Scope / Infrastructure)* | Managed NoSQL database (MongoDB compatible). Secure and scalable. |
 | **Amazon S3** | Object storage for images, prescriptions, and static assets. |
 | **AWS SNS** | Simple Notification Service for sending SMS. |
 | **Route 53** | DNS management and domain registration. |

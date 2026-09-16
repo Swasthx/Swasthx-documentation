@@ -64,6 +64,6 @@ Before pushing code to the repository:
 The backend infrastructure is built on AWS:
 -   **Compute**: **AWS App Runner** hosts the containerized Nest.js application.
 -   **Routing**: **AWS API Gateway** handles authentication and routes requests to the backend.
--   **Database**: **AWS DocumentDB** stores application data in a secure, private subnet.
+-   **Database**: **MongoDB** (with provisioned **AWS DocumentDB** *(Future Scope / Infrastructure)*) stores application data in a secure database layer.
 
 For a detailed breakdown of the system flow and infrastructure, refer to the [System Architecture]({{ '/architecture' | relative_url }}) page.

@@ -9,7 +9,7 @@ grand_parent: Infrastructure
 
 This page contains documentation for Security Groups used across different services.
 
-## DocumentDB Security Groups
+## DocumentDB Security Groups *(Future Scope / Infrastructure)*
 The following security groups are associated with the DocumentDB cluster:
 
 ### `docdb-ec2-swathx-website-api-dev-docdb-cluster:i-004d0794a8113aeb7` (sg-0d63aaf0d05c81159)

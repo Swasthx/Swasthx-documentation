@@ -2761,7 +2761,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /v2/lab-test/check/city:
+  /diagnostic/lab-test/serviceability:
     get:
       tags:
         - lab test order creation
@@ -2773,7 +2773,7 @@ paths:
         - Checks if lab test services are available in a given city.
             
 
-        **Notes:** Only requires the city name; no authentication headers
+        **Notes:** Requires pincode or city name; no authentication headers
         needed.
 
 
@@ -2806,7 +2806,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /v2/lab-test:
+  /diagnostic/lab-test/search:
     get:
       tags:
         - lab test order creation
@@ -2834,7 +2834,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /v2/lab-test/inventory:
+  /diagnostic/lab-test/filters:
     get:
       tags:
         - lab test order creation
@@ -3242,7 +3242,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /v2/lab-test/popular:
+  /diagnostic/lab-test/categories:
     get:
       tags:
         - lab test order creation
@@ -3251,7 +3251,7 @@ paths:
         **Description:**
 
 
-        - Retrieves a list of the most popular lab tests.
+        - Retrieves diagnostic categories and popular lab tests.
             
 
         **Notes:** No parameters required; helpful for suggesting common tests
@@ -3261,8 +3261,8 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /v2/lab-test/slots:
-    post:
+  /diagnostic/lab-test/slots:
+    get:
       tags:
         - lab test order creation
       summary: labtest_get_slots

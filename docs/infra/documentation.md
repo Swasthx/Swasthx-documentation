@@ -11,7 +11,7 @@ This section contains detailed documentation of the cloud infrastructure, includ
 ## Compute
 
 *   [AWS App Runner]({{ site.baseurl }}/docs/infra/app-runner.html) — containerized NestJS backends (6 services across dev/qa/prod for Website + PHR)
-*   [Amazon EC2]({{ site.baseurl }}/docs/infra/ec2.html) — Jump Server (bastion to DocumentDB) + Snomed Server (medical-term search)
+*   [Amazon EC2]({{ site.baseurl }}/docs/infra/ec2.html) — Jump Server (bastion to DocumentDB *(Future Scope)*) + Snomed Server (medical-term search)
 *   [AWS Lambda]({{ site.baseurl }}/docs/infra/lambda.html) — serverless functions (currently `SlackABDMdlqNotification`)
 *   [AWS Amplify]({{ site.baseurl }}/docs/infra/amplify.html) — React frontends hosting + CI/CD
 
@@ -21,8 +21,8 @@ This section contains detailed documentation of the cloud infrastructure, includ
 
 ## Database
 
-*   [Website DocumentDB]({{ site.baseurl }}/docs/infra/website-documentdb.html) — MongoDB-compatible clusters for the HMIS app
-*   [PHR DocumentDB]({{ site.baseurl }}/docs/infra/phr-documentdb.html) — MongoDB-compatible clusters for the PHR app
+*   [Website DocumentDB *(Future Scope)*]({{ site.baseurl }}/docs/infra/website-documentdb.html) — MongoDB-compatible clusters for the HMIS app
+*   [PHR DocumentDB *(Future Scope)*]({{ site.baseurl }}/docs/infra/phr-documentdb.html) — MongoDB-compatible clusters for the PHR app
 
 ## Cache / Pub-Sub
 

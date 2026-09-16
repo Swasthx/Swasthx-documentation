@@ -10,6 +10,13 @@ Welcome to the API & Integration section. Here you will find comprehensive guide
 
 <div class="card-grid">
 
+  <div class="doc-card" data-context="phr">
+    <i class="fas fa-mobile-alt card-icon"></i>
+    <h3>PHR API Documentation</h3>
+    <p>Comprehensive reference for Personal Health Record (PHR) Mobile App APIs.</p>
+    <a href="{{ '/api-phr' | relative_url }}" class="btn-primary">View PHR APIs</a>
+  </div>
+
   <div class="doc-card">
     <i class="fas fa-list-ul card-icon"></i>
     <h3>API Guidelines</h3>

@@ -79,10 +79,11 @@ Single Page Application (SPA) routing configuration:
   - Role-based access control
 
 ### 4. Swasthx_HIP_Frontend
-- **URL**: [https://prod-doctor.swasthx.com/](production website for HMIS)
+- **URL**: [https://doctor.swasthx.com/](https://doctor.swasthx.com/) (Also available at [https://prod-doctor.swasthx.com/](https://prod-doctor.swasthx.com/))
 - **Branch**: production
-- **Type**: Healthcare provider portal (HMIS)
+- **Type**: Healthcare provider portal (HMIS) - Production
 - **Features**:
   - Secure authentication
   - Real-time data updates
   - Role-based access control
+
