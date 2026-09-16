@@ -124,6 +124,6 @@ To ensure zero service disruption during unforeseen technical or connectivity is
 ## 4. Key System Benefits
 
 - **Queue Elimination:** Reduces hospital lobby overcrowding by converting physical waiting lines into digital queues.
-- **ABDM Compliance:** Fully aligned with M1, M2, and M3 ABDM milestones for ABHA creation, Scan & Share, and health record linking.
+- **ABDM Compliance:** Fully aligned with ABDM milestones M1–M4 — ABHA creation (M1), Scan & Share and health record linking (M2), consent-based data exchange (M3), and HPR/HFR-registered facilities whose **Facility QR** is generated from the admin portal (`/admin/facility-qr`, M4). See [ABDM Milestones (M1–M4)]({{ site.baseurl }}/docs/architecture/abdm-milestones.html).
 - **Interoperability:** Native PHR App, Deep Link URL, and ABDM Scan & Share support ensure accessibility for all patients.
 - **Unified Health Records:** Instant digital sync of prescriptions, lab reports, and billing receipts.

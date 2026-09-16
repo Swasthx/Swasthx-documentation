@@ -115,6 +115,10 @@ navigation:
         url: "/docs/architecture/website-cross-api.html"
         icon: fas fa-exchange-alt
         contexts: [website]
+      - title: "ABDM Milestones (M1–M4)"
+        url: "/docs/architecture/abdm-milestones.html"
+        icon: fas fa-link
+        contexts: [website]
       - title: "QR Automation"
         url: "#"
         icon: fas fa-folder-open

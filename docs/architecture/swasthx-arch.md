@@ -119,6 +119,8 @@ Swasthx has integrated external APIs to provide additional facilities to the use
 -   **Inbound (Callbacks)**: ABDM sends asynchronous responses via webhooks.
     -   **API Gateway** intercepts these callbacks.
     -   Routes them to the specific backend handler in App Runner.
+-   **Milestones covered** (website): **M1** ABHA create/verify (`src/abha_number_services/`), **M2** link token + care-context publishing for clinical records & invoices, Scan & Share (`src/m2_m3_implementation/`), **M3** HIU consent & encrypted data exchange, HIP data transfer, **M4** HPR / HFR registries, Register HIP and Facility QR (`src/hpr_api/`, `src/hfr_api/`, `src/facility_qr/`). Flow-level detail: [ABDM Milestones (M1–M4)]({{ site.baseurl }}/docs/architecture/abdm-milestones.html); endpoints: [Website API Documentation]({{ site.baseurl }}/api-website).
+-   **Async publish**: diagnostic-report ABDM publishing runs through Amazon SQS (worker on App Runner, `WORKER_ENABLED=true`); invoice and doctor clinical-write queues are code-complete behind flags — see [Amazon SQS]({{ site.baseurl }}/docs/infra/sqs.html).
 
 ![Website System Flow]({{ site.baseurl }}/docs/images/website_system_flow.png)
 

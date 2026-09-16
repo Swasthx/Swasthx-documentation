@@ -66,7 +66,7 @@ The Doctor Portal / HMIS Frontend is built with modern web technologies:
 - **UI Framework**: React 18
 - **UI Component Libraries**: [Ant Design 5](https://ant.design/), [Tailwind CSS 3](https://tailwindcss.com/), DaisyUI
 - **State & Session Storage**: Redux Toolkit, MobX, and **`sessionStorage`** (for auth tokens, user context & session caching)
-- **Integrations**: ABDM (HIP M1, M2, M3), Axios, Leaflet maps, PDF Viewers (`@react-pdf-viewer`), Recharts
+- **Integrations**: ABDM (M1 ABHA, M2 HIP linking, M3 HIU consent, M4 HPR/HFR registries — see [ABDM Milestones]({{ site.baseurl }}/docs/architecture/abdm-milestones.html)), Axios, Leaflet maps, PDF Viewers (`@react-pdf-viewer`), Recharts
 
 ### Local Setup & Execution Commands
 
@@ -109,6 +109,8 @@ Vite requires environment variables prefixed with `VITE_`:
 | `VITE_BASE_APP_URL` | `https://new-swasthxapp.api.swasthx.com` | PHR App backend URL |
 | `VITE_HIU_ID` | `IN3610001058` | ABDM HIU Identifier |
 | `VITE_HIP_ID` | `IN3610001058` | ABDM HIP Identifier |
+| `VITE_ABDM_SOFTWARE_BRIDGE_ID` | `SBX_003041` (sandbox) | SwasthX software bridge id sent in **Register HIP** (`POST /HFR/linkMultipleHRP`); set the prod bridge id at deploy |
+| `VITE_ABHA_ADDRESS_SUFFIX` | `@sbx` (sandbox) / `@abdm` (prod) | Suffix used when minting the default ABHA address in the Create-ABHA flow |
 | `VITE_BASE_AI_URL` | `https://api-insurance.aarogyaid.com` | AI Insurance gateway |
 | `VITE_S3_BUCKET_NAME` | `https://swasthx-bucket.s3.ap-south-1.amazonaws.com` | S3 Media Asset Bucket |
 
@@ -118,12 +120,14 @@ The `Swasthx_HIP_Frontend` application enforces strict **Role-Based Access Contr
 
 1. **Super Admin (`/src/pages/SuperAdmin/`)**:
    - Onboarding hospitals, facility administration, and staff delegation.
-   - HPR / NHPR Healthcare Professional registry verification.
    - Facility-wide analytics, billing management, and ABDM credential setup.
 
 2. **Hospital Admin (`/src/pages/Admin/`)**:
    - Facility profile management, department configuration, and staff onboarding.
    - Doctor schedule provision and appointment overrides.
+   - **ABDM M4 — NHPR module (`/nhpr/*`, `src/pages/Admin/pages/NHPR/`)**: HPR registration wizard (ABDM-hosted Aadhaar consent), HPR login, profile edit, re-KYC, change password, role update, nurse flow; HFR facility wizard with local drafts, transfer requests, bulk upload; **Register HIP / Software Linkage** (`SoftwareLinkagePage.jsx`).
+   - **HPR onboarding & verification**: "HPR ID" action on a doctor row starts a `trackingId` session (`hprVerifyService.js`), badge (`HPRBadge.jsx`), pending banner (`HPRPendingBanner.jsx`) and the `403 HPR_NOT_VERIFIED` gate modal when `HospitalPolicy.abdmEnabled` is on.
+   - **Facility QR** (`/admin/facility-qr`, `FacilityQRList`) — generate / preview / regenerate the Scan & Share QR for an HFR-registered facility.
 
 3. **Receptionist Portal (`/src/pages/Receptionist/`)**:
    - Patient registration & ABHA Health ID creation/verification (Aadhaar & Mobile OTP flows).
@@ -133,7 +137,7 @@ The `Swasthx_HIP_Frontend` application enforces strict **Role-Based Access Contr
 4. **Doctor Workspace (`/src/pages/Doctor/`)**:
    - Clinical consultation queue, patient longitudinal medical history access.
    - Digital e-prescription generator (medicines, dosage, diagnostic test orders).
-   - ABDM consent request & health record fetch (HIP M1, M2, M3).
+   - ABDM record publishing (M2: prescription / OP / discharge / diagnostic / immunization / wellness / document / invoice) and consent request & health record fetch as HIU (M3).
 
 5. **Diagnostic Portal (`/src/pages/Diagnostic/`)**:
    - Diagnostic test queue management & lab report upload (PDF viewer & image crop).

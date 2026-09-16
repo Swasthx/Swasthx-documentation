@@ -25,6 +25,23 @@ The Website Backend uses several environment variables for configuration. These 
 - `EMAIL_SERVICE_API_KEY`: API key for the email service provider.
 - `PAYMENT_GATEWAY_KEY`: API key for the payment gateway integration.
 
+### ABDM / NHA variables (M1–M4)
+
+Read through `src/config/configuration.ts` (`getEnvVar` → `process.env`, then AWS Secrets Manager, then default). Verified 2026-09-16.
+
+| Variable | Milestone | Purpose |
+| :--- | :--- | :--- |
+| `V3_API_URL`, `GATEWAY_URL` | M1–M3 | ABHA v3 base (`/abha/api/v3/...`) and HIECM gateway base (`/api/hiecm/...`) |
+| `PHR_WEB_API_URL` | M1 | Full prefix for the ABHA "phr/web" login APIs — sandbox `…/abha/api/v3/phr/web`, prod `…/api/phr/web/v3` (cannot be derived from `V3_API_URL`) |
+| `CLIENT_ID`, `CLIENT_SECRET`, `X_CM_ID` | M1–M3 | Gateway session credentials; consent manager id `sbx` / `abdm` |
+| `RSA_PUBLIC_KEY`, `RSA_PUBLIC_KEY_NHPR` | M1 / M4 | Public keys used to encrypt OTPs / passwords sent to ABHA and to HPR |
+| `USE_FIDELIUS_KEYS`, `LAMBDA_KEY_GENERATION_URL`, `KEY_MATERIAL_URL` | M2/M3 | ECDH key material — `true` → Fidelius Lambda (prod since 2026-09-11), `false` → legacy key-material server (default `http://localhost:8090`) |
+| `HIU_DATA_PUSH_URL`, `HIU_PUSH_URL`, `PHR_APP_PUSH_URL`, `LIVE_TEST_HIP_ID` | M3 | Data-push endpoints and test HIP id |
+| `NHPR_URL_V1_W_API`, `NHPR_URL_V1_WO_API`, `NHPR_URL_V2_W_API`, `NHPR_URL_V2_WO_API`, `NHPR_URL_ONLY_V4`, `NHPR_URL_ONLY_V4_HFR`, `NHPR_AADHAAR_INTEGRATOR_URL`, `X_API_KEY` | M4 | HPR / HFR gateway bases (with/without `apikey` header variants), Aadhaar consent-page integrator, NHA API key |
+| `ABDM_SOFTWARE_BRIDGE_ID` | M4 | SwasthX software bridge id used in Register HIP / HPR registration (default `SBX_003041`; prod = prod client id) |
+| `ABDM_TLS_REJECT_UNAUTHORIZED` | all | `true` in production; default `false` because sandbox certificates are sometimes invalid |
+| `DIAGNOSTIC_ABDM_USE_QUEUE`, `SQS_DIAGNOSTIC_ABDM_URL`, `PAYMENT_ABDM_USE_QUEUE`, `SQS_PAYMENT_ABDM_URL`, `DOCTOR_ABDM_USE_QUEUE`, `SQS_DOCTOR_ABDM_URL`, `WORKER_ENABLED` | M2 | Async ABDM publish via SQS (only the diagnostic queue is provisioned today) — see [Amazon SQS]({{ site.baseurl }}/docs/infra/sqs.html) |
+
 Ensure to keep sensitive information secure and avoid hardcoding them in the source code. Use secret management solutions or environment variable injection during deployment.
 
 ## Env Docs Links
